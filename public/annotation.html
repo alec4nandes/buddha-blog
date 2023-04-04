@@ -25,159 +25,25 @@
         <button id="add-annotation" disabled>clear to add</button>
         <div id="lines"></div>
         <script type="module">
+            import {
+                display,
+                toggleAnnotationForm,
+                handleAnnotate,
+            } from "./annotations.js";
+
             let postSutta = await (
-                    await fetch("https://fern.haus/sutta/?sutta=an5.139")
-                ).json(),
-                annotations = [];
+                await fetch("https://fern.haus/sutta/?sutta=an5.139")
+            ).json();
 
-            display();
-
-            function toggleAnnotationForm(enabled) {
-                document.querySelector("#add-annotation").disabled = enabled;
-                document
-                    .querySelector("#annotate")
-                    .querySelector("button[type='submit']").disabled = !enabled;
-            }
+            display(postSutta);
 
             document.querySelector("#add-annotation").onclick = () => {
-                display();
+                display(postSutta);
                 toggleAnnotationForm(true);
             };
 
-            async function display() {
-                const linesElem = document.querySelector("#lines");
-                linesElem.innerHTML = postSutta.display.linesHTML;
-            }
-
-            document.querySelector("#annotate").onsubmit = handleAnnotate;
-
-            function handleAnnotate(e) {
-                e.preventDefault();
-                const lines = document.querySelector("#lines"),
-                    annotation = getAnnotation(e.target.note.value);
-                annotations = annotations.filter(
-                    (oldAnno) => !isOverlapped(oldAnno, annotation)
-                );
-                annotations.push(annotation);
-                lines.innerHTML = highlightAnnotation(annotations.length);
-                toggleAnnotationForm(false);
-                document.querySelector("#annotations").innerHTML =
-                    annotations
-                        .map(
-                            (anno, i) =>
-                                `<button class="annotation-jump">${
-                                    i + 1
-                                }</button>`
-                        )
-                        .join("") + `<button id="show-all">show all</button>`;
-                document.querySelectorAll(".annotation-jump").forEach(
-                    (button) =>
-                        (button.onclick = () => {
-                            lines.innerHTML = highlightAnnotation(
-                                button.innerText
-                            );
-                            toggleAnnotationForm(false);
-                        })
-                );
-                document.querySelector("#show-all").onclick = () => {
-                    lines.innerHTML = highlightAll(postSutta, annotations);
-                };
-            }
-
-            // if you highlight an already highlighted section
-            function isOverlapped(oldAnnotation, newAnnotation) {
-                const { text: oldText, start: oldStart } = oldAnnotation,
-                    { text: newText, start: newStart } = newAnnotation;
-                return (
-                    (oldStart <= newStart &&
-                        newStart <= oldStart + oldText.length) ||
-                    (newStart <= oldStart &&
-                        oldStart + oldText.length <= newStart + newText.length)
-                );
-            }
-
-            function getAnnotation(note) {
-                note = note.trim();
-                const selection = window.getSelection(),
-                    children = [...document.querySelector("#lines").childNodes],
-                    lastIndex = children.findIndex((node) =>
-                        selection.containsNode(node)
-                    ),
-                    upTo = children
-                        .slice(0, lastIndex)
-                        .map((node) => node.textContent)
-                        .filter(Boolean)
-                        .join("<br/>"),
-                    text = selection.toString().trim(),
-                    start =
-                        postSutta.display.linesHTML
-                            .slice(upTo.length)
-                            .indexOf(text) + upTo.length;
-                console.log(upTo);
-                return (
-                    text && {
-                        text,
-                        start,
-                        note,
-                    }
-                );
-            }
-
-            function getTags(index, note) {
-                const spanOpenTag = `<span id="a-${index}" class="highlighted">`,
-                    noteTag =
-                        note && ` <small class="note-display">${note}</small>`,
-                    spanCloseTag = `${noteTag || ""}</span>`;
-                return { spanOpenTag, spanCloseTag };
-            }
-
-            function highlightAnnotation(number) {
-                const { start, text, note } = annotations[number - 1],
-                    { spanOpenTag, spanCloseTag } = getTags(number, note);
-                return spliceLines({ start, text, spanOpenTag, spanCloseTag });
-            }
-
-            function spliceLines({
-                start,
-                text,
-                spanOpenTag,
-                spanCloseTag,
-                linesHTML = postSutta.display.linesHTML,
-            }) {
-                linesHTML = [...linesHTML];
-                linesHTML.splice(
-                    start,
-                    text.length,
-                    `${spanOpenTag}${text}${spanCloseTag}`
-                );
-                return linesHTML.join("");
-            }
-
-            function highlightAll(postSutta, annotations) {
-                let linesHTML,
-                    extraStart = 0;
-                const sorted = [...annotations].sort(
-                    (a, b) => a.start - b.start
-                );
-                sorted.forEach((anno, i) => {
-                    let { start } = anno;
-                    start += extraStart;
-                    const { text, note } = anno,
-                        { spanOpenTag, spanCloseTag } = getTags(
-                            annotations.indexOf(anno) + 1,
-                            note
-                        );
-                    extraStart += spanOpenTag.length + spanCloseTag.length;
-                    linesHTML = spliceLines({
-                        start,
-                        text,
-                        spanOpenTag,
-                        spanCloseTag,
-                        linesHTML,
-                    });
-                });
-                return linesHTML;
-            }
+            document.querySelector("#annotate").onsubmit = (e) =>
+                handleAnnotate(e, postSutta);
         </script>
     </body>
 </html>

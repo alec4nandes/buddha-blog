@@ -11,7 +11,7 @@ export default async function handleFindSutta(suttaId, postSutta) {
     }
     // for access in other functions
     document.postSutta = postSutta;
-    highlight.onsubmit = getSelectionPosition;
+    highlight.onsubmit = (e) => handleAnnotate(e, postSutta);
     makeJumpButtons(postSutta);
     highlightText(postSutta, lines);
     hiddenForms.style.display = "flex";
@@ -57,7 +57,6 @@ export default async function handleFindSutta(suttaId, postSutta) {
                     window.getSelection?.() ||
                     document.getSelection?.() ||
                     document.selection?.createRange().text;
-                getSelectionPosition();
                 return selected?.toString().trim().replaceAll("\n", "<br/>");
                 // .replaceAll("\r", "");
             }
@@ -74,17 +73,6 @@ export default async function handleFindSutta(suttaId, postSutta) {
                     oldStart + oldText.length <= newStart + newText.length)
             );
         }
-    }
-
-    function getSelectionPosition(e) {
-        e.preventDefault();
-        const selection = window.getSelection(),
-            children = [...document.querySelector("#lines").childNodes],
-            lastNode = children.findLast((node) =>
-                selection.containsNode(node)
-            );
-        console.clear();
-        console.log(lastNode);
     }
 
     function makeJumpButtons(postSutta) {
