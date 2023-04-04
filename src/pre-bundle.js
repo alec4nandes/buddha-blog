@@ -88,41 +88,54 @@ function handleAnnotate(e, postSutta) {
 }
 
 function getAnnotation(note) {
-    note = note.trim();
     const selection = window.getSelection(),
         children = [...document.querySelector("#lines").childNodes],
-        i1 = children.indexOf(selection.focusNode),
-        i2 = children.indexOf(selection.anchorNode),
+        { anchorNode, anchorOffset, focusNode, focusOffset } = selection,
+        anchorIndex = children.indexOf(anchorNode),
+        focusIndex = children.indexOf(focusNode),
+        hasFocus = focusIndex !== -1,
         isBackwards =
-            i1 !== -1 &&
-            (i1 < i2 ||
-                (i1 === i2 && selection.focusOffset < selection.anchorOffset)),
+            hasFocus &&
+            (focusIndex < anchorIndex ||
+                (focusIndex === anchorIndex && focusOffset < anchorOffset)),
         startsWithBreak = selection.toString().charAt(0) === "\n",
+        // ^ No anchor or focus node index, so first contained
+        // node will be <br/>. Move past this node to next text:
+        extraIndexes = startsWithBreak ? 2 : 0,
         firstIndex =
             children.findIndex((node) => selection.containsNode(node)) +
-            (startsWithBreak
-                ? // move past the break connected with the previous node
-                  2
-                : 0),
-        upTo = children
-            .slice(0, firstIndex)
-            .map((node) => node.textContent)
-            .filter(Boolean)
-            .join("<br/>"),
-        text = selection.toString().split("\n").join("<br/>"),
-        start =
-            upTo.length +
-            (startsWithBreak
-                ? 0
-                : "<br/>".length +
-                  (isBackwards
-                      ? selection.focusOffset
-                      : selection.anchorOffset));
+            extraIndexes,
+        isFirstNode = !firstIndex,
+        finalBreak = startsWithBreak || isFirstNode ? "" : "<br/>",
+        upTo =
+            children
+                .slice(0, firstIndex)
+                .map((node) => node.textContent)
+                .filter(Boolean)
+                .join("<br/>") + finalBreak,
+        offset = startsWithBreak ? 0 : isBackwards ? focusOffset : anchorOffset,
+        start = upTo.length + offset,
+        text = selection.toString().split("\n").join("<br/>");
+    // for testing:
+    console.log(
+        "anchor node:",
+        anchorNode,
+        "anchor index:",
+        anchorIndex,
+        "anchor offset:",
+        anchorOffset,
+        "focus node:",
+        focusNode,
+        "focus index:",
+        focusIndex,
+        "focus offset:",
+        focusOffset
+    );
     return (
         text && {
             text,
             start,
-            note,
+            note: note.trim(),
         }
     );
 }
@@ -170,7 +183,7 @@ function spliceLines({ start, text, spanOpenTag, spanCloseTag, linesHTML }) {
 
 function addAnnotationJumpButtons(postSutta) {
     const { annotations } = postSutta.display;
-    console.log(annotations);
+    // console.log(annotations);
     document.querySelector("#annotations").innerHTML =
         annotations
             .map((_, i) => `<button class="annotation-jump">${i + 1}</button>`)
