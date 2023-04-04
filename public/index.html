@@ -6,19 +6,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/style.css" />
         <title>Document</title>
+        <style>
+            .highlighted {
+                background-color: yellow;
+            }
+
+            .highlighted small {
+                color: red;
+                font-style: italic;
+            }
+        </style>
     </head>
     <body>
-        <form id="find-sutta">
-            <label>sutta: <input name="sutta" type="text" /></label>
-            <button type="submit">find sutta</button>
-        </form>
-        <div id="hidden-forms" style="display: none">
-            <form id="highlight">
-                <div id="annotations"></div>
-                <div id="lines"></div>
-                <textarea name="note"></textarea>
-                <button type="submit">annotate</button>
+        <header>
+            <form id="find-sutta">
+                <label>sutta: <input name="sutta" type="text" /></label>
+                <button type="submit">find sutta</button>
             </form>
+        </header>
+        <main>
+            <div id="annotations-container">
+                <div id="lines"></div>
+                <div id="annotations-controls">
+                    <div id="annotations"></div>
+                    <form id="annotate">
+                        <textarea name="note" type="text"></textarea>
+                        <button type="submit">annotate</button>
+                    </form>
+                    <button id="add-annotation" disabled>clear to add</button>
+                </div>
+            </div>
             <form id="edit-post">
                 <label>title: <input name="title" type="text" /></label>
                 <label>subtitle: <input name="subtitle" type="text" /></label>
@@ -28,8 +45,8 @@
                 <label>tags: <input name="tags" type="text" /></label>
                 <button type="submit">update draft</button>
             </form>
-        </div>
-        <div id="drafts"></div>
+        </main>
+        <footer></footer>
         <script src="/bundle.js"></script>
     </body>
 </html>

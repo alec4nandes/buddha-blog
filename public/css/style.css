@@ -11,7 +11,10 @@ body textarea {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1rem;
 }
-body form#find-sutta {
+body small {
+  font-size: 0.8rem;
+}
+body header {
   width: 100%;
   background-color: #222;
   box-sizing: border-box;
@@ -19,6 +22,9 @@ body form#find-sutta {
   display: flex;
   justify-content: center;
   padding: 10px;
+}
+body form {
+  display: flex;
 }
 body form label {
   display: flex;
@@ -29,14 +35,15 @@ body form label input {
   flex: 1;
   width: 100%;
 }
-body #hidden-forms {
+body main {
   width: 100%;
+  display: flex;
   flex: 1;
   justify-content: center;
   margin: auto;
   overflow: auto;
 }
-body #hidden-forms form {
+body main > * {
   height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -44,60 +51,53 @@ body #hidden-forms form {
   gap: 10px;
   padding: 30px;
 }
-body #hidden-forms form#highlight {
+body main > *#annotations-container {
   max-width: 400px;
   width: 40%;
-  display: flex;
-  flex-direction: column;
 }
-body #hidden-forms form#highlight #lines {
+body main > *#annotations-container #lines {
   flex: 1;
   overflow: auto;
 }
-body #hidden-forms form#highlight textarea {
-  height: 100px;
+body main > *#annotations-container #annotations {
+  text-align: center;
 }
-body #hidden-forms form#edit-post {
+body main > *#annotations-container textarea {
+  height: 75px;
+}
+body main > *#annotations-container #add-annotation {
+  width: 100%;
+}
+body main > *#edit-post {
   max-width: 500px;
   width: 60%;
   background-color: #eee;
 }
-body #hidden-forms form#edit-post textarea {
+body main > *#edit-post textarea {
   flex: 1;
+}
+body main > * form {
+  flex-direction: column;
 }
 body .highlighted {
   background-color: yellowgreen;
 }
-body .highlighted:hover, body .highlighted.annotation-picked {
-  background-color: yellow;
-}
-body .highlighted:hover {
-  cursor: pointer;
-}
-body .highlighted:hover .note-display {
-  display: inline;
-}
-body .highlighted .note-display {
-  color: red;
-  display: none;
-  font-style: italic;
-}
-body #drafts {
+body footer {
   background-color: #222;
   box-sizing: border-box;
   color: #fff;
   padding: 10px;
   text-align: center;
 }
-body #drafts a {
+body footer a {
   color: yellowgreen;
 }
-body #drafts a:hover {
+body footer a:hover {
   color: lightblue;
 }
 
 @media only screen and (max-width: 768px) {
-  #hidden-forms form {
+  main > * {
     padding: 15px !important;
   }
 }
