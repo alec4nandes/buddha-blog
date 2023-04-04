@@ -1,0 +1,21 @@
+{
+    "name": "buddha-blog",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "webpack-dev": "webpack --watch",
+        "build": "webpack"
+    },
+    "author": "Alec Fernandes",
+    "license": "ISC",
+    "dependencies": {
+        "firebase": "^9.19.1",
+        "webpack": "^5.77.0"
+    },
+    "devDependencies": {
+        "webpack-cli": "^5.0.1"
+    }
+}

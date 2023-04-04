@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/style.css" />
+        <title>Document</title>
+    </head>
+    <body>
+        <form id="find-sutta">
+            <label>sutta: <input name="sutta" type="text" /></label>
+            <button type="submit">find sutta</button>
+        </form>
+        <div id="hidden-forms" style="display: none">
+            <form id="highlight">
+                <div id="annotations"></div>
+                <div id="lines"></div>
+                <textarea name="note"></textarea>
+                <button type="submit">annotate</button>
+            </form>
+            <form id="edit-post">
+                <label>title: <input name="title" type="text" /></label>
+                <label>subtitle: <input name="subtitle" type="text" /></label>
+                <label>image url: <input name="image_url" type="text" /></label>
+                <label for="content">content:</label>
+                <textarea name="content" id="content" type="text"></textarea>
+                <label>tags: <input name="tags" type="text" /></label>
+                <button type="submit">update draft</button>
+            </form>
+        </div>
+        <div id="drafts"></div>
+        <script src="/bundle.js"></script>
+    </body>
+</html>

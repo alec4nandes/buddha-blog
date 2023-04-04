@@ -1,0 +1,111 @@
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+body *,
+body button,
+body input,
+body textarea {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+body form#find-sutta {
+  width: 100%;
+  background-color: #222;
+  box-sizing: border-box;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+body form label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+body form label input {
+  flex: 1;
+  width: 100%;
+}
+body #hidden-forms {
+  width: 100%;
+  flex: 1;
+  justify-content: center;
+  margin: auto;
+  overflow: auto;
+}
+body #hidden-forms form {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 30px;
+}
+body #hidden-forms form#highlight {
+  max-width: 400px;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+body #hidden-forms form#highlight #lines {
+  flex: 1;
+  overflow: auto;
+}
+body #hidden-forms form#highlight textarea {
+  height: 100px;
+}
+body #hidden-forms form#edit-post {
+  max-width: 500px;
+  width: 60%;
+  background-color: #eee;
+}
+body #hidden-forms form#edit-post textarea {
+  flex: 1;
+}
+body .highlighted {
+  background-color: yellowgreen;
+}
+body .highlighted:hover, body .highlighted.annotation-picked {
+  background-color: yellow;
+}
+body .highlighted:hover {
+  cursor: pointer;
+}
+body .highlighted:hover .note-display {
+  display: inline;
+}
+body .highlighted .note-display {
+  color: red;
+  display: none;
+  font-style: italic;
+}
+body #drafts {
+  background-color: #222;
+  box-sizing: border-box;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+body #drafts a {
+  color: yellowgreen;
+}
+body #drafts a:hover {
+  color: lightblue;
+}
+
+@media only screen and (max-width: 768px) {
+  #hidden-forms form {
+    padding: 15px !important;
+  }
+}
+@media only screen and (max-width: 440px) {
+  body *,
+  button,
+  input,
+  textarea {
+    font-size: 0.8rem !important;
+  }
+}/*# sourceMappingURL=style.css.map */
