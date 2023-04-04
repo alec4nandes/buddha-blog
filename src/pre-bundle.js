@@ -87,21 +87,37 @@ function handleAnnotate(e, postSutta) {
     addAnnotationJumpButtons(postSutta);
 }
 
-function getAnnotation(note, postSutta) {
+function getAnnotation(note) {
     note = note.trim();
     const selection = window.getSelection(),
         children = [...document.querySelector("#lines").childNodes],
-        lastIndex = children.findIndex((node) => selection.containsNode(node)),
+        i1 = children.indexOf(selection.focusNode),
+        i2 = children.indexOf(selection.anchorNode),
+        isBackwards =
+            i1 !== -1 &&
+            (i1 < i2 ||
+                (i1 === i2 && selection.focusOffset < selection.anchorOffset)),
+        startsWithBreak = selection.toString().charAt(0) === "\n",
+        firstIndex =
+            children.findIndex((node) => selection.containsNode(node)) +
+            (startsWithBreak
+                ? // move past the break connected with the previous node
+                  2
+                : 0),
         upTo = children
-            .slice(0, lastIndex)
+            .slice(0, firstIndex)
             .map((node) => node.textContent)
             .filter(Boolean)
             .join("<br/>"),
-        text = selection.toString().trim().split("\n").join("<br/>"),
+        text = selection.toString().split("\n").join("<br/>"),
         start =
-            postSutta.display.linesHTML.slice(upTo.length).indexOf(text) +
-            upTo.length;
-    console.log(upTo);
+            upTo.length +
+            (startsWithBreak
+                ? 0
+                : "<br/>".length +
+                  (isBackwards
+                      ? selection.focusOffset
+                      : selection.anchorOffset));
     return (
         text && {
             text,
@@ -137,7 +153,7 @@ function highlightAnnotation(number, postSutta) {
 
 function getTags(index, note) {
     const spanOpenTag = `<span id="a-${index}" class="highlighted">`,
-        noteTag = note && ` <small class="note-display">${note}</small>`,
+        noteTag = note && ` <small class="note-display">${note}</small>&nbsp;`,
         spanCloseTag = `${noteTag || ""}</span>`;
     return { spanOpenTag, spanCloseTag };
 }
@@ -176,6 +192,7 @@ function addAnnotationJumpButtons(postSutta) {
                 })
         );
         document.querySelector("#show-all").onclick = () => {
+            toggleAnnotationForm(false);
             lines.innerHTML = highlightAll(postSutta);
             document
                 .querySelector("#a-1")
