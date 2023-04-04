@@ -44,9 +44,10 @@ listDrafts();
 async function listDrafts() {
     const draftIds = await getAllDrafts();
     document.querySelector("#drafts").innerHTML =
-        "DRAFTS: " + draftIds.length
+        "DRAFTS: " +
+        (draftIds.length
             ? draftIds.map((id) => `<a href="./?id=${id}">${id}</a>`).join(", ")
-            : "n/a";
+            : "n/a");
 }
 
 export { updateDraftHelper };
