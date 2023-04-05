@@ -5,9 +5,33 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Sign In</title>
+        <style>
+            form {
+                width: 250px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin: auto;
+            }
+
+            form h1 {
+                margin: 0;
+                text-align: center;
+            }
+
+            form label {
+                display: flex;
+                gap: 5px;
+            }
+
+            form label input {
+                flex: 1;
+            }
+        </style>
     </head>
     <body>
         <form id="sign-in">
+            <h1>Sign In</h1>
             <label>email: <input name="email" type="email" /></label>
             <label>password: <input name="password" type="password" /></label>
             <button type="submit">sign in</button>

@@ -68,7 +68,7 @@ body #edit-post-container main > *#annotations-container #annotations {
 body #edit-post-container main > *#annotations-container textarea {
   height: 75px;
 }
-body #edit-post-container main > *#annotations-container #add-annotation {
+body #edit-post-container main > *#annotations-container #clear-to-annotate {
   width: 100%;
 }
 body #edit-post-container main > *#edit-post {

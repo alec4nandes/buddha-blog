@@ -35,12 +35,12 @@
                             <textarea name="note" type="text"></textarea>
                             <button type="submit">annotate</button>
                         </form>
-                        <button id="add-annotation" disabled>
+                        <button id="clear-to-annotate" disabled>
                             clear to add
                         </button>
                     </div>
                 </div>
-                <form id="edit-post">
+                <form id="edit-post" onkeydown="return event.key != 'Enter';">
                     <label>title: <input name="title" type="text" /></label>
                     <label
                         >subtitle: <input name="subtitle" type="text"
@@ -55,7 +55,11 @@
                         type="text"
                     ></textarea>
                     <label>tags: <input name="tags" type="text" /></label>
-                    <button type="submit">update draft</button>
+                    <select name="type">
+                        <option value="draft">draft</option>
+                        <option value="post">post</option>
+                    </select>
+                    <button type="submit">upload</button>
                 </form>
             </main>
             <footer></footer>
