@@ -31,12 +31,16 @@ async function addPost(draft) {
 }
 
 async function addHelper(draft, coll) {
-    const { sutta_id } = draft.sutta,
-        { title } = draft.post,
-        id = `${sutta_id}: ${title}`;
-    // Add a new document in coll "cities"
-    await setDoc(doc(db, coll, id), draft);
-    return id;
+    const { title } = draft.post;
+    if (title.trim()) {
+        const { sutta_id } = draft.sutta,
+            id = `${sutta_id}: ${title}`;
+        // Add a new document in coll "cities"
+        await setDoc(doc(db, coll, id), draft);
+        return id;
+    } else {
+        alert("Must have a title!");
+    }
 }
 
 export { addDraft, addPost, getAllDrafts, getAllPosts, getDraft };

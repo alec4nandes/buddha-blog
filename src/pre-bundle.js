@@ -73,11 +73,11 @@ if (window.location.href.includes("/admin.html")) {
     async function loadDraft() {
         const params = new URL(document.location).searchParams,
             id = params.get("id"),
-            draft = id && (await getDraft(id)),
-            suttaId = id?.split(":")[0];
+            draft = id && (await getDraft(id));
         if (draft) {
+            const suttaId = id.split(":")[0],
+                editPost = document.querySelector("#edit-post");
             await loadSutta(suttaId, draft.sutta);
-            const editPost = document.querySelector("#edit-post");
             Object.entries(draft.post).forEach(
                 ([name, value]) => (editPost[name].value = value)
             );
@@ -86,47 +86,64 @@ if (window.location.href.includes("/admin.html")) {
 
     async function loadSutta(suttaId, sutta) {
         let postSutta =
-            sutta ||
-            (await (
-                await fetch(`https://fern.haus/sutta/?sutta=${suttaId}`)
-            ).json());
+                sutta ||
+                (await (
+                    await fetch(`https://fern.haus/sutta/?sutta=${suttaId}`)
+                ).json()),
+            isValid = !!postSutta.display;
 
-        displayDraftLines(postSutta);
-
-        document.querySelector("#clear-to-annotate").onclick = () => {
+        if (isValid) {
             displayDraftLines(postSutta);
-            toggleAnnotationForm(true);
-        };
 
-        document.querySelector("#annotate").onsubmit = (e) =>
-            handleAnnotate(e, postSutta);
+            const clearButton = document.querySelector("#clear-to-annotate"),
+                annotateForm = document.querySelector("#annotate"),
+                editPost = document.querySelector("#edit-post"),
+                enableSubmit = (form) =>
+                    (form.querySelector(
+                        "button[type='submit']"
+                    ).disabled = false);
 
-        document.querySelector("#edit-post").onsubmit = async (e) => {
-            e.preventDefault();
-            const post = Object.fromEntries(new FormData(e.target)),
-                draft = { post, sutta: postSutta },
-                type = e.target.type.value,
-                isPost = type === "post";
-            try {
-                // upload draft regardless:
-                const id = await addDraft(draft);
-                isPost && (await addPost(draft));
-                alert(`${type} uploaded!`);
-                window.location.href = `?id=${id}`;
-            } catch (err) {
-                alert(err);
+            clearButton.onclick = () => {
+                displayDraftLines(postSutta);
+                toggleAnnotationForm(true);
+            };
+
+            annotateForm.onsubmit = (e) => handleAnnotate(e, postSutta);
+            enableSubmit(annotateForm);
+
+            editPost.onsubmit = handleEditPost;
+            enableSubmit(editPost);
+
+            function handleEditPost(e) {
+                e.preventDefault();
+                const post = Object.fromEntries(new FormData(e.target)),
+                    draft = { post, sutta: postSutta },
+                    type = e.target.type.value;
+                upload(draft, type);
+
+                async function upload(draft, type) {
+                    try {
+                        // upload draft regardless:
+                        const id = await addDraft(draft);
+                        if (id) {
+                            const isPost = type === "post";
+                            isPost && (await addPost(draft));
+                            alert(`${type} uploaded!`);
+                            window.location.href = `?id=${id}`;
+                        }
+                    } catch (err) {
+                        alert(err);
+                    }
+                }
             }
-        };
+        } else {
+            alert("Sutta does not exist!");
+        }
 
         function displayDraftLines(postSutta) {
-            try {
-                const linesElem = document.querySelector("#lines");
-                linesElem.innerHTML = postSutta.display.linesHTML;
-                addAnnotationJumpButtons(postSutta);
-            } catch (err) {
-                alert("Sutta does not exist!");
-                console.error(err);
-            }
+            const linesElem = document.querySelector("#lines");
+            linesElem.innerHTML = postSutta.display.linesHTML;
+            addAnnotationJumpButtons(postSutta);
         }
     }
 
