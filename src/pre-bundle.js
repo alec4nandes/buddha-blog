@@ -13,11 +13,11 @@ import {
 } from "firebase/auth";
 import { auth } from "./database.js";
 
-displayPosts();
+/*** INDEX.HTML - SHOW POSTS ***/
+if (location.pathname == "/") {
+    displayPosts();
 
-async function displayPosts() {
-    // root directory: show posts
-    if (location.pathname == "/") {
+    async function displayPosts() {
         const posts = await getAllPosts(),
             displayElem = document.querySelector("#posts");
         displayElem.innerHTML = `<pre><xmp>${JSON.stringify(
@@ -28,6 +28,7 @@ async function displayPosts() {
     }
 }
 
+/*** ADMIN.HTML - EDIT POSTS ***/
 if (window.location.href.includes("/admin.html")) {
     onAuthStateChanged(getAuth(), async (user) => {
         try {
@@ -37,13 +38,17 @@ if (window.location.href.includes("/admin.html")) {
             // to sign-in.html
             await listDrafts();
             await loadDraft();
-            const findSutta = document.querySelector("#find-sutta");
-            findSutta &&
-                (findSutta.onsubmit = (e) => {
-                    e.preventDefault();
-                    const suttaId = e.target.sutta.value;
-                    loadSutta(suttaId);
-                });
+            const findSutta = document.querySelector("#find-sutta"),
+                signOutButton = document.querySelector("button#sign-out");
+            findSutta.onsubmit = (e) => {
+                e.preventDefault();
+                const suttaId = e.target.sutta.value;
+                loadSutta(suttaId);
+            };
+            signOutButton.onclick = async () => {
+                await signOut(auth);
+                window.location.href = "/";
+            };
             document.querySelector("#edit-post-container").style.display =
                 "flex";
         } catch (err) {
@@ -51,16 +56,6 @@ if (window.location.href.includes("/admin.html")) {
             window.location.href = "/sign-in.html";
         }
     });
-
-    const signOutButton = document.querySelector("button#sign-out");
-    signOutButton.onclick = () => handleSignOut(auth);
-
-    async function handleSignOut(auth) {
-        await signOut(auth);
-        window.location.href = "/";
-    }
-
-    /*** ADMIN.HTML - EDIT POSTS ***/
 
     async function loadDraft() {
         const params = new URL(document.location).searchParams,
@@ -125,9 +120,14 @@ if (window.location.href.includes("/admin.html")) {
     }
 
     function displayDraftLines(postSutta) {
-        const linesElem = document.querySelector("#lines");
-        linesElem.innerHTML = postSutta.display.linesHTML;
-        addAnnotationJumpButtons(postSutta);
+        try {
+            const linesElem = document.querySelector("#lines");
+            linesElem.innerHTML = postSutta.display.linesHTML;
+            addAnnotationJumpButtons(postSutta);
+        } catch (err) {
+            alert("Sutta does not exist!");
+            console.error(err);
+        }
     }
 
     function toggleAnnotationForm(enabled) {
@@ -336,6 +336,7 @@ if (window.location.href.includes("/admin.html")) {
     }
 }
 
+/*** SIGN-IN.HTML - ACCESS DRAFTS ***/
 if (window.location.href.includes("/sign-in.html")) {
     const signInForm = document.querySelector("form#sign-in");
     signInForm.onsubmit = (e) => handleSignIn(e, auth);
