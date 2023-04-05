@@ -57,6 +57,19 @@ if (window.location.href.includes("/admin.html")) {
         }
     });
 
+    async function listDrafts() {
+        const draftIds = (await getAllDrafts()).map((draft) => draft.id),
+            footer = document.querySelector("footer");
+        footer &&
+            (footer.innerHTML =
+                "DRAFTS: " +
+                (draftIds.length
+                    ? draftIds
+                          .map((id) => `<a href="?id=${id}">${id}</a>`)
+                          .join(", ")
+                    : "n/a"));
+    }
+
     async function loadDraft() {
         const params = new URL(document.location).searchParams,
             id = params.get("id"),
@@ -69,19 +82,6 @@ if (window.location.href.includes("/admin.html")) {
                 ([name, value]) => (editPost[name].value = value)
             );
         }
-    }
-
-    async function listDrafts() {
-        const draftIds = (await getAllDrafts()).map((draft) => draft.id),
-            footer = document.querySelector("footer");
-        footer &&
-            (footer.innerHTML =
-                "DRAFTS: " +
-                (draftIds.length
-                    ? draftIds
-                          .map((id) => `<a href="?id=${id}">${id}</a>`)
-                          .join(", ")
-                    : "n/a"));
     }
 
     async function loadSutta(suttaId, sutta) {
@@ -117,16 +117,80 @@ if (window.location.href.includes("/admin.html")) {
                 alert(err);
             }
         };
+
+        function displayDraftLines(postSutta) {
+            try {
+                const linesElem = document.querySelector("#lines");
+                linesElem.innerHTML = postSutta.display.linesHTML;
+                addAnnotationJumpButtons(postSutta);
+            } catch (err) {
+                alert("Sutta does not exist!");
+                console.error(err);
+            }
+        }
     }
 
-    function displayDraftLines(postSutta) {
-        try {
-            const linesElem = document.querySelector("#lines");
-            linesElem.innerHTML = postSutta.display.linesHTML;
-            addAnnotationJumpButtons(postSutta);
-        } catch (err) {
-            alert("Sutta does not exist!");
-            console.error(err);
+    function addAnnotationJumpButtons(postSutta) {
+        const { annotations } = postSutta.display;
+        // console.log(annotations);
+        document.querySelector("#annotations").innerHTML =
+            annotations
+                .map(
+                    (_, i) =>
+                        `<button class="annotation-jump">${i + 1}</button>`
+                )
+                .join("") + `<button id="show-all">show all</button>`;
+        addHandlers();
+
+        function addHandlers() {
+            const jumpButtons = document.querySelectorAll(".annotation-jump");
+            jumpButtons.forEach((b) => (b.onclick = handleAnnotationJump));
+            document.querySelector("#show-all").onclick = handleShowAll;
+
+            function handleAnnotationJump(e) {
+                toggleAnnotationForm(false);
+                const buttonText = e.target.innerText;
+                lines.innerHTML = highlightAnnotation(buttonText, postSutta);
+                document
+                    .querySelector(`#a-${buttonText}`)
+                    .scrollIntoView({ behavior: "smooth" });
+            }
+
+            function handleShowAll() {
+                toggleAnnotationForm(false);
+                lines.innerHTML = highlightAll(postSutta);
+                document
+                    // scroll to first annotation:
+                    .querySelector("#a-1")
+                    ?.scrollIntoView({ behavior: "smooth" });
+
+                function highlightAll(postSutta) {
+                    let { linesHTML } = postSutta.display,
+                        extraStart = 0;
+                    const { annotations } = postSutta.display,
+                        sorted = [...annotations].sort(
+                            (a, b) => a.start - b.start
+                        );
+                    sorted.forEach((anno, i) => {
+                        let { start } = anno;
+                        start += extraStart;
+                        const { text, note } = anno,
+                            { spanOpenTag, spanCloseTag } = getNoteTags(
+                                annotations.indexOf(anno) + 1,
+                                note
+                            );
+                        extraStart += spanOpenTag.length + spanCloseTag.length;
+                        linesHTML = spliceLines({
+                            start,
+                            text,
+                            spanOpenTag,
+                            spanCloseTag,
+                            linesHTML,
+                        });
+                    });
+                    return linesHTML;
+                }
+            }
         }
     }
 
@@ -152,95 +216,99 @@ if (window.location.href.includes("/admin.html")) {
                 annotations.length,
                 postSutta
             );
-            toggleAnnotationForm(false);
             addAnnotationJumpButtons(postSutta);
+            toggleAnnotationForm(false);
         }
-    }
 
-    /*
+        /*
         Returns annotation data for the displayed sutta if
         there's a valid selection, returns undefined otherwise.
         This method uses the DOM, so the browser's displayed
         sutta HTML in div#lines needs to match the HTML in
         postSutta.display.linesHTML
     */
-    function getAnnotation(note) {
-        const selection = window.getSelection(),
-            selectionString = selection.toString(),
-            // no spaces or line breaks as annotations:
-            hasSelection = !!selectionString.trim();
-        if (hasSelection) {
-            const children = [...document.querySelector("#lines").childNodes],
-                { anchorNode, anchorOffset, focusNode, focusOffset } =
-                    selection,
-                anchorIndex = children.indexOf(anchorNode),
-                focusIndex = children.indexOf(focusNode),
-                hasFocus = focusIndex !== -1,
-                isBackwards =
-                    hasFocus &&
-                    (focusIndex < anchorIndex ||
-                        (focusIndex === anchorIndex &&
-                            focusOffset < anchorOffset)),
-                startsWithBreak = selectionString.charAt(0) === "\n",
-                // ^ No anchor or focus node index, so first contained
-                // node will be <br/>. Move past this node to next text:
-                extraIndexes = startsWithBreak ? 2 : 0,
-                firstIndex =
-                    children.findIndex((node) => selection.containsNode(node)) +
-                    extraIndexes,
-                isFirstNode = !firstIndex,
-                finalBreak = startsWithBreak || isFirstNode ? "" : "<br/>",
-                upTo =
-                    children
-                        .slice(0, firstIndex)
-                        .map((node) => node.textContent)
-                        .filter(Boolean)
-                        .join("<br/>") + finalBreak,
-                offset = startsWithBreak
-                    ? 0
-                    : isBackwards
-                    ? focusOffset
-                    : anchorOffset,
-                start = upTo.length + offset,
-                text = selectionString.split("\n").join("<br/>");
-            // for testing:
-            console.log(
-                "anchor node:",
-                anchorNode,
-                "anchor index:",
-                anchorIndex,
-                "anchor offset:",
-                anchorOffset,
-                "focus node:",
-                focusNode,
-                "focus index:",
-                focusIndex,
-                "focus offset:",
-                focusOffset
-            );
-            return {
-                text,
-                start,
-                note: note.trim(),
-            };
+        function getAnnotation(note) {
+            const selection = window.getSelection(),
+                selectionString = selection.toString(),
+                // no spaces or line breaks as annotations:
+                hasSelection = !!selectionString.trim();
+            if (hasSelection) {
+                const children = [
+                        ...document.querySelector("#lines").childNodes,
+                    ],
+                    { anchorNode, anchorOffset, focusNode, focusOffset } =
+                        selection,
+                    anchorIndex = children.indexOf(anchorNode),
+                    focusIndex = children.indexOf(focusNode),
+                    hasFocus = focusIndex !== -1,
+                    isBackwards =
+                        hasFocus &&
+                        (focusIndex < anchorIndex ||
+                            (focusIndex === anchorIndex &&
+                                focusOffset < anchorOffset)),
+                    startsWithBreak = selectionString.charAt(0) === "\n",
+                    // ^ No anchor or focus node index, so first contained
+                    // node will be <br/>. Move past this node to next text:
+                    extraIndexes = startsWithBreak ? 2 : 0,
+                    firstIndex =
+                        children.findIndex((node) =>
+                            selection.containsNode(node)
+                        ) + extraIndexes,
+                    isFirstNode = !firstIndex,
+                    finalBreak = startsWithBreak || isFirstNode ? "" : "<br/>",
+                    upTo =
+                        children
+                            .slice(0, firstIndex)
+                            .map((node) => node.textContent)
+                            .filter(Boolean)
+                            .join("<br/>") + finalBreak,
+                    offset = startsWithBreak
+                        ? 0
+                        : isBackwards
+                        ? focusOffset
+                        : anchorOffset,
+                    start = upTo.length + offset,
+                    text = selectionString.split("\n").join("<br/>");
+                // for testing:
+                console.log(
+                    "anchor node:",
+                    anchorNode,
+                    "anchor index:",
+                    anchorIndex,
+                    "anchor offset:",
+                    anchorOffset,
+                    "focus node:",
+                    focusNode,
+                    "focus index:",
+                    focusIndex,
+                    "focus offset:",
+                    focusOffset
+                );
+                return {
+                    text,
+                    start,
+                    note: note.trim(),
+                };
+            }
         }
-    }
 
-    // if you highlight an already highlighted section
-    function isOverlapped(oldAnnotation, newAnnotation) {
-        const { text: oldText, start: oldStart } = oldAnnotation,
-            { text: newText, start: newStart } = newAnnotation;
-        return (
-            (oldStart <= newStart && newStart <= oldStart + oldText.length) ||
-            (newStart <= oldStart &&
-                oldStart + oldText.length <= newStart + newText.length)
-        );
+        // if you highlight an already highlighted section
+        function isOverlapped(oldAnnotation, newAnnotation) {
+            const { text: oldText, start: oldStart } = oldAnnotation,
+                { text: newText, start: newStart } = newAnnotation;
+            return (
+                (oldStart <= newStart &&
+                    newStart <= oldStart + oldText.length) ||
+                (newStart <= oldStart &&
+                    oldStart + oldText.length <= newStart + newText.length)
+            );
+        }
     }
 
     function highlightAnnotation(number, postSutta) {
         const { annotations } = postSutta.display,
             { start, text, note } = annotations[number - 1],
-            { spanOpenTag, spanCloseTag } = getTags(number, note);
+            { spanOpenTag, spanCloseTag } = getNoteTags(number, note);
         return spliceLines({
             start,
             text,
@@ -250,7 +318,7 @@ if (window.location.href.includes("/admin.html")) {
         });
     }
 
-    function getTags(index, note) {
+    function getNoteTags(index, note) {
         const spanOpenTag = `<span id="a-${index}" class="highlighted">`,
             noteTag =
                 note && ` <small class="note-display">${note}</small>&nbsp;`,
@@ -272,67 +340,6 @@ if (window.location.href.includes("/admin.html")) {
             `${spanOpenTag}${text}${spanCloseTag}`
         );
         return linesHTML.join("");
-    }
-
-    function addAnnotationJumpButtons(postSutta) {
-        const { annotations } = postSutta.display;
-        // console.log(annotations);
-        document.querySelector("#annotations").innerHTML =
-            annotations
-                .map(
-                    (_, i) =>
-                        `<button class="annotation-jump">${i + 1}</button>`
-                )
-                .join("") + `<button id="show-all">show all</button>`;
-        addHandlers();
-
-        function addHandlers() {
-            document.querySelectorAll(".annotation-jump").forEach(
-                (button) =>
-                    (button.onclick = () => {
-                        lines.innerHTML = highlightAnnotation(
-                            button.innerText,
-                            postSutta
-                        );
-                        document
-                            .querySelector(`#a-${button.innerText}`)
-                            .scrollIntoView({ behavior: "smooth" });
-                        toggleAnnotationForm(false);
-                    })
-            );
-            document.querySelector("#show-all").onclick = () => {
-                toggleAnnotationForm(false);
-                lines.innerHTML = highlightAll(postSutta);
-                document
-                    .querySelector("#a-1")
-                    ?.scrollIntoView({ behavior: "smooth" });
-            };
-        }
-
-        function highlightAll(postSutta) {
-            let { linesHTML } = postSutta.display,
-                extraStart = 0;
-            const { annotations } = postSutta.display,
-                sorted = [...annotations].sort((a, b) => a.start - b.start);
-            sorted.forEach((anno, i) => {
-                let { start } = anno;
-                start += extraStart;
-                const { text, note } = anno,
-                    { spanOpenTag, spanCloseTag } = getTags(
-                        annotations.indexOf(anno) + 1,
-                        note
-                    );
-                extraStart += spanOpenTag.length + spanCloseTag.length;
-                linesHTML = spliceLines({
-                    start,
-                    text,
-                    spanOpenTag,
-                    spanCloseTag,
-                    linesHTML,
-                });
-            });
-            return linesHTML;
-        }
     }
 }
 
