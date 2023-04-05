@@ -77,67 +77,83 @@ function handleAnnotate(e, postSutta) {
     e.preventDefault();
     const lines = document.querySelector("#lines"),
         annotation = getAnnotation(e.target.note.value, postSutta);
-    postSutta.display.annotations = postSutta.display.annotations.filter(
-        (oldAnno) => !isOverlapped(oldAnno, annotation)
-    );
-    const { annotations } = postSutta.display;
-    annotations.push(annotation);
-    lines.innerHTML = highlightAnnotation(annotations.length, postSutta);
-    toggleAnnotationForm(false);
-    addAnnotationJumpButtons(postSutta);
+    if (annotation) {
+        postSutta.display.annotations = postSutta.display.annotations.filter(
+            (oldAnno) => !isOverlapped(oldAnno, annotation)
+        );
+        const { annotations } = postSutta.display;
+        annotations.push(annotation);
+        lines.innerHTML = highlightAnnotation(annotations.length, postSutta);
+        toggleAnnotationForm(false);
+        addAnnotationJumpButtons(postSutta);
+    }
 }
 
+/*
+    Returns annotation data for the displayed sutta if
+    there's a valid selection, returns undefined otherwise.
+    This method uses the DOM, so the browser's displayed
+    sutta HTML in div#lines needs to match the HTML in
+    postSutta.display.linesHTML
+*/
 function getAnnotation(note) {
     const selection = window.getSelection(),
-        children = [...document.querySelector("#lines").childNodes],
-        { anchorNode, anchorOffset, focusNode, focusOffset } = selection,
-        anchorIndex = children.indexOf(anchorNode),
-        focusIndex = children.indexOf(focusNode),
-        hasFocus = focusIndex !== -1,
-        isBackwards =
-            hasFocus &&
-            (focusIndex < anchorIndex ||
-                (focusIndex === anchorIndex && focusOffset < anchorOffset)),
-        startsWithBreak = selection.toString().charAt(0) === "\n",
-        // ^ No anchor or focus node index, so first contained
-        // node will be <br/>. Move past this node to next text:
-        extraIndexes = startsWithBreak ? 2 : 0,
-        firstIndex =
-            children.findIndex((node) => selection.containsNode(node)) +
-            extraIndexes,
-        isFirstNode = !firstIndex,
-        finalBreak = startsWithBreak || isFirstNode ? "" : "<br/>",
-        upTo =
-            children
-                .slice(0, firstIndex)
-                .map((node) => node.textContent)
-                .filter(Boolean)
-                .join("<br/>") + finalBreak,
-        offset = startsWithBreak ? 0 : isBackwards ? focusOffset : anchorOffset,
-        start = upTo.length + offset,
-        text = selection.toString().split("\n").join("<br/>");
-    // for testing:
-    console.log(
-        "anchor node:",
-        anchorNode,
-        "anchor index:",
-        anchorIndex,
-        "anchor offset:",
-        anchorOffset,
-        "focus node:",
-        focusNode,
-        "focus index:",
-        focusIndex,
-        "focus offset:",
-        focusOffset
-    );
-    return (
-        text && {
+        selectionString = selection.toString(),
+        // no spaces or line breaks as annotations:
+        hasSelection = !!selectionString.trim();
+    if (hasSelection) {
+        const children = [...document.querySelector("#lines").childNodes],
+            { anchorNode, anchorOffset, focusNode, focusOffset } = selection,
+            anchorIndex = children.indexOf(anchorNode),
+            focusIndex = children.indexOf(focusNode),
+            hasFocus = focusIndex !== -1,
+            isBackwards =
+                hasFocus &&
+                (focusIndex < anchorIndex ||
+                    (focusIndex === anchorIndex && focusOffset < anchorOffset)),
+            startsWithBreak = selectionString.charAt(0) === "\n",
+            // ^ No anchor or focus node index, so first contained
+            // node will be <br/>. Move past this node to next text:
+            extraIndexes = startsWithBreak ? 2 : 0,
+            firstIndex =
+                children.findIndex((node) => selection.containsNode(node)) +
+                extraIndexes,
+            isFirstNode = !firstIndex,
+            finalBreak = startsWithBreak || isFirstNode ? "" : "<br/>",
+            upTo =
+                children
+                    .slice(0, firstIndex)
+                    .map((node) => node.textContent)
+                    .filter(Boolean)
+                    .join("<br/>") + finalBreak,
+            offset = startsWithBreak
+                ? 0
+                : isBackwards
+                ? focusOffset
+                : anchorOffset,
+            start = upTo.length + offset,
+            text = selectionString.split("\n").join("<br/>");
+        // for testing:
+        console.log(
+            "anchor node:",
+            anchorNode,
+            "anchor index:",
+            anchorIndex,
+            "anchor offset:",
+            anchorOffset,
+            "focus node:",
+            focusNode,
+            "focus index:",
+            focusIndex,
+            "focus offset:",
+            focusOffset
+        );
+        return {
             text,
             start,
             note: note.trim(),
-        }
-    );
+        };
+    }
 }
 
 // if you highlight an already highlighted section
