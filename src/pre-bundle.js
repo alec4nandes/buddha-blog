@@ -1,14 +1,11 @@
 import { addDraft, getAllDrafts, getDraft } from "./read-write.js";
-
-loadDraft();
-listDrafts();
-
-const findSutta = document.querySelector("#find-sutta");
-findSutta.onsubmit = (e) => {
-    e.preventDefault();
-    const suttaId = e.target.sutta.value;
-    loadSutta(suttaId);
-};
+import {
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signOut,
+} from "firebase/auth";
+import { auth } from "./database.js";
 
 async function loadDraft() {
     const params = new URL(document.location).searchParams,
@@ -25,12 +22,16 @@ async function loadDraft() {
 }
 
 async function listDrafts() {
-    const draftIds = await getAllDrafts();
-    document.querySelector("footer").innerHTML =
-        "DRAFTS: " +
-        (draftIds.length
-            ? draftIds.map((id) => `<a href="./?id=${id}">${id}</a>`).join(", ")
-            : "n/a");
+    const draftIds = await getAllDrafts(),
+        footer = document.querySelector("footer");
+    footer &&
+        (footer.innerHTML =
+            "DRAFTS: " +
+            (draftIds.length
+                ? draftIds
+                      .map((id) => `<a href="?id=${id}">${id}</a>`)
+                      .join(", ")
+                : "n/a"));
 }
 
 async function loadSutta(suttaId, sutta) {
@@ -52,11 +53,15 @@ async function loadSutta(suttaId, sutta) {
 
     document.querySelector("#edit-post").onsubmit = async (e) => {
         e.preventDefault();
-        const post = Object.fromEntries(new FormData(e.target)),
-            draft = { post, sutta: postSutta },
-            id = await addDraft(draft);
-        alert("Draft updated!");
-        window.location.href = `/?id=${id}`;
+        try {
+            const post = Object.fromEntries(new FormData(e.target)),
+                draft = { post, sutta: postSutta },
+                id = await addDraft(draft);
+            alert("Draft updated!");
+            window.location.href = `?id=${id}`;
+        } catch (err) {
+            alert(err);
+        }
     };
 }
 
@@ -253,6 +258,72 @@ function addAnnotationJumpButtons(postSutta) {
         });
         return linesHTML;
     }
+}
+
+// AUTHENTICATION
+
+// admin page redirect if not logged in:
+if (window.location.href.includes("/admin.html")) {
+    onAuthStateChanged(getAuth(), async (user) => {
+        try {
+            // With the correctly set Firestore permissions,
+            // listDrafts will throw an access error when admin
+            // is not logged in. Catch this error and redirect
+            // to sign-in.html
+            await listDrafts();
+            await loadDraft();
+            const findSutta = document.querySelector("#find-sutta");
+            findSutta &&
+                (findSutta.onsubmit = (e) => {
+                    e.preventDefault();
+                    const suttaId = e.target.sutta.value;
+                    loadSutta(suttaId);
+                });
+            document.querySelector("#edit-post-container").style.display =
+                "flex";
+        } catch (err) {
+            alert(err);
+            window.location.href = "/sign-in.html";
+        }
+    });
+
+    const signOutButton = document.querySelector("button#sign-out");
+    signOutButton.onclick = () => handleSignOut(auth);
+
+    async function handleSignOut(auth) {
+        await signOut(auth);
+        document.cookie = await makeCookie();
+        window.location.href = "/";
+    }
+}
+
+if (window.location.href.includes("/sign-in.html")) {
+    const signInForm = document.querySelector("form#sign-in");
+    signInForm.onsubmit = (e) => handleSignIn(e, auth);
+
+    async function handleSignIn(e, auth) {
+        e.preventDefault();
+        const { email, password } = e.target;
+        try {
+            const userCredential = await signInWithEmailAndPassword(
+                auth,
+                email.value,
+                password.value
+            );
+            document.cookie = await makeCookie(userCredential.user);
+            window.location.href = "/admin.html";
+        } catch (err) {
+            alert(err);
+        }
+        return;
+    }
+}
+
+// TODO: research more on __session variable
+async function makeCookie(user) {
+    const token = (await user?.getIdToken()) || "",
+        time = token ? 432000 : 0;
+    return `__session=${token}; expires=${time}; path=/`;
 }
 
 export { loadSutta };
