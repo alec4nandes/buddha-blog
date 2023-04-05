@@ -13,8 +13,6 @@ import {
 } from "firebase/auth";
 import { auth } from "./database.js";
 
-// AUTHENTICATION
-
 displayPosts();
 
 async function displayPosts() {
@@ -59,7 +57,6 @@ if (window.location.href.includes("/admin.html")) {
 
     async function handleSignOut(auth) {
         await signOut(auth);
-        document.cookie = await makeCookie();
         window.location.href = "/";
     }
 
@@ -352,18 +349,10 @@ if (window.location.href.includes("/sign-in.html")) {
                 email.value,
                 password.value
             );
-            document.cookie = await makeCookie(userCredential.user);
             window.location.href = "/admin.html";
         } catch (err) {
             alert(err);
         }
         return;
     }
-}
-
-// TODO: research more on __session variable
-async function makeCookie(user) {
-    const token = (await user?.getIdToken()) || "",
-        time = token ? 432000 : 0;
-    return `__session=${token}; expires=${time}; path=/`;
 }
