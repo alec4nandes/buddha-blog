@@ -1,116 +1,120 @@
 body {
     height: 100vh;
-    display: flex;
-    flex-direction: column;
     margin: 0;
 
-    & *,
-    button,
-    input,
-    textarea {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 1rem;
-    }
-
-    small {
-        font-size: 0.8rem;
-    }
-
-    header {
-        width: 100%;
-        background-color: #222;
-        box-sizing: border-box;
-        color: #fff;
+    #edit-post-container {
+        height: 100%;
         display: flex;
-        justify-content: center;
-        padding: 10px;
-    }
+        flex-direction: column;
 
-    form {
-        display: flex;
-
-        label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-
-            input {
-                flex: 1;
-                width: 100%;
-            }
+        & *,
+        button,
+        input,
+        textarea {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1rem;
         }
-    }
 
-    main {
-        width: 100%;
-        display: flex;
-        flex: 1;
-        justify-content: center;
-        margin: auto;
-        overflow: auto;
+        small {
+            font-size: 0.8rem;
+        }
 
-        & > * {
-            height: 100%;
+        header {
+            width: 100%;
+            background-color: #222;
             box-sizing: border-box;
+            color: #fff;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 30px;
+            justify-content: center;
+            padding: 10px;
+        }
 
-            &#annotations-container {
-                max-width: 400px;
-                width: 40%;
+        form {
+            display: flex;
 
-                #lines {
+            label {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+
+                input {
                     flex: 1;
-                    overflow: auto;
-                }
-
-                #annotations {
-                    text-align: center;
-                }
-
-                textarea {
-                    height: 75px;
-                }
-
-                #add-annotation {
                     width: 100%;
                 }
             }
+        }
 
-            &#edit-post {
-                max-width: 500px;
-                width: 60%;
-                background-color: #eee;
+        main {
+            width: 100%;
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            margin: auto;
+            overflow: auto;
 
-                textarea {
-                    flex: 1;
+            & > * {
+                height: 100%;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 30px;
+
+                &#annotations-container {
+                    max-width: 400px;
+                    width: 40%;
+
+                    #lines {
+                        flex: 1;
+                        overflow: auto;
+                    }
+
+                    #annotations {
+                        text-align: center;
+                    }
+
+                    textarea {
+                        height: 75px;
+                    }
+
+                    #add-annotation {
+                        width: 100%;
+                    }
+                }
+
+                &#edit-post {
+                    max-width: 500px;
+                    width: 60%;
+                    background-color: #eee;
+
+                    textarea {
+                        flex: 1;
+                    }
+                }
+
+                form {
+                    flex-direction: column;
                 }
             }
-
-            form {
-                flex-direction: column;
-            }
         }
-    }
 
-    .highlighted {
-        background-color: yellowgreen;
-    }
+        .highlighted {
+            background-color: yellowgreen;
+        }
 
-    footer {
-        background-color: #222;
-        box-sizing: border-box;
-        color: #fff;
-        padding: 10px;
-        text-align: center;
+        footer {
+            background-color: #222;
+            box-sizing: border-box;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
 
-        a {
-            color: yellowgreen;
+            a {
+                color: yellowgreen;
 
-            &:hover {
-                color: lightblue;
+                &:hover {
+                    color: lightblue;
+                }
             }
         }
     }

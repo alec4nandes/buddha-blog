@@ -1,20 +1,23 @@
 body {
   height: 100vh;
-  display: flex;
-  flex-direction: column;
   margin: 0;
 }
-body *,
-body button,
-body input,
-body textarea {
+body #edit-post-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+body #edit-post-container *,
+body #edit-post-container button,
+body #edit-post-container input,
+body #edit-post-container textarea {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1rem;
 }
-body small {
+body #edit-post-container small {
   font-size: 0.8rem;
 }
-body header {
+body #edit-post-container header {
   width: 100%;
   background-color: #222;
   box-sizing: border-box;
@@ -23,19 +26,19 @@ body header {
   justify-content: center;
   padding: 10px;
 }
-body form {
+body #edit-post-container form {
   display: flex;
 }
-body form label {
+body #edit-post-container form label {
   display: flex;
   align-items: center;
   gap: 5px;
 }
-body form label input {
+body #edit-post-container form label input {
   flex: 1;
   width: 100%;
 }
-body main {
+body #edit-post-container main {
   width: 100%;
   display: flex;
   flex: 1;
@@ -43,7 +46,7 @@ body main {
   margin: auto;
   overflow: auto;
 }
-body main > * {
+body #edit-post-container main > * {
   height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -51,48 +54,48 @@ body main > * {
   gap: 10px;
   padding: 30px;
 }
-body main > *#annotations-container {
+body #edit-post-container main > *#annotations-container {
   max-width: 400px;
   width: 40%;
 }
-body main > *#annotations-container #lines {
+body #edit-post-container main > *#annotations-container #lines {
   flex: 1;
   overflow: auto;
 }
-body main > *#annotations-container #annotations {
+body #edit-post-container main > *#annotations-container #annotations {
   text-align: center;
 }
-body main > *#annotations-container textarea {
+body #edit-post-container main > *#annotations-container textarea {
   height: 75px;
 }
-body main > *#annotations-container #add-annotation {
+body #edit-post-container main > *#annotations-container #add-annotation {
   width: 100%;
 }
-body main > *#edit-post {
+body #edit-post-container main > *#edit-post {
   max-width: 500px;
   width: 60%;
   background-color: #eee;
 }
-body main > *#edit-post textarea {
+body #edit-post-container main > *#edit-post textarea {
   flex: 1;
 }
-body main > * form {
+body #edit-post-container main > * form {
   flex-direction: column;
 }
-body .highlighted {
+body #edit-post-container .highlighted {
   background-color: yellowgreen;
 }
-body footer {
+body #edit-post-container footer {
   background-color: #222;
   box-sizing: border-box;
   color: #fff;
   padding: 10px;
   text-align: center;
 }
-body footer a {
+body #edit-post-container footer a {
   color: yellowgreen;
 }
-body footer a:hover {
+body #edit-post-container footer a:hover {
   color: lightblue;
 }
 

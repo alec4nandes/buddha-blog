@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/style.css" />
+        <title>Document</title>
+        <style>
+            .highlighted {
+                background-color: yellow;
+            }
+
+            .highlighted small {
+                color: red;
+                font-style: italic;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="edit-post-container" style="display: none">
+            <header>
+                <form id="find-sutta">
+                    <label>sutta: <input name="sutta" type="text" /></label>
+                    <button type="submit">find sutta</button>
+                </form>
+                <button id="sign-out">sign out</button>
+            </header>
+            <main>
+                <div id="annotations-container">
+                    <div id="lines"></div>
+                    <div id="annotations-controls">
+                        <div id="annotations"></div>
+                        <form id="annotate">
+                            <textarea name="note" type="text"></textarea>
+                            <button type="submit">annotate</button>
+                        </form>
+                        <button id="add-annotation" disabled>
+                            clear to add
+                        </button>
+                    </div>
+                </div>
+                <form id="edit-post">
+                    <label>title: <input name="title" type="text" /></label>
+                    <label
+                        >subtitle: <input name="subtitle" type="text"
+                    /></label>
+                    <label
+                        >image url: <input name="image_url" type="text"
+                    /></label>
+                    <label for="content">content:</label>
+                    <textarea
+                        name="content"
+                        id="content"
+                        type="text"
+                    ></textarea>
+                    <label>tags: <input name="tags" type="text" /></label>
+                    <button type="submit">update draft</button>
+                </form>
+            </main>
+            <footer></footer>
+        </div>
+        <script src="/bundle.js"></script>
+    </body>
+</html>
