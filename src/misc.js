@@ -105,6 +105,25 @@ function addAnnotationJumpButtons(postSutta, isPublished) {
         (!isPublished && annotations.length > 1
             ? `<button id="show-all">show all</button>`
             : "");
+    const deleteAnnotationForm = document.querySelector("#delete-annotation");
+    if (deleteAnnotationForm) {
+        if (annotations.length) {
+            deleteAnnotationForm.querySelector("select").innerHTML = annotations
+                .map((_, i) => `<option value="${i + 1}">${i + 1}</option>`)
+                .join("");
+            deleteAnnotationForm.onsubmit = (e) => {
+                e.preventDefault();
+                const index = e.target.index.value - 1;
+                annotations.splice(index, 1);
+                document.querySelector("#lines").innerHTML =
+                    postSutta.display.linesHTML;
+                addAnnotationJumpButtons(postSutta, isPublished);
+            };
+        }
+        deleteAnnotationForm.style.display = annotations.length
+            ? "flex"
+            : "none";
+    }
     addHandlers();
 
     function addHandlers() {

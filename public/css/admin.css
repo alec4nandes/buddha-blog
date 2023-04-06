@@ -40,16 +40,25 @@
   flex: 1;
   overflow: auto;
 }
-#admin-container main > *#annotations-container #annotations {
-  text-align: center;
+#admin-container main > *#annotations-container #annotations-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
-#admin-container main > *#annotations-container #annotate {
-  margin: 5px 0;
+#admin-container main > *#annotations-container #annotations-controls #annotations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
 }
-#admin-container main > *#annotations-container #annotate textarea {
+#admin-container main > *#annotations-container #annotations-controls form#delete-annotation {
+  flex-direction: row;
+  justify-content: center;
+}
+#admin-container main > *#annotations-container #annotations-controls #annotate textarea {
   height: 75px;
 }
-#admin-container main > *#annotations-container #clear-to-annotate {
+#admin-container main > *#annotations-container #annotations-controls #clear-to-annotate {
   width: 100%;
 }
 #admin-container main > *#edit-post-container {

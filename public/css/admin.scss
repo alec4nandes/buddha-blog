@@ -44,20 +44,32 @@
                     overflow: auto;
                 }
 
-                #annotations {
-                    text-align: center;
-                }
+                #annotations-controls {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
 
-                #annotate {
-                    margin: 5px 0;
-
-                    textarea {
-                        height: 75px;
+                    #annotations {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 5px;
+                        justify-content: center;
                     }
-                }
 
-                #clear-to-annotate {
-                    width: 100%;
+                    form#delete-annotation {
+                        flex-direction: row;
+                        justify-content: center;
+                    }
+
+                    #annotate {
+                        textarea {
+                            height: 75px;
+                        }
+                    }
+
+                    #clear-to-annotate {
+                        width: 100%;
+                    }
                 }
             }
 
