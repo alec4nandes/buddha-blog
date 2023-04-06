@@ -74,14 +74,14 @@
 #admin-container main > *#edit-post-container button#delete {
   width: 100px;
 }
-#admin-container main > *#edit-post-container button#delete {
-  margin-left: auto;
+#admin-container main > *#edit-post-container #delete-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
 }
 #admin-container main > * form {
   flex-direction: column;
-}
-#admin-container .highlighted {
-  background-color: yellowgreen;
 }
 
 @media only screen and (max-width: 768px) {

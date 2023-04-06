@@ -13,16 +13,49 @@ body {
         margin: auto;
         overflow: auto;
 
+        #sutta-container {
+            max-width: 500px;
+            width: 40%;
+            background-color: #eee;
+            display: flex;
+            flex-direction: column;
+
+            #annotations-container {
+                background-color: #ccc;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                flex-wrap: wrap;
+            }
+
+            #sutta {
+                .highlighted {
+                    &:hover {
+                        cursor: pointer;
+
+                        small {
+                            display: inline;
+                        }
+                    }
+
+                    &.expand {
+                        small {
+                            display: inline;
+                        }
+                    }
+
+                    small {
+                        display: none;
+                    }
+                }
+            }
+        }
+
         section {
             box-sizing: border-box;
             overflow: auto;
             padding: 12px;
-
-            &#sutta {
-                max-width: 500px;
-                width: 40%;
-                background-color: #eee;
-            }
 
             &#post {
                 max-width: 700px;

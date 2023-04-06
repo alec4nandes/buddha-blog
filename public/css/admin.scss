@@ -88,8 +88,11 @@
                     width: 100px;
                 }
 
-                button#delete {
-                    margin-left: auto;
+                #delete-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    gap: 5px;
                 }
             }
 
@@ -97,10 +100,6 @@
                 flex-direction: column;
             }
         }
-    }
-
-    .highlighted {
-        background-color: yellowgreen;
     }
 }
 

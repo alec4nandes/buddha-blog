@@ -8,7 +8,12 @@ import {
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { deleteDoc, doc } from "firebase/firestore";
 import db, { auth } from "./database.js";
-import { getSearchParam } from "./misc.js";
+import {
+    getSearchParam,
+    addAnnotationJumpButtons,
+    toggleAnnotationForm,
+    highlightAnnotation,
+} from "./misc.js";
 
 export default function loadAdmin() {
     onAuthStateChanged(getAuth(), async (user) => {
@@ -57,15 +62,17 @@ async function loadDraft() {
     if (draft) {
         const suttaId = id.split(":")[0],
             editPost = document.querySelector("form#edit-post"),
-            deleteButton = document.querySelector("button#delete");
+            deleteButton = document.querySelector("button#delete"),
+            postStatusDisplay = document.querySelector("span#post-status"),
+            hasPost = !!(await getPost(id));
         await loadSutta(suttaId, draft.sutta);
+        postStatusDisplay.innerText = hasPost ? "(posted)" : "(draft)";
         Object.entries(draft.post).forEach(
             ([name, value]) => name !== "date" && (editPost[name].value = value)
         );
         deleteButton.disabled = false;
         deleteButton.onclick = async () => {
-            const hasPost = await getPost(id),
-                confirmDeletePost = confirm("Delete post?");
+            const confirmDeletePost = confirm("Delete post?");
             hasPost &&
                 confirmDeletePost &&
                 (await deleteDoc(doc(db, "posts", id)));
@@ -171,7 +178,7 @@ async function loadSutta(suttaId, sutta) {
         */
         function getAnnotation(note) {
             const selection = window.getSelection(),
-                selectionString = selection.toString(),
+                selectionString = selection.toString().trimEnd(),
                 // no spaces or line breaks as annotations:
                 hasSelection = !!selectionString.trim();
             if (hasSelection) {
@@ -246,102 +253,4 @@ async function loadSutta(suttaId, sutta) {
             );
         }
     }
-}
-
-function addAnnotationJumpButtons(postSutta) {
-    const { annotations } = postSutta.display;
-    // console.log(annotations);
-    document.querySelector("#annotations").innerHTML =
-        annotations
-            .map((_, i) => `<button class="annotation-jump">${i + 1}</button>`)
-            .join("") +
-        (annotations.length ? `<button id="show-all">show all</button>` : "");
-    addHandlers();
-
-    function addHandlers() {
-        const jumpButtons = document.querySelectorAll(".annotation-jump"),
-            showAllButton = document.querySelector("#show-all");
-        jumpButtons.forEach((b) => (b.onclick = handleAnnotationJump));
-        showAllButton && (showAllButton.onclick = handleShowAll);
-
-        function handleAnnotationJump(e) {
-            toggleAnnotationForm(false);
-            const buttonText = e.target.innerText;
-            lines.innerHTML = highlightAnnotation(buttonText, postSutta);
-            document
-                .querySelector(`#a-${buttonText}`)
-                .scrollIntoView({ behavior: "smooth" });
-        }
-
-        function handleShowAll() {
-            toggleAnnotationForm(false);
-            lines.innerHTML = highlightAll(postSutta);
-            document
-                // scroll to first annotation:
-                .querySelector("#a-1")
-                ?.scrollIntoView({ behavior: "smooth" });
-
-            function highlightAll(postSutta) {
-                let { linesHTML } = postSutta.display,
-                    extraStart = 0;
-                const { annotations } = postSutta.display,
-                    sorted = [...annotations].sort((a, b) => a.start - b.start);
-                sorted.forEach((anno, i) => {
-                    let { start } = anno;
-                    start += extraStart;
-                    const { text, note } = anno,
-                        { spanOpenTag, spanCloseTag } = getNoteTags(
-                            annotations.indexOf(anno) + 1,
-                            note
-                        );
-                    extraStart += spanOpenTag.length + spanCloseTag.length;
-                    linesHTML = spliceLines({
-                        start,
-                        text,
-                        spanOpenTag,
-                        spanCloseTag,
-                        linesHTML,
-                    });
-                });
-                return linesHTML;
-            }
-        }
-    }
-}
-
-function toggleAnnotationForm(enabled) {
-    document.querySelector("#clear-to-annotate").disabled = enabled;
-    document
-        .querySelector("#annotate")
-        .querySelector("button[type='submit']").disabled = !enabled;
-}
-
-function highlightAnnotation(number, postSutta) {
-    const { annotations } = postSutta.display,
-        { start, text, note } = annotations[number - 1],
-        { spanOpenTag, spanCloseTag } = getNoteTags(number, note);
-    return spliceLines({
-        start,
-        text,
-        spanOpenTag,
-        spanCloseTag,
-        linesHTML: postSutta.display.linesHTML,
-    });
-}
-
-function getNoteTags(index, note) {
-    const spanOpenTag = `<span id="a-${index}" class="highlighted">`,
-        noteTag = note && ` <small class="note-display">${note}</small>&nbsp;`,
-        spanCloseTag = `${noteTag || ""}</span>`;
-    return { spanOpenTag, spanCloseTag };
-}
-
-function spliceLines({ start, text, spanOpenTag, spanCloseTag, linesHTML }) {
-    linesHTML = [...linesHTML];
-    linesHTML.splice(
-        start,
-        text.length,
-        `${spanOpenTag}${text}${spanCloseTag}`
-    );
-    return linesHTML.join("");
 }

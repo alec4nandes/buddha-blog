@@ -13,15 +13,37 @@ body main {
   margin: auto;
   overflow: auto;
 }
+body main #sutta-container {
+  max-width: 500px;
+  width: 40%;
+  background-color: #eee;
+  display: flex;
+  flex-direction: column;
+}
+body main #sutta-container #annotations-container {
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+body main #sutta-container #sutta .highlighted:hover {
+  cursor: pointer;
+}
+body main #sutta-container #sutta .highlighted:hover small {
+  display: inline;
+}
+body main #sutta-container #sutta .highlighted.expand small {
+  display: inline;
+}
+body main #sutta-container #sutta .highlighted small {
+  display: none;
+}
 body main section {
   box-sizing: border-box;
   overflow: auto;
   padding: 12px;
-}
-body main section#sutta {
-  max-width: 500px;
-  width: 40%;
-  background-color: #eee;
 }
 body main section#post {
   max-width: 700px;
