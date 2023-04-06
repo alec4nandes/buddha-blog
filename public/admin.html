@@ -4,8 +4,9 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="css/style.css" />
-        <title>Document</title>
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="css/admin.css" />
+        <title>Admin &dash; Buddha Blog</title>
         <style>
             .highlighted {
                 background-color: yellow;
@@ -18,8 +19,10 @@
         </style>
     </head>
     <body>
-        <div id="edit-post-container" style="display: none">
+        <div id="admin-container" style="display: none">
             <header>
+                <a href="/">home</a>
+                <span>|</span>
                 <form id="find-sutta">
                     <label>sutta: <input name="sutta" type="text" /></label>
                     <button type="submit">find sutta</button>
@@ -40,27 +43,42 @@
                         </button>
                     </div>
                 </div>
-                <form id="edit-post" onkeydown="return event.key != 'Enter';">
-                    <label>title: <input name="title" type="text" /></label>
-                    <label
-                        >subtitle: <input name="subtitle" type="text"
-                    /></label>
-                    <label
-                        >image url: <input name="image_url" type="text"
-                    /></label>
-                    <label for="content">content:</label>
-                    <textarea
-                        name="content"
-                        id="content"
-                        type="text"
-                    ></textarea>
-                    <label>tags: <input name="tags" type="text" /></label>
-                    <select name="type">
-                        <option value="draft">draft</option>
-                        <option value="post">post</option>
-                    </select>
-                    <button type="submit" disabled>upload</button>
-                </form>
+                <div id="edit-post-container">
+                    <form
+                        id="edit-post"
+                        onkeydown="return event.key != 'Enter';"
+                    >
+                        <label>title: <input name="title" type="text" /></label>
+                        <label>
+                            subtitle: <input name="subtitle" type="text" />
+                        </label>
+                        <label>
+                            image url:
+                            <input name="image_url" type="text" />
+                        </label>
+                        <label>
+                            caption:
+                            <input name="image_caption" type="text" />
+                        </label>
+                        <label for="content">content:</label>
+                        <textarea
+                            name="content"
+                            id="content"
+                            type="text"
+                        ></textarea>
+                        <div id="submit-container">
+                            <label
+                                >tags: <input name="tags" type="text"
+                            /></label>
+                            <select name="type">
+                                <option value="draft">draft</option>
+                                <option value="post">post</option>
+                            </select>
+                            <button type="submit" disabled>upload</button>
+                        </div>
+                    </form>
+                    <button id="delete" disabled>delete</button>
+                </div>
             </main>
             <footer></footer>
         </div>

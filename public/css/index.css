@@ -1,0 +1,7 @@
+main {
+  min-height: 100%;
+}
+main #posts {
+  max-width: 800px;
+  margin: auto;
+}/*# sourceMappingURL=index.css.map */

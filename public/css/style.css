@@ -2,108 +2,54 @@ body {
   height: 100vh;
   margin: 0;
 }
-body #edit-post-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-body #edit-post-container *,
-body #edit-post-container button,
-body #edit-post-container input,
-body #edit-post-container textarea {
+body *,
+body button,
+body input,
+body textarea {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1rem;
 }
-body #edit-post-container small {
-  font-size: 0.8rem;
-}
-body #edit-post-container header {
-  width: 100%;
-  background-color: #222;
-  box-sizing: border-box;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-}
-body #edit-post-container form {
-  display: flex;
-}
-body #edit-post-container form label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-body #edit-post-container form label input {
-  flex: 1;
-  width: 100%;
-}
-body #edit-post-container main {
-  width: 100%;
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  margin: auto;
-  overflow: auto;
-}
-body #edit-post-container main > * {
-  height: 100%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 30px;
-}
-body #edit-post-container main > *#annotations-container {
-  max-width: 400px;
-  width: 40%;
-}
-body #edit-post-container main > *#annotations-container #lines {
-  flex: 1;
-  overflow: auto;
-}
-body #edit-post-container main > *#annotations-container #annotations {
-  text-align: center;
-}
-body #edit-post-container main > *#annotations-container textarea {
-  height: 75px;
-}
-body #edit-post-container main > *#annotations-container #clear-to-annotate {
-  width: 100%;
-}
-body #edit-post-container main > *#edit-post {
-  max-width: 500px;
-  width: 60%;
-  background-color: #eee;
-}
-body #edit-post-container main > *#edit-post textarea {
-  flex: 1;
-}
-body #edit-post-container main > * form {
-  flex-direction: column;
-}
-body #edit-post-container .highlighted {
-  background-color: yellowgreen;
-}
-body #edit-post-container footer {
-  background-color: #222;
-  box-sizing: border-box;
-  color: #fff;
-  padding: 10px;
-  text-align: center;
-}
-body #edit-post-container footer a {
+body a {
   color: yellowgreen;
 }
-body #edit-post-container footer a:hover {
+body a:hover {
   color: lightblue;
 }
-
-@media only screen and (max-width: 768px) {
-  main > * {
-    padding: 15px !important;
-  }
+body h1,
+body h1 * {
+  font-size: 2rem;
+  margin: 0;
 }
+body h2,
+body h2 * {
+  font-size: 1.25rem;
+}
+body button {
+  white-space: nowrap;
+}
+body small {
+  font-size: 0.8rem;
+}
+body header,
+body footer {
+  width: 100%;
+  background-color: #222;
+  box-sizing: border-box;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+}
+body header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+body .date {
+  color: #555;
+  font-style: italic;
+}
+
 @media only screen and (max-width: 440px) {
   body *,
   button,

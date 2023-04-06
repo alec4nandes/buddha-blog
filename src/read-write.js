@@ -17,7 +17,15 @@ async function getAllHelper(coll) {
 }
 
 async function getDraft(id) {
-    const docRef = doc(db, "drafts", id),
+    return await getHelper(id, "drafts");
+}
+
+async function getPost(id) {
+    return await getHelper(id, "posts");
+}
+
+async function getHelper(id, coll) {
+    const docRef = doc(db, coll, id),
         docSnap = await getDoc(docRef);
     return docSnap.exists() && docSnap.data();
 }
@@ -42,4 +50,4 @@ async function addHelper(draft, coll) {
     }
 }
 
-export { addDraft, addPost, getAllDrafts, getAllPosts, getDraft };
+export { addDraft, addPost, getAllDrafts, getAllPosts, getDraft, getPost };

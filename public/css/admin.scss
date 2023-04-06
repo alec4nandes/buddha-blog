@@ -1,0 +1,111 @@
+#admin-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    form {
+        display: flex;
+        gap: 5px;
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            input {
+                flex: 1;
+                width: 100%;
+            }
+        }
+    }
+
+    main {
+        width: 100%;
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        margin: auto;
+        overflow: auto;
+
+        & > * {
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 30px;
+
+            &#annotations-container {
+                max-width: 400px;
+                width: 40%;
+
+                #lines {
+                    flex: 1;
+                    overflow: auto;
+                }
+
+                #annotations {
+                    text-align: center;
+                }
+
+                #annotate {
+                    margin: 5px 0;
+
+                    textarea {
+                        height: 75px;
+                    }
+                }
+
+                #clear-to-annotate {
+                    width: 100%;
+                }
+            }
+
+            &#edit-post-container {
+                max-width: 500px;
+                width: 60%;
+                background-color: #eee;
+
+                #edit-post {
+                    flex: 1;
+
+                    textarea {
+                        flex: 1;
+                    }
+
+                    #submit-container {
+                        display: flex;
+                        gap: 5px;
+
+                        select {
+                            flex: 1;
+                        }
+                    }
+                }
+
+                #edit-post button[type="submit"],
+                button#delete {
+                    width: 100px;
+                }
+
+                button#delete {
+                    margin-left: auto;
+                }
+            }
+
+            form {
+                flex-direction: column;
+            }
+        }
+    }
+
+    .highlighted {
+        background-color: yellowgreen;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    main > * {
+        padding: 15px !important;
+    }
+}

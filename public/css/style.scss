@@ -2,127 +2,65 @@ body {
     height: 100vh;
     margin: 0;
 
-    #edit-post-container {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+    & *,
+    button,
+    input,
+    textarea {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1rem;
+    }
 
-        & *,
-        button,
-        input,
-        textarea {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 1rem;
-        }
+    a {
+        color: yellowgreen;
 
-        small {
-            font-size: 0.8rem;
-        }
-
-        header {
-            width: 100%;
-            background-color: #222;
-            box-sizing: border-box;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            padding: 10px;
-        }
-
-        form {
-            display: flex;
-
-            label {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-
-                input {
-                    flex: 1;
-                    width: 100%;
-                }
-            }
-        }
-
-        main {
-            width: 100%;
-            display: flex;
-            flex: 1;
-            justify-content: center;
-            margin: auto;
-            overflow: auto;
-
-            & > * {
-                height: 100%;
-                box-sizing: border-box;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                padding: 30px;
-
-                &#annotations-container {
-                    max-width: 400px;
-                    width: 40%;
-
-                    #lines {
-                        flex: 1;
-                        overflow: auto;
-                    }
-
-                    #annotations {
-                        text-align: center;
-                    }
-
-                    textarea {
-                        height: 75px;
-                    }
-
-                    #clear-to-annotate {
-                        width: 100%;
-                    }
-                }
-
-                &#edit-post {
-                    max-width: 500px;
-                    width: 60%;
-                    background-color: #eee;
-
-                    textarea {
-                        flex: 1;
-                    }
-                }
-
-                form {
-                    flex-direction: column;
-                }
-            }
-        }
-
-        .highlighted {
-            background-color: yellowgreen;
-        }
-
-        footer {
-            background-color: #222;
-            box-sizing: border-box;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-
-            a {
-                color: yellowgreen;
-
-                &:hover {
-                    color: lightblue;
-                }
-            }
+        &:hover {
+            color: lightblue;
         }
     }
-}
 
-@media only screen and (max-width: 768px) {
-    main > * {
-        padding: 15px !important;
+    h1 {
+        &,
+        * {
+            font-size: 2rem;
+            margin: 0;
+        }
+    }
+
+    h2 {
+        &,
+        * {
+            font-size: 1.25rem;
+        }
+    }
+
+    button {
+        white-space: nowrap;
+    }
+
+    small {
+        font-size: 0.8rem;
+    }
+
+    header,
+    footer {
+        width: 100%;
+        background-color: #222;
+        box-sizing: border-box;
+        color: #fff;
+        text-align: center;
+        padding: 5px;
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .date {
+        color: #555;
+        font-style: italic;
     }
 }
 

@@ -4,19 +4,27 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/style.css" />
         <title>Sign In</title>
         <style>
+            body {
+                height: auto;
+                background-color: #eee;
+                margin: 50px 0;
+            }
+
+            h1,
+            h2 {
+                margin: 0;
+                text-align: center;
+            }
+
             form {
-                width: 250px;
+                width: 300px;
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
                 margin: auto;
-            }
-
-            form h1 {
-                margin: 0;
-                text-align: center;
             }
 
             form label {
@@ -27,15 +35,22 @@
             form label input {
                 flex: 1;
             }
+
+            p {
+                text-align: center;
+            }
         </style>
     </head>
     <body>
         <form id="sign-in">
             <h1>Sign In</h1>
+            <h2>Buddha Blog</h2>
             <label>email: <input name="email" type="email" /></label>
             <label>password: <input name="password" type="password" /></label>
             <button type="submit">sign in</button>
         </form>
+
+        <p><a href="/">home</a></p>
 
         <script src="/bundle.js"></script>
     </body>
