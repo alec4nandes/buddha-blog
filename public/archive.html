@@ -12,12 +12,18 @@
         <header>
             <h1>Buddha Blog</h1>
             <h2>Archive</h2>
+            <div id="search-bar-container">
+                <a href="/">home</a>
+                <form action="/search.html">
+                    <input name="search" type="text" />
+                    <button type="submit">search</button>
+                </form>
+            </div>
         </header>
         <main>
             <ul id="archive-list"></ul>
         </main>
         <footer>
-            <a href="/">home</a> |
             <a class="admin-link" href="/admin.html">
                 &copy; Alec Fernandes 2023
             </a>

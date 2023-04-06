@@ -21,7 +21,7 @@ function getPostPreviewHTML(post) {
     `;
 }
 
-function getSinglePostHTML() {
+function getSinglePostHTML(draft) {
     const { title, subtitle, dateString, imageHTML, content, tagsHTML } =
         getHTMLData(draft);
     return `
@@ -39,14 +39,7 @@ function getHTMLData(aPost) {
     const { post, sutta, id } = aPost,
         { title, subtitle, date, image_url, image_caption, content, tags } =
             post,
-        d = new Date(date.seconds * 1000),
-        dateString =
-            d.toLocaleDateString("en-us", {
-                weekday: "short",
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-            }) + ` at ${d.getHours()}:${d.getMinutes()}`,
+        dateString = parseDate(date),
         tagsHTML = getTagsHTML(tags),
         imageHTML = getImageHTML(image_url, image_caption);
     return {
@@ -83,6 +76,21 @@ function getHTMLData(aPost) {
                 .join(", ")}</p>
         `;
     }
+}
+
+function parseDate(date) {
+    const { seconds } = date,
+        ms = seconds * 1000,
+        d = new Date(ms),
+        localeString = d.toLocaleDateString("en-us", {
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+        }),
+        hours = ("" + d.getHours()).padStart(2, "0"),
+        minutes = d.getMinutes();
+    return `${localeString} at ${hours}:${minutes}`;
 }
 
 function highlightAll(postSutta) {
@@ -219,7 +227,7 @@ export {
     getSearchParam,
     getPostPreviewHTML,
     getSinglePostHTML,
-    getHTMLData,
+    parseDate,
     highlightAll,
     addAnnotationJumpButtons,
     toggleAnnotationForm,

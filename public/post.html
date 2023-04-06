@@ -11,9 +11,13 @@
     <body>
         <header>
             <a href="/">home</a>
-            <span>|</span>
+            |
             <a href="/archive.html">archive</a>
-            <span>| search bar| social media</span>
+            <form action="/search.html">
+                <input name="search" type="text" />
+                <button type="submit">search</button>
+            </form>
+            <span>[[social media]]</span>
         </header>
         <main>
             <div id="sutta-container">
@@ -26,7 +30,9 @@
             <section id="post"></section>
         </main>
         <footer>
-            <a class="admin-link" href="/admin.html">&copy; Alec Fernandes 2023</a>
+            <a class="admin-link" href="/admin.html"
+                >&copy; Alec Fernandes 2023</a
+            >
         </footer>
 
         <script src="/bundle.js"></script>

@@ -1,3 +1,7 @@
+body {
+  height: 100vh;
+  margin: 0;
+}
 body.full-page {
   height: 100vh;
   display: flex;
@@ -13,11 +17,6 @@ body.full-page main {
   flex: 1;
   overflow: auto;
   padding: 15px;
-}
-
-body {
-  height: 100vh;
-  margin: 0;
 }
 body *,
 body button,
@@ -64,7 +63,20 @@ body header {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 5px;
+}
+body header #search-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+body main #posts,
+body main #search-results {
+  max-width: 800px;
+  margin: auto;
 }
 body .date {
   color: #555;

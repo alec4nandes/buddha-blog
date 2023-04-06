@@ -11,13 +11,19 @@
     <body class="full-page">
         <header>
             <h1>Buddha Blog</h1>
-            <h2>Search</h2>
+            <h2>Search: <span id="search-term"></span></h2>
+            <div id="search-bar-container">
+                <a href="/">home</a> | <a href="/archive.html">archive</a>
+                <form action="/search.html">
+                    <input name="search" type="text" />
+                    <button type="submit">search</button>
+                </form>
+            </div>
         </header>
         <main>
             <section id="search-results"></section>
         </main>
         <footer>
-            <a href="/">home</a> | <a href="/archive.html">archive</a> |
             <a class="admin-link" href="/admin.html">
                 &copy; Alec Fernandes 2023
             </a>
