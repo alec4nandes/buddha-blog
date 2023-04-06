@@ -1,7 +1,7 @@
 import { getPost } from "./read-write.js";
 import {
     getSearchParam,
-    getHTMLData,
+    getSinglePostHTML,
     highlightAll,
     addAnnotationJumpButtons,
 } from "./misc.js";
@@ -17,19 +17,5 @@ export default async function loadPost() {
         suttaSection.innerHTML = highlightAll(sutta);
         postSection.innerHTML = getSinglePostHTML(draft);
         addAnnotationJumpButtons(sutta, true);
-    }
-
-    function getSinglePostHTML() {
-        const { title, subtitle, dateString, imageHTML, content, tagsHTML } =
-            getHTMLData(draft);
-        return `
-            <h1>${title}</h1>
-            <h2>${subtitle}</h2>
-            <p class="date">${dateString}</p>
-            ${tagsHTML}
-            <hr/>
-            ${imageHTML}
-            ${content}
-        `;
     }
 }

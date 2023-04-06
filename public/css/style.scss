@@ -1,3 +1,23 @@
+body.full-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    header {
+        flex-direction: column;
+
+        h2 {
+            margin: 0;
+        }
+    }
+
+    main {
+        flex: 1;
+        overflow: auto;
+        padding: 15px;
+    }
+}
+
 body {
     height: 100vh;
     margin: 0;
@@ -15,6 +35,11 @@ body {
 
         &:hover {
             color: lightblue;
+        }
+
+        &.admin-link {
+            color: white;
+            text-decoration: none;
         }
     }
 

@@ -1,7 +1,12 @@
-main {
-    min-height: 100%;
-    padding: 15px;
+#search-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
 
+main {
     #posts {
         max-width: 800px;
         margin: auto;

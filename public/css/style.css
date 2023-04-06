@@ -1,3 +1,20 @@
+body.full-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+body.full-page header {
+  flex-direction: column;
+}
+body.full-page header h2 {
+  margin: 0;
+}
+body.full-page main {
+  flex: 1;
+  overflow: auto;
+  padding: 15px;
+}
+
 body {
   height: 100vh;
   margin: 0;
@@ -14,6 +31,10 @@ body a {
 }
 body a:hover {
   color: lightblue;
+}
+body a.admin-link {
+  color: white;
+  text-decoration: none;
 }
 body h1,
 body h1 * {

@@ -3,6 +3,38 @@ function getSearchParam(param) {
     return params.get(param);
 }
 
+function getPostPreviewHTML(post) {
+    const { title, subtitle, dateString, imageHTML, content, tagsHTML, id } =
+            getHTMLData(post),
+        openLinkTag = `<a href="/post.html/?id=${id}">`;
+    return `
+        <div>
+            <h2>${openLinkTag}${title}</a></h2>
+            ${subtitle ? `<h3>${subtitle}</h3>` : ""}
+            <p class="date">${dateString}</p>
+            ${imageHTML}
+            ${content.slice(0, 500)}
+            ${content.length > 500 ? "..." : ""}
+            <p>${openLinkTag}read alongside sutta</a></p>
+            ${tagsHTML}
+        </div>
+    `;
+}
+
+function getSinglePostHTML() {
+    const { title, subtitle, dateString, imageHTML, content, tagsHTML } =
+        getHTMLData(draft);
+    return `
+        <h1>${title}</h1>
+        <h2>${subtitle}</h2>
+        <p class="date">${dateString}</p>
+        ${tagsHTML}
+        <hr/>
+        ${imageHTML}
+        ${content}
+    `;
+}
+
 function getHTMLData(aPost) {
     const { post, sutta, id } = aPost,
         { title, subtitle, date, image_url, image_caption, content, tags } =
@@ -185,6 +217,8 @@ function highlightAnnotation(number, postSutta) {
 
 export {
     getSearchParam,
+    getPostPreviewHTML,
+    getSinglePostHTML,
     getHTMLData,
     highlightAll,
     addAnnotationJumpButtons,
