@@ -2,6 +2,7 @@ import loadPosts from "./posts.js";
 import loadPost from "./post.js";
 import loadArchive from "./archive.js";
 import loadSearch from "./search.js";
+import loadTags from "./tags.js";
 import loadAdmin from "./admin.js";
 import loadSignIn from "./sign-in.js";
 
@@ -23,6 +24,11 @@ if (window.location.href.includes("/archive.html")) {
 /*** SEARCH.HTML - FIND CONTENT ***/
 if (window.location.href.includes("/search.html")) {
     loadSearch();
+}
+
+/*** TAGS.HTML - FIND RELATED CONTENT ***/
+if (window.location.href.includes("/tags.html")) {
+    loadTags();
 }
 
 /*** ADMIN.HTML - EDIT POSTS ***/

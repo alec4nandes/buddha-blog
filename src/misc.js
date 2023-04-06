@@ -3,6 +3,13 @@ function getSearchParam(param) {
     return params.get(param);
 }
 
+function loadSearchAndTagsHelper({ param, posts, displayElem, resultsElem }) {
+    displayElem.innerText = param;
+    resultsElem.innerHTML = posts.length
+        ? posts.map(getPostPreviewHTML).join("<hr/>")
+        : `<p id="nothing-found">No results found!</p>`;
+}
+
 function getPostPreviewHTML(post) {
     const { title, subtitle, dateString, imageHTML, content, tagsHTML, id } =
             getHTMLData(post),
@@ -225,6 +232,7 @@ function highlightAnnotation(number, postSutta) {
 
 export {
     getSearchParam,
+    loadSearchAndTagsHelper,
     getPostPreviewHTML,
     getSinglePostHTML,
     parseDate,

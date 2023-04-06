@@ -7,12 +7,6 @@ body.full-page {
   display: flex;
   flex-direction: column;
 }
-body.full-page header {
-  flex-direction: column;
-}
-body.full-page header h2 {
-  margin: 0;
-}
 body.full-page main {
   flex: 1;
   overflow: auto;
@@ -63,8 +57,12 @@ body header {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 5px;
+}
+body header h2 {
+  margin: 0;
 }
 body header #search-bar-container {
   display: flex;
@@ -74,7 +72,8 @@ body header #search-bar-container {
   gap: 5px;
 }
 body main #posts,
-body main #search-results {
+body main #search-results,
+body main #tag-results {
   max-width: 800px;
   margin: auto;
 }

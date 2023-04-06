@@ -1,15 +1,13 @@
+import { getSearchParam, loadSearchAndTagsHelper } from "./misc.js";
 import { getAllPosts } from "./read-write.js";
-import { getSearchParam, getPostPreviewHTML } from "./misc.js";
 
 export default async function loadSearch() {
-    const searchTerm = getSearchParam("search").trim(),
-        posts = await findPosts(searchTerm),
-        termDisplay = document.querySelector("#search-term"),
+    const param = getSearchParam("search"),
+        posts = await findPosts(param),
+        displayElem = document.querySelector("#search-term"),
         resultsElem = document.querySelector("#search-results");
-    resultsElem.innerHTML = posts.length
-        ? posts.map(getPostPreviewHTML).join("<hr/>")
-        : `<p id="nothing-found">No results found!</p>`;
-    termDisplay.innerText = searchTerm;
+
+    loadSearchAndTagsHelper({ param, posts, displayElem, resultsElem });
 
     async function findPosts(searchTerm) {
         const allPosts = await getAllPosts();

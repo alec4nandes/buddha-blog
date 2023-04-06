@@ -6,18 +6,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/css/style.css" />
         <link rel="stylesheet" href="css/admin.css" />
-        <title>Admin &dash; Buddha Blog</title>
+        <title>Admin &mdash; Buddha Blog</title>
     </head>
     <body>
         <div id="admin-container" style="display: none">
             <header>
-                <a href="/">home</a>
-                <span>|</span>
-                <form id="find-sutta">
-                    <label>sutta: <input name="sutta" type="text" /></label>
-                    <button type="submit">find sutta</button>
-                </form>
-                <button id="sign-out">sign out</button>
+                <div id="search-bar-container">
+                    <a href="/">home</a>
+                    <form id="find-sutta">
+                        <input name="sutta" type="text" placeholder="sutta" />
+                        <button type="submit">find sutta</button>
+                    </form>
+                    <button id="sign-out">sign out</button>
+                </div>
             </header>
             <main>
                 <div id="annotations-container">

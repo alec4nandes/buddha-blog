@@ -7,14 +7,6 @@ body {
         display: flex;
         flex-direction: column;
 
-        header {
-            flex-direction: column;
-
-            h2 {
-                margin: 0;
-            }
-        }
-
         main {
             flex: 1;
             overflow: auto;
@@ -80,8 +72,13 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
         flex-wrap: wrap;
         gap: 5px;
+
+        h2 {
+            margin: 0;
+        }
 
         #search-bar-container {
             display: flex;
@@ -94,7 +91,8 @@ body {
 
     main {
         #posts,
-        #search-results {
+        #search-results,
+        #tag-results {
             max-width: 800px;
             margin: auto;
         }
