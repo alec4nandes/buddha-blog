@@ -91,7 +91,8 @@ async function loadDraft() {
 
 async function loadSutta(suttaId, sut) {
     const getJson = async (url) => await (await fetch(url)).json(),
-        sutta = sut || getJson(`https://fern.haus/sutta/?sutta=${suttaId}`),
+        sutta =
+            sut || (await getJson(`https://fern.haus/sutta/?sutta=${suttaId}`)),
         isValid = !!sutta.display;
     if (isValid) {
         displayDraftLines(sutta);

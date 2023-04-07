@@ -214,8 +214,9 @@ function parseDate(date) {
             month: "short",
             day: "numeric",
         }),
-        hours = ("" + d.getHours()).padStart(2, "0"),
-        minutes = d.getMinutes();
+        pad = (num) => ("" + num).padStart(2, "0"),
+        hours = pad(d.getHours()),
+        minutes = pad(d.getMinutes());
     return `${localeString} at ${hours}:${minutes}`;
 }
 
@@ -275,7 +276,7 @@ function getHTMLData(aPost) {
 
 function getNoteTags(index, note) {
     const spanOpenTag = `<span id="a-${index}" class="highlighted">`,
-        noteTag = note && `<small class="note-display"> ${note}</small>&nbsp;`,
+        noteTag = note && `<small class="note-display"> ${note}</small>`,
         spanCloseTag = `${noteTag || ""}</span>`;
     return { spanOpenTag, spanCloseTag };
 }
