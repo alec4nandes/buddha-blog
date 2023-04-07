@@ -21,24 +21,31 @@
                 </div>
             </header>
             <main>
-                <div id="annotations-container">
-                    <div id="lines"></div>
-                    <div id="annotations-controls">
-                        <div id="annotations"></div>
-                        <form id="delete-annotation" style="display: none">
-                            <select name="index"></select>
-                            <button type="submit">delete note</button>
-                        </form>
-                        <form id="annotate">
-                            <textarea name="note" type="text"></textarea>
-                            <button type="submit" disabled>annotate</button>
-                        </form>
-                        <button id="clear-to-annotate" disabled>
-                            clear to add
-                        </button>
+                <section id="sutta-container">
+                    <div id="sutta-info-and-lines">
+                        <div id="sutta-info"></div>
+                        <div id="lines"></div>
                     </div>
-                </div>
-                <div id="edit-post-container">
+                    <div id="notes-container">
+                        <div id="delete-note-container">
+                            <div id="notes">
+                                <div id="annotations"></div>
+                            </div>
+                            <form id="delete-annotation">
+                                <select name="index"></select>
+                                <button type="submit">delete note</button>
+                            </form>
+                        </div>
+                    </div>
+                    <form id="annotate">
+                        <textarea name="note" type="text"></textarea>
+                        <button type="submit" disabled>annotate</button>
+                    </form>
+                    <button id="clear-to-annotate" disabled>
+                        clear to add
+                    </button>
+                </section>
+                <section id="post">
                     <form
                         id="edit-post"
                         onkeydown="return event.key != 'Enter';"
@@ -76,7 +83,7 @@
                         <span id="post-status"></span>
                         <button id="delete" disabled>delete</button>
                     </div>
-                </div>
+                </section>
             </main>
             <footer></footer>
         </div>

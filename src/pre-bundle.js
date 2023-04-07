@@ -9,34 +9,24 @@ import loadSignIn from "./sign-in.js";
 /*** INDEX.HTML - SHOW POSTS ***/
 if (location.pathname == "/") {
     loadPosts();
-}
-
-/*** POST.HTML - SINGLE POST ***/
-if (window.location.href.includes("/post.html")) {
+} else if (window.location.href.includes("/post.html")) {
+    /*** POST.HTML - SINGLE POST ***/
     loadPost();
-}
-
-/*** ARCHIVE.HTML - LIST ALL POSTS ***/
-if (window.location.href.includes("/archive.html")) {
+} else if (window.location.href.includes("/archive.html")) {
+    /*** ARCHIVE.HTML - LIST ALL POSTS ***/
     loadArchive();
-}
-
-/*** SEARCH.HTML - FIND CONTENT ***/
-if (window.location.href.includes("/search.html")) {
+} else if (window.location.href.includes("/search.html")) {
+    /*** SEARCH.HTML - FIND CONTENT ***/
     loadSearch();
-}
-
-/*** TAGS.HTML - FIND RELATED CONTENT ***/
-if (window.location.href.includes("/tags.html")) {
+} else if (window.location.href.includes("/tags.html")) {
+    /*** TAGS.HTML - FIND RELATED CONTENT ***/
     loadTags();
-}
-
-/*** ADMIN.HTML - EDIT POSTS ***/
-if (window.location.href.includes("/admin.html")) {
+} else if (window.location.href.includes("/admin.html")) {
+    /*** ADMIN.HTML - EDIT POSTS ***/
     loadAdmin();
-}
-
-/*** SIGN-IN.HTML - ACCESS DRAFTS ***/
-if (window.location.href.includes("/sign-in.html")) {
+} else if (window.location.href.includes("/sign-in.html")) {
+    /*** SIGN-IN.HTML - ACCESS DRAFTS ***/
     loadSignIn();
+} else {
+    window.location.href = "/404.html";
 }

@@ -1,18 +1,8 @@
 body {
     height: 100vh;
+    display: flex;
+    flex-direction: column;
     margin: 0;
-
-    &.full-page {
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-
-        main {
-            flex: 1;
-            overflow: auto;
-            padding: 15px;
-        }
-    }
 
     & *,
     button,
@@ -58,6 +48,11 @@ body {
         font-size: 0.8rem;
     }
 
+    .date {
+        color: #555;
+        font-style: italic;
+    }
+
     header,
     footer {
         width: 100%;
@@ -86,30 +81,130 @@ body {
             justify-content: center;
             flex-wrap: wrap;
             gap: 5px;
+
+            form {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
         }
     }
 
     main {
-        #posts,
-        #search-results,
-        #tag-results {
-            max-width: 800px;
-            margin: auto;
+        width: 100%;
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        margin: auto;
+        overflow: auto;
+
+        & > * {
+            height: 100%;
+            box-sizing: border-box;
+            padding: 30px 30px 0;
+        }
+
+        section#sutta-container {
+            max-width: 500px;
+            width: 40%;
+            background-color: #f3f3f3;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+
+            #notes-container {
+                background-color: #ccc;
+                display: none; // flex when annotations
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+
+                & > * {
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+
+                #notes {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-wrap: wrap;
+
+                    #annotations {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-wrap: wrap;
+                        padding: 5px 0;
+                    }
+                }
+
+                #delete-note-container {
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    & > * {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex: 1;
+                    }
+
+                    #delete-annotation {
+                        background-color: #aaa;
+                        padding: 5px 0;
+                    }
+                }
+            }
+
+            #sutta-info-and-lines {
+                flex: 1;
+                overflow: auto;
+                padding-bottom: 20px;
+
+                #sutta-info {
+                    background-color: #ddd;
+                    margin-bottom: 7.5px;
+
+                    h2 {
+                        margin: 10px 0 0;
+                    }
+
+                    h3 {
+                        margin: 0 0 10px;
+                    }
+                }
+
+                #lines {
+                    .highlighted {
+                        background-color: yellow;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+
+                        small {
+                            color: red;
+                            font-style: italic;
+                        }
+                    }
+                }
+            }
+        }
+
+        section#post {
+            max-width: 700px;
+            width: 60%;
+            background-color: #eee;
+            overflow: auto;
         }
     }
 
-    .date {
-        color: #555;
-        font-style: italic;
-    }
-
-    .highlighted {
-        background-color: yellow;
-
-        small {
-            color: red;
-            font-style: italic;
-        }
+    #posts,
+    #search-results,
+    #tag-results {
+        max-width: 800px;
+        margin: auto;
     }
 }
 
@@ -119,5 +214,11 @@ body {
     input,
     textarea {
         font-size: 0.8rem !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    main > * {
+        padding: 15px 15px 0 !important;
     }
 }

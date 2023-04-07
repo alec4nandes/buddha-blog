@@ -5,96 +5,57 @@
 }
 #admin-container form {
   display: flex;
-  gap: 5px;
 }
 #admin-container form label {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 5px;
 }
 #admin-container form label input {
-  flex: 1;
+  min-width: 120px;
   width: 100%;
-}
-#admin-container main {
-  width: 100%;
-  display: flex;
   flex: 1;
-  justify-content: center;
-  margin: auto;
-  overflow: auto;
 }
-#admin-container main > * {
-  height: 100%;
-  box-sizing: border-box;
+#admin-container main section#sutta-container #delete-annotation {
+  flex-wrap: wrap;
+}
+#admin-container main section#sutta-container #annotate {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 30px;
+  gap: 7px;
 }
-#admin-container main > *#annotations-container {
-  max-width: 400px;
-  width: 40%;
-}
-#admin-container main > *#annotations-container #lines {
-  flex: 1;
-  overflow: auto;
-}
-#admin-container main > *#annotations-container #annotations-controls {
+#admin-container main section#post {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 7px;
 }
-#admin-container main > *#annotations-container #annotations-controls #annotations {
+#admin-container main section#post form {
+  flex-direction: column;
+  gap: 7px;
+}
+#admin-container main section#post form#edit-post {
+  flex: 1;
+}
+#admin-container main section#post form#edit-post textarea {
+  flex: 1;
+}
+#admin-container main section#post form#edit-post #submit-container {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  justify-content: center;
+  justify-content: flex-end;
 }
-#admin-container main > *#annotations-container #annotations-controls form#delete-annotation {
-  flex-direction: row;
-  justify-content: center;
-}
-#admin-container main > *#annotations-container #annotations-controls #annotate textarea {
-  height: 75px;
-}
-#admin-container main > *#annotations-container #annotations-controls #clear-to-annotate {
-  width: 100%;
-}
-#admin-container main > *#edit-post-container {
-  max-width: 500px;
-  width: 60%;
-  background-color: #eee;
-}
-#admin-container main > *#edit-post-container #edit-post {
+#admin-container main section#post form#edit-post #submit-container label {
   flex: 1;
 }
-#admin-container main > *#edit-post-container #edit-post textarea {
-  flex: 1;
-}
-#admin-container main > *#edit-post-container #edit-post #submit-container {
-  display: flex;
-  gap: 5px;
-}
-#admin-container main > *#edit-post-container #edit-post #submit-container select {
-  flex: 1;
-}
-#admin-container main > *#edit-post-container #edit-post button[type=submit],
-#admin-container main > *#edit-post-container button#delete {
+#admin-container main section#post form#edit-post button[type=submit],
+#admin-container main section#post button#delete {
   width: 100px;
 }
-#admin-container main > *#edit-post-container #delete-container {
+#admin-container main section#post #delete-container {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 5px;
-}
-#admin-container main > * form {
-  flex-direction: column;
-}
-
-@media only screen and (max-width: 768px) {
-  main > * {
-    padding: 15px !important;
-  }
 }/*# sourceMappingURL=admin.css.map */

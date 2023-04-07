@@ -1,16 +1,8 @@
 body {
   height: 100vh;
-  margin: 0;
-}
-body.full-page {
-  height: 100vh;
   display: flex;
   flex-direction: column;
-}
-body.full-page main {
-  flex: 1;
-  overflow: auto;
-  padding: 15px;
+  margin: 0;
 }
 body *,
 body button,
@@ -44,6 +36,10 @@ body button {
 body small {
   font-size: 0.8rem;
 }
+body .date {
+  color: #555;
+  font-style: italic;
+}
 body header,
 body footer {
   width: 100%;
@@ -71,22 +67,106 @@ body header #search-bar-container {
   flex-wrap: wrap;
   gap: 5px;
 }
-body main #posts,
-body main #search-results,
-body main #tag-results {
-  max-width: 800px;
+body header #search-bar-container form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+body main {
+  width: 100%;
+  display: flex;
+  flex: 1;
+  justify-content: center;
   margin: auto;
+  overflow: auto;
 }
-body .date {
-  color: #555;
-  font-style: italic;
+body main > * {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 30px 30px 0;
 }
-body .highlighted {
+body main section#sutta-container {
+  max-width: 500px;
+  width: 40%;
+  background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+body main section#sutta-container #notes-container {
+  background-color: #ccc;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+body main section#sutta-container #notes-container > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+body main section#sutta-container #notes-container #notes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+body main section#sutta-container #notes-container #notes #annotations {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 5px 0;
+}
+body main section#sutta-container #notes-container #delete-note-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+body main section#sutta-container #notes-container #delete-note-container > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+body main section#sutta-container #notes-container #delete-note-container #delete-annotation {
+  background-color: #aaa;
+  padding: 5px 0;
+}
+body main section#sutta-container #sutta-info-and-lines {
+  flex: 1;
+  overflow: auto;
+  padding-bottom: 20px;
+}
+body main section#sutta-container #sutta-info-and-lines #sutta-info {
+  background-color: #ddd;
+  margin-bottom: 7.5px;
+}
+body main section#sutta-container #sutta-info-and-lines #sutta-info h2 {
+  margin: 10px 0 0;
+}
+body main section#sutta-container #sutta-info-and-lines #sutta-info h3 {
+  margin: 0 0 10px;
+}
+body main section#sutta-container #sutta-info-and-lines #lines .highlighted {
   background-color: yellow;
 }
-body .highlighted small {
+body main section#sutta-container #sutta-info-and-lines #lines .highlighted:hover {
+  cursor: pointer;
+}
+body main section#sutta-container #sutta-info-and-lines #lines .highlighted small {
   color: red;
   font-style: italic;
+}
+body main section#post {
+  max-width: 700px;
+  width: 60%;
+  background-color: #eee;
+  overflow: auto;
+}
+body #posts,
+body #search-results,
+body #tag-results {
+  max-width: 800px;
+  margin: auto;
 }
 
 @media only screen and (max-width: 440px) {
@@ -95,5 +175,10 @@ body .highlighted small {
   input,
   textarea {
     font-size: 0.8rem !important;
+  }
+}
+@media only screen and (max-width: 768px) {
+  main > * {
+    padding: 15px 15px 0 !important;
   }
 }/*# sourceMappingURL=style.css.map */

@@ -100,6 +100,51 @@ function parseDate(date) {
     return `${localeString} at ${hours}:${minutes}`;
 }
 
+function getSuttaInfoHTML(sutta) {
+    const {
+        sutta_title,
+        section_pali,
+        chapter_number,
+        chapter_title,
+        chapter_description,
+        sutta_description,
+        section_title,
+        section_description,
+    } = sutta;
+    return `
+        <div id="sutta-info">
+            <details>
+                <summary>
+                    ${[...new Set([section_pali, section_title])].join(": ")}
+                </summary>
+                <p>${section_description}</p>
+                ${
+                    chapter_title && chapter_description
+                        ? `
+                            <p><u>${chapter_title.trim()}</u>:</p>
+                            <p>${chapter_description}</p>
+                        `
+                        : ""
+                }
+            </details>
+            <h2>${sutta_title}</h2>
+            <h3>
+                (${section_pali}${chapter_number ? " " + chapter_number : ""})
+            </h3>
+            ${
+                sutta_description
+                    ? `
+                        <details>
+                            <summary>Summary</summary>
+                            <p>${sutta_description}</p>
+                        </details>
+                    `
+                    : ""
+            }
+        </div>
+    `;
+}
+
 function highlightAll(postSutta) {
     let { linesHTML } = postSutta.display,
         extraStart = 0;
@@ -144,19 +189,25 @@ function spliceLines({ start, text, spanOpenTag, spanCloseTag, linesHTML }) {
 
 function addAnnotationJumpButtons(postSutta, isPublished) {
     const { annotations } = postSutta.display;
+    annotations.sort((a, b) => a.start - b.start);
     // console.log(annotations);
-    document.querySelector("#annotations").innerHTML =
-        annotations
-            .map((_, i) => `<button class="annotation-jump">${i + 1}</button>`)
-            .join("") +
-        (!isPublished && annotations.length > 1
-            ? `<button id="show-all">show all</button>`
-            : "");
-    const deleteAnnotationForm = document.querySelector("#delete-annotation");
-    if (deleteAnnotationForm) {
-        if (annotations.length) {
+    if (annotations.length) {
+        const annoElem = document.querySelector("#annotations"),
+            getButtonHTML = (i) =>
+                `<button class="annotation-jump">${i + 1}</button>`,
+            showAllButton =
+                !isPublished &&
+                annotations.length > 1 &&
+                `<button id="show-all">show all</button>`,
+            deleteAnnotationForm = document.querySelector("#delete-annotation");
+        annoElem.innerHTML =
+            annotations.map((_, i) => getButtonHTML(i)).join("") +
+            (showAllButton || "");
+        if (deleteAnnotationForm) {
+            const getOptionHTML = (i) =>
+                `<option value="${i + 1}">${i + 1}</option>`;
             deleteAnnotationForm.querySelector("select").innerHTML = annotations
-                .map((_, i) => `<option value="${i + 1}">${i + 1}</option>`)
+                .map((_, i) => getOptionHTML(i))
                 .join("");
             deleteAnnotationForm.onsubmit = (e) => {
                 e.preventDefault();
@@ -167,10 +218,9 @@ function addAnnotationJumpButtons(postSutta, isPublished) {
                 addAnnotationJumpButtons(postSutta, isPublished);
             };
         }
-        deleteAnnotationForm.style.display = annotations.length
-            ? "flex"
-            : "none";
     }
+    const container = document.querySelector("#notes-container");
+    container.style.display = annotations.length ? "flex" : "none";
     addHandlers();
 
     function addHandlers() {
@@ -236,6 +286,7 @@ export {
     getPostPreviewHTML,
     getSinglePostHTML,
     parseDate,
+    getSuttaInfoHTML,
     highlightAll,
     addAnnotationJumpButtons,
     toggleAnnotationForm,

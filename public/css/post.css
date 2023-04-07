@@ -1,51 +1,12 @@
-body {
-  height: 100vh;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
-}
-body main {
-  width: 100%;
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  margin: auto;
-  overflow: auto;
-}
-body main #sutta-container {
-  max-width: 500px;
-  width: 40%;
-  background-color: #eee;
-  display: flex;
-  flex-direction: column;
-}
-body main #sutta-container #annotations-container {
-  background-color: #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  flex-wrap: wrap;
-}
-body main #sutta-container #sutta .highlighted:hover {
+.highlighted:hover {
   cursor: pointer;
 }
-body main #sutta-container #sutta .highlighted:hover small {
+.highlighted:hover small {
   display: inline;
 }
-body main #sutta-container #sutta .highlighted.expand small {
+.highlighted.expand small {
   display: inline;
 }
-body main #sutta-container #sutta .highlighted small {
+.highlighted small {
   display: none;
-}
-body main section {
-  box-sizing: border-box;
-  overflow: auto;
-  padding: 12px;
-}
-body main section#post {
-  max-width: 700px;
-  width: 60%;
 }/*# sourceMappingURL=post.css.map */

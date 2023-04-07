@@ -13,6 +13,7 @@ import {
     addAnnotationJumpButtons,
     toggleAnnotationForm,
     highlightAnnotation,
+    getSuttaInfoHTML,
 } from "./misc.js";
 
 export default function loadAdmin() {
@@ -37,7 +38,7 @@ export default function loadAdmin() {
             };
             document.querySelector("#admin-container").style.display = "flex";
         } catch (err) {
-            // alert(err);
+            // console.error(err);
             window.location.href = "/sign-in.html";
         }
     });
@@ -85,6 +86,7 @@ async function loadDraft() {
     }
 }
 
+// many handlers are set here!
 async function loadSutta(suttaId, sutta) {
     let postSutta =
             sutta ||
@@ -145,7 +147,9 @@ async function loadSutta(suttaId, sutta) {
     }
 
     function displayDraftLines(postSutta) {
-        const linesElem = document.querySelector("#lines");
+        const suttaInfoElem = document.querySelector("#sutta-info"),
+            linesElem = document.querySelector("#lines");
+        suttaInfoElem.innerHTML = getSuttaInfoHTML(postSutta);
         linesElem.innerHTML = postSutta.display.linesHTML;
         addAnnotationJumpButtons(postSutta);
     }
