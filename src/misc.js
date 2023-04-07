@@ -42,14 +42,17 @@ function addAnnotationJumpButtons(sutta, isPublished) {
 
     function addHandlers(sutta, isPublished) {
         const jumpButtons = document.querySelectorAll(".annotation-jump"),
-            showAllButton = document.querySelector("#show-all");
+            showAllButton = document.querySelector("#show-all"),
+            linesElem = document.querySelector("#lines");
         jumpButtons.forEach(
             (b) =>
-                (b.onclick = (e) => handleAnnotationJump(e, isPublished, sutta))
+                (b.onclick = (e) =>
+                    handleAnnotationJump(e, isPublished, linesElem, sutta))
         );
-        showAllButton && (showAllButton.onclick = () => handleShowAll(sutta));
+        showAllButton &&
+            (showAllButton.onclick = () => handleShowAll(linesElem, sutta));
 
-        function handleAnnotationJump(e, isPublished, sutta) {
+        function handleAnnotationJump(e, isPublished, linesElem, sutta) {
             const index = e.target.innerText - 1,
                 getHighlight = (index) => document.querySelector(`#a-${index}`);
             if (isPublished) {
@@ -59,14 +62,14 @@ function addAnnotationJumpButtons(sutta, isPublished) {
                 getHighlight(index).classList.add("expand");
             } else {
                 toggleAnnotationForm(false);
-                lines.innerHTML = highlightAnnotation(index, sutta);
+                linesElem.innerHTML = highlightAnnotation(index, sutta);
             }
             getHighlight(index).scrollIntoView({ behavior: "smooth" });
         }
 
-        function handleShowAll(sutta) {
+        function handleShowAll(linesElem, sutta) {
             toggleAnnotationForm(false);
-            lines.innerHTML = highlightAll(sutta);
+            linesElem.innerHTML = highlightAll(sutta);
             document
                 // scroll to first annotation:
                 .querySelector("#a-0")

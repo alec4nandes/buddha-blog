@@ -152,7 +152,7 @@ async function loadSutta(suttaId, sut) {
 
     function handleAnnotate(e, sutta) {
         e.preventDefault();
-        const lines = document.querySelector("#lines"),
+        const linesElem = document.querySelector("#lines"),
             annotation = getAnnotation(e.target.note.value);
         if (annotation) {
             sutta.display.annotations = sutta.display.annotations.filter(
@@ -162,7 +162,7 @@ async function loadSutta(suttaId, sut) {
             annotations.push(annotation);
             annotations.sort((a, b) => a.start - b.start);
             const index = annotations.indexOf(annotation);
-            lines.innerHTML = highlightAnnotation(index, sutta);
+            linesElem.innerHTML = highlightAnnotation(index, sutta);
             addAnnotationJumpButtons(sutta);
             toggleAnnotationForm(false);
         }
