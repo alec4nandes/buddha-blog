@@ -16,10 +16,17 @@ export default async function loadTags() {
             resultsElem,
         });
     }
-
     resultsElem.innerHTML +=
         (param ? `<hr/>` : "") +
         `<p>all tags: ${allTags.map(getTagLink).join(", ")}</p>`;
+
+    function getAllTags(allPosts) {
+        return allPosts
+            .map((entry) => entry.post.tags.split(","))
+            .flat()
+            .map((tag) => tag.trim())
+            .sort();
+    }
 
     async function findPosts(allPosts, tag) {
         return allPosts.filter((entry) => findTag(entry, tag));
@@ -28,14 +35,6 @@ export default async function loadTags() {
             const tags = entry.post.tags.toUpperCase();
             return tags.includes(tag.toUpperCase());
         }
-    }
-
-    function getAllTags(allPosts) {
-        return allPosts
-            .map((entry) => entry.post.tags.split(","))
-            .flat()
-            .map((tag) => tag.trim())
-            .sort();
     }
 
     function getTagLink(tag) {

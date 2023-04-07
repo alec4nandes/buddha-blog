@@ -1,5 +1,5 @@
-import { getAllPosts } from "./read-write.js";
 import { getPostPreviewHTML } from "./misc.js";
+import { getAllPosts } from "./read-write.js";
 
 export default async function loadPosts() {
     const posts = await getAllPosts(),

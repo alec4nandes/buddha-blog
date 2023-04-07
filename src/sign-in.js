@@ -18,6 +18,5 @@ export default function loadSignIn() {
         } catch (err) {
             alert(err);
         }
-        return;
     }
 }

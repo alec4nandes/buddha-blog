@@ -1,11 +1,11 @@
-import { getPost } from "./read-write.js";
 import {
+    addAnnotationJumpButtons,
     getSearchParam,
     getSinglePostHTML,
     getSuttaInfoHTML,
     highlightAll,
-    addAnnotationJumpButtons,
 } from "./misc.js";
+import { getPost } from "./read-write.js";
 
 export default async function loadPost() {
     const id = getSearchParam("id"),

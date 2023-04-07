@@ -1,20 +1,21 @@
+import { auth } from "./database.js";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import {
+    addAnnotationJumpButtons,
+    getSearchParam,
+    getSuttaInfoHTML,
+    highlightAnnotation,
+    toggleAnnotationForm,
+} from "./misc.js";
 import {
     addDraft,
     addPost,
+    deleteDraft,
+    deletePost,
     getAllDrafts,
     getDraft,
     getPost,
 } from "./read-write.js";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { deleteDoc, doc } from "firebase/firestore";
-import db, { auth } from "./database.js";
-import {
-    getSearchParam,
-    addAnnotationJumpButtons,
-    toggleAnnotationForm,
-    highlightAnnotation,
-    getSuttaInfoHTML,
-} from "./misc.js";
 
 export default function loadAdmin() {
     onAuthStateChanged(getAuth(), async (user) => {
@@ -26,150 +27,143 @@ export default function loadAdmin() {
             await listDrafts();
             await loadDraft();
             const findSutta = document.querySelector("#find-sutta"),
-                signOutButton = document.querySelector("button#sign-out");
-            findSutta.onsubmit = (e) => {
-                e.preventDefault();
-                const suttaId = e.target.sutta.value;
-                loadSutta(suttaId);
-            };
-            signOutButton.onclick = async () => {
-                await signOut(auth);
-                window.location.href = "/";
-            };
-            document.querySelector("#admin-container").style.display = "flex";
+                signOutButton = document.querySelector("button#sign-out"),
+                container = document.querySelector("#admin-container");
+            findSutta.onsubmit = handleFindSutta;
+            signOutButton.onclick = handleSignOut;
+            container.style.display = "flex";
         } catch (err) {
             // console.error(err);
             window.location.href = "/sign-in.html";
         }
     });
+
+    function handleFindSutta(e) {
+        e.preventDefault();
+        const suttaId = e.target.sutta.value;
+        loadSutta(suttaId);
+    }
+
+    async function handleSignOut() {
+        await signOut(auth);
+        window.location.href = "/";
+    }
 }
 
 async function listDrafts() {
     const draftIds = (await getAllDrafts()).map((draft) => draft.id),
         footer = document.querySelector("footer");
-    footer &&
-        (footer.innerHTML =
-            "DRAFTS: " +
-            (draftIds.length
-                ? draftIds
-                      .map((id) => `<a href="?id=${id}">${id}</a>`)
-                      .join(", ")
-                : "n/a"));
+    footer.innerHTML =
+        "DRAFTS: " +
+        (draftIds.length
+            ? draftIds.map((id) => `<a href="?id=${id}">${id}</a>`).join(", ")
+            : "n/a");
 }
 
 async function loadDraft() {
     const id = getSearchParam("id"),
         draft = id && (await getDraft(id));
     if (draft) {
-        const suttaId = id.split(":")[0],
+        const { sutta, post } = draft,
+            suttaId = id.split(":")[0],
             editPost = document.querySelector("form#edit-post"),
             deleteButton = document.querySelector("button#delete"),
             postStatusDisplay = document.querySelector("span#post-status"),
             hasPost = !!(await getPost(id));
-        await loadSutta(suttaId, draft.sutta);
-        postStatusDisplay.innerText = hasPost ? "(posted)" : "(draft)";
-        Object.entries(draft.post).forEach(
+        await loadSutta(suttaId, sutta);
+        Object.entries(post).forEach(
             ([name, value]) => name !== "date" && (editPost[name].value = value)
         );
         deleteButton.disabled = false;
-        deleteButton.onclick = async () => {
-            const confirmDeletePost = confirm("Delete post?");
-            hasPost &&
-                confirmDeletePost &&
-                (await deleteDoc(doc(db, "posts", id)));
-            !hasPost || confirmDeletePost
-                ? confirm("Delete draft?") &&
-                  (await deleteDoc(doc(db, "drafts", id)))
-                : hasPost && alert("To delete draft, delete post first.");
-            window.location.href = `?id=${id}`;
-        };
+        deleteButton.onclick = () => handleDeletePost(hasPost, id);
+        postStatusDisplay.innerText = hasPost ? "(posted)" : "(draft)";
+    }
+
+    async function handleDeletePost(hasPost, id) {
+        const confirmDeletePost = confirm("Delete post?");
+        hasPost && confirmDeletePost && (await deletePost(id));
+        !hasPost || confirmDeletePost
+            ? confirm("Delete draft?") && (await deleteDraft(id))
+            : hasPost && alert("To delete draft, delete post first.");
+        window.location.href = `?id=${id}`;
     }
 }
 
-// many handlers are set here!
-async function loadSutta(suttaId, sutta) {
-    let postSutta =
-            sutta ||
-            (await (
-                await fetch(`https://fern.haus/sutta/?sutta=${suttaId}`)
-            ).json()),
-        isValid = !!postSutta.display;
-
+async function loadSutta(suttaId, sut) {
+    const getJson = async (url) => await (await fetch(url)).json(),
+        sutta = sut || getJson(`https://fern.haus/sutta/?sutta=${suttaId}`),
+        isValid = !!sutta.display;
     if (isValid) {
-        displayDraftLines(postSutta);
-
+        displayDraftLines(sutta);
         const clearButton = document.querySelector("#clear-to-annotate"),
             annotateForm = document.querySelector("#annotate"),
             editPost = document.querySelector("#edit-post"),
             enableSubmit = (form) =>
                 (form.querySelector("button[type='submit']").disabled = false);
-
-        clearButton.onclick = () => {
-            displayDraftLines(postSutta);
-            toggleAnnotationForm(true);
-        };
-
-        annotateForm.onsubmit = (e) => handleAnnotate(e, postSutta);
+        clearButton.onclick = () => handleClearHighlights(sutta);
+        editPost.onsubmit = (e) => handleEditPost(e, sutta);
+        annotateForm.onsubmit = (e) => handleAnnotate(e, sutta);
         enableSubmit(annotateForm);
-
-        editPost.onsubmit = handleEditPost;
         enableSubmit(editPost);
-
-        // uploads the post to Firestore
-        function handleEditPost(e) {
-            e.preventDefault();
-            const post = Object.fromEntries(new FormData(e.target));
-            delete post.type;
-            const draft = {
-                    post: { ...post, date: new Date() },
-                    sutta: postSutta,
-                },
-                type = e.target.type.value;
-            upload(draft, type);
-
-            async function upload(draft, type) {
-                try {
-                    // upload draft regardless:
-                    const id = await addDraft(draft);
-                    if (id) {
-                        const isPost = type === "post";
-                        isPost && (await addPost(draft));
-                        alert(`${type} uploaded!`);
-                        window.location.href = `?id=${id}`;
-                    }
-                } catch (err) {
-                    alert(err);
-                }
-            }
-        }
     } else {
         alert("Sutta does not exist!");
     }
 
-    function displayDraftLines(postSutta) {
+    function displayDraftLines(sutta) {
         const suttaInfoElem = document.querySelector("#sutta-info"),
             linesElem = document.querySelector("#lines");
-        suttaInfoElem.innerHTML = getSuttaInfoHTML(postSutta);
-        linesElem.innerHTML = postSutta.display.linesHTML;
-        addAnnotationJumpButtons(postSutta);
+        suttaInfoElem.innerHTML = getSuttaInfoHTML(sutta);
+        linesElem.innerHTML = sutta.display.linesHTML;
+        addAnnotationJumpButtons(sutta);
     }
 
-    function handleAnnotate(e, postSutta) {
+    function handleClearHighlights(sutta) {
+        displayDraftLines(sutta);
+        toggleAnnotationForm(true);
+    }
+
+    // uploads the post to Firestore
+    function handleEditPost(e, sutta) {
+        e.preventDefault();
+        const post = Object.fromEntries(new FormData(e.target));
+        delete post.type;
+        const draft = {
+                post: { ...post, date: new Date() },
+                sutta,
+            },
+            type = e.target.type.value;
+        upload(draft, type);
+
+        async function upload(draft, type) {
+            try {
+                // upload draft regardless:
+                const id = await addDraft(draft);
+                if (id) {
+                    const isPost = type === "post";
+                    isPost && (await addPost(draft));
+                    alert(`${type} uploaded!`);
+                    window.location.href = `?id=${id}`;
+                }
+            } catch (err) {
+                alert(err);
+            }
+        }
+    }
+
+    function handleAnnotate(e, sutta) {
         e.preventDefault();
         const lines = document.querySelector("#lines"),
-            annotation = getAnnotation(e.target.note.value, postSutta);
+            annotation = getAnnotation(e.target.note.value);
         if (annotation) {
-            postSutta.display.annotations =
-                postSutta.display.annotations.filter(
-                    (oldAnno) => !isOverlapped(oldAnno, annotation)
-                );
-            const { annotations } = postSutta.display;
-            annotations.push(annotation);
-            lines.innerHTML = highlightAnnotation(
-                annotations.length,
-                postSutta
+            sutta.display.annotations = sutta.display.annotations.filter(
+                (oldAnno) => !isOverlapped(oldAnno, annotation)
             );
-            addAnnotationJumpButtons(postSutta);
+            const { annotations } = sutta.display;
+            annotations.push(annotation);
+            annotations.sort((a, b) => a.start - b.start);
+            const index = annotations.indexOf(annotation);
+            lines.innerHTML = highlightAnnotation(index, sutta);
+            addAnnotationJumpButtons(sutta);
             toggleAnnotationForm(false);
         }
 
@@ -178,7 +172,7 @@ async function loadSutta(suttaId, sutta) {
             there's a valid selection, returns undefined otherwise.
             This method uses the DOM, so the browser's displayed
             sutta HTML in div#lines needs to match the HTML in
-            postSutta.display.linesHTML
+            sutta.display.linesHTML
         */
         function getAnnotation(note) {
             const selection = window.getSelection(),

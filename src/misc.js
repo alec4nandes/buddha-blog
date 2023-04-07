@@ -1,13 +1,78 @@
-function getSearchParam(param) {
-    const params = new URL(document.location).searchParams;
-    return params.get(param);
-}
+function addAnnotationJumpButtons(sutta, isPublished) {
+    const { annotations } = sutta.display;
+    if (annotations.length) {
+        const annoElem = document.querySelector("#annotations"),
+            getButtonHTML = (i) =>
+                `<button class="annotation-jump">${i + 1}</button>`,
+            showAllButton =
+                !isPublished &&
+                annotations.length > 1 &&
+                `<button id="show-all">show all</button>`,
+            deleteAnnotationForm = document.querySelector("#delete-annotation");
+        annoElem.innerHTML =
+            annotations.map((_, i) => getButtonHTML(i)).join("") +
+            (showAllButton || "");
+        if (deleteAnnotationForm) {
+            const select = deleteAnnotationForm.querySelector("select"),
+                getOptionHTML = (i) =>
+                    `<option value="${i + 1}">${i + 1}</option>`;
+            select.innerHTML = annotations
+                .map((_, i) => getOptionHTML(i))
+                .join("");
+            deleteAnnotationForm.onsubmit = (e) =>
+                handleDeleteAnnotation(e, annotations, sutta, isPublished);
+        }
+    }
+    const container = document.querySelector("#notes-container");
+    container.style.display = annotations.length ? "flex" : "none";
+    addHandlers(sutta);
 
-function loadSearchAndTagsHelper({ param, posts, displayElem, resultsElem }) {
-    displayElem.innerText = param;
-    resultsElem.innerHTML = posts.length
-        ? posts.map(getPostPreviewHTML).join("<hr/>")
-        : `<p id="nothing-found">No results found!</p>`;
+    function handleDeleteAnnotation(e, annotations, sutta, isPublished) {
+        e.preventDefault();
+        const buttonText = e.target.index.value,
+            index = buttonText - 1,
+            goAhead = confirm(`Delete note #${buttonText}?`);
+        if (goAhead) {
+            annotations.splice(index, 1);
+            document.querySelector("#lines").innerHTML =
+                sutta.display.linesHTML;
+            addAnnotationJumpButtons(sutta, isPublished);
+        }
+    }
+
+    function addHandlers(sutta) {
+        const jumpButtons = document.querySelectorAll(".annotation-jump"),
+            showAllButton = document.querySelector("#show-all");
+        jumpButtons.forEach(
+            (b) =>
+                (b.onclick = (e) => handleAnnotationJump(e, isPublished, sutta))
+        );
+        showAllButton && (showAllButton.onclick = handleShowAll);
+
+        function handleAnnotationJump(e, isPublished, sutta) {
+            const index = e.target.innerText - 1,
+                getHighlight = (index) => document.querySelector(`#a-${index}`);
+            if (isPublished) {
+                const elems = document.querySelectorAll(".highlighted"),
+                    highlights = [...elems];
+                highlights.forEach((span) => span.classList.remove("expand"));
+                getHighlight(index).classList.add("expand");
+            } else {
+                toggleAnnotationForm(false);
+                lines.innerHTML = highlightAnnotation(index, sutta);
+            }
+            getHighlight(index).scrollIntoView({ behavior: "smooth" });
+        }
+
+        function handleShowAll() {
+            toggleAnnotationForm(false);
+            lines.innerHTML = highlightAll(sutta);
+            document
+                // scroll to first annotation:
+                .querySelector("#a-0")
+                ?.scrollIntoView({ behavior: "smooth" });
+        }
+    }
 }
 
 function getPostPreviewHTML(post) {
@@ -28,6 +93,11 @@ function getPostPreviewHTML(post) {
     `;
 }
 
+function getSearchParam(param) {
+    const params = new URL(document.location).searchParams;
+    return params.get(param);
+}
+
 function getSinglePostHTML(draft) {
     const { title, subtitle, dateString, imageHTML, content, tagsHTML } =
         getHTMLData(draft);
@@ -40,64 +110,6 @@ function getSinglePostHTML(draft) {
         ${imageHTML}
         ${content}
     `;
-}
-
-function getHTMLData(aPost) {
-    const { post, sutta, id } = aPost,
-        { title, subtitle, date, image_url, image_caption, content, tags } =
-            post,
-        dateString = parseDate(date),
-        tagsHTML = getTagsHTML(tags),
-        imageHTML = getImageHTML(image_url, image_caption);
-    return {
-        title,
-        subtitle,
-        dateString,
-        imageHTML,
-        content,
-        tagsHTML,
-        id,
-    };
-
-    function getImageHTML(imageUrl, imageCaption) {
-        return imageUrl
-            ? `
-                <figure>
-                    <img src="${imageUrl}" />
-                    ${
-                        image_caption
-                            ? `<figcaption>${imageCaption}</figcaption>`
-                            : ""
-                    }
-                </figure>
-            `
-            : "";
-    }
-
-    function getTagsHTML(tags) {
-        return `
-            <p>tags: ${tags
-                .split(",")
-                .map((tag) => tag.trim())
-                .map((tag) => `<a href="/tags.html/?tag=${tag}">${tag}</a>`)
-                .join(", ")}</p>
-        `;
-    }
-}
-
-function parseDate(date) {
-    const { seconds } = date,
-        ms = seconds * 1000,
-        d = new Date(ms),
-        localeString = d.toLocaleDateString("en-us", {
-            weekday: "short",
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-        }),
-        hours = ("" + d.getHours()).padStart(2, "0"),
-        minutes = d.getMinutes();
-    return `${localeString} at ${hours}:${minutes}`;
 }
 
 function getSuttaInfoHTML(sutta) {
@@ -145,17 +157,16 @@ function getSuttaInfoHTML(sutta) {
     `;
 }
 
-function highlightAll(postSutta) {
-    let { linesHTML } = postSutta.display,
+function highlightAll(sutta) {
+    const { annotations } = sutta.display;
+    let { linesHTML } = sutta.display,
         extraStart = 0;
-    const { annotations } = postSutta.display,
-        sorted = [...annotations].sort((a, b) => a.start - b.start);
-    sorted.forEach((anno, i) => {
+    annotations.forEach((anno) => {
         let { start } = anno;
         start += extraStart;
         const { text, note } = anno,
             { spanOpenTag, spanCloseTag } = getNoteTags(
-                annotations.indexOf(anno) + 1,
+                annotations.indexOf(anno),
                 note
             );
         extraStart += spanOpenTag.length + spanCloseTag.length;
@@ -168,6 +179,95 @@ function highlightAll(postSutta) {
         });
     });
     return linesHTML;
+}
+
+function highlightAnnotation(index, sutta) {
+    const { annotations } = sutta.display,
+        { start, text, note } = annotations[index],
+        { spanOpenTag, spanCloseTag } = getNoteTags(index, note);
+    return spliceLines({
+        start,
+        text,
+        spanOpenTag,
+        spanCloseTag,
+        linesHTML: sutta.display.linesHTML,
+    });
+}
+
+function loadSearchAndTagsHelper({ param, posts, displayElem, resultsElem }) {
+    displayElem.innerText = param;
+    resultsElem.innerHTML = posts.length
+        ? posts.map(getPostPreviewHTML).join("<hr/>")
+        : `<p id="nothing-found">No results found!</p>`;
+}
+
+function parseDate(date) {
+    const { seconds } = date,
+        ms = seconds * 1000,
+        d = new Date(ms),
+        localeString = d.toLocaleDateString("en-us", {
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+        }),
+        hours = ("" + d.getHours()).padStart(2, "0"),
+        minutes = d.getMinutes();
+    return `${localeString} at ${hours}:${minutes}`;
+}
+
+function toggleAnnotationForm(enabled) {
+    const clearButton = document.querySelector("#clear-to-annotate"),
+        annotateButton = document
+            .querySelector("#annotate")
+            ?.querySelector("button[type='submit']");
+    clearButton && (clearButton.disabled = enabled);
+    annotateButton && (annotateButton.disabled = !enabled);
+}
+
+/*** NOT EXPORTED: ***/
+
+function getHTMLData(aPost) {
+    const { post, sutta, id } = aPost,
+        { title, subtitle, date, image_url, image_caption, content, tags } =
+            post,
+        dateString = parseDate(date),
+        tagsHTML = getTagsHTML(tags),
+        imageHTML = getImageHTML(image_url, image_caption);
+    return {
+        title,
+        subtitle,
+        dateString,
+        imageHTML,
+        content,
+        tagsHTML,
+        id,
+    };
+
+    function getImageHTML(imageUrl, imageCaption) {
+        return imageUrl
+            ? `
+                <figure>
+                    <img src="${imageUrl}" />
+                    ${
+                        image_caption
+                            ? `<figcaption>${imageCaption}</figcaption>`
+                            : ""
+                    }
+                </figure>
+            `
+            : "";
+    }
+
+    function getTagsHTML(tags) {
+        return `
+            <p>tags: ${tags
+                .split(",")
+                .map((tag) => tag.trim())
+                .map((tag) => `<a href="/tags.html/?tag=${tag}">${tag}</a>`)
+                .join(", ")}</p>
+        `;
+    }
 }
 
 function getNoteTags(index, note) {
@@ -187,108 +287,15 @@ function spliceLines({ start, text, spanOpenTag, spanCloseTag, linesHTML }) {
     return linesHTML.join("");
 }
 
-function addAnnotationJumpButtons(postSutta, isPublished) {
-    const { annotations } = postSutta.display;
-    annotations.sort((a, b) => a.start - b.start);
-    // console.log(annotations);
-    if (annotations.length) {
-        const annoElem = document.querySelector("#annotations"),
-            getButtonHTML = (i) =>
-                `<button class="annotation-jump">${i + 1}</button>`,
-            showAllButton =
-                !isPublished &&
-                annotations.length > 1 &&
-                `<button id="show-all">show all</button>`,
-            deleteAnnotationForm = document.querySelector("#delete-annotation");
-        annoElem.innerHTML =
-            annotations.map((_, i) => getButtonHTML(i)).join("") +
-            (showAllButton || "");
-        if (deleteAnnotationForm) {
-            const getOptionHTML = (i) =>
-                `<option value="${i + 1}">${i + 1}</option>`;
-            deleteAnnotationForm.querySelector("select").innerHTML = annotations
-                .map((_, i) => getOptionHTML(i))
-                .join("");
-            deleteAnnotationForm.onsubmit = (e) => {
-                e.preventDefault();
-                const index = e.target.index.value - 1;
-                annotations.splice(index, 1);
-                document.querySelector("#lines").innerHTML =
-                    postSutta.display.linesHTML;
-                addAnnotationJumpButtons(postSutta, isPublished);
-            };
-        }
-    }
-    const container = document.querySelector("#notes-container");
-    container.style.display = annotations.length ? "flex" : "none";
-    addHandlers();
-
-    function addHandlers() {
-        const jumpButtons = document.querySelectorAll(".annotation-jump"),
-            showAllButton = document.querySelector("#show-all");
-        jumpButtons.forEach((b) => (b.onclick = handleAnnotationJump));
-        showAllButton && (showAllButton.onclick = handleShowAll);
-
-        function handleAnnotationJump(e) {
-            const buttonText = e.target.innerText,
-                getHighlight = () => document.querySelector(`#a-${buttonText}`);
-            if (isPublished) {
-                const allHighlights = [
-                    ...document.querySelectorAll(".highlighted"),
-                ];
-                allHighlights.forEach((span) =>
-                    span.classList.remove("expand")
-                );
-                getHighlight().classList.add("expand");
-            } else {
-                toggleAnnotationForm(false);
-                lines.innerHTML = highlightAnnotation(buttonText, postSutta);
-            }
-            getHighlight().scrollIntoView({ behavior: "smooth" });
-        }
-
-        function handleShowAll() {
-            toggleAnnotationForm(false);
-            lines.innerHTML = highlightAll(postSutta);
-            document
-                // scroll to first annotation:
-                .querySelector("#a-1")
-                ?.scrollIntoView({ behavior: "smooth" });
-        }
-    }
-}
-
-function toggleAnnotationForm(enabled) {
-    const clearButton = document.querySelector("#clear-to-annotate"),
-        annotateButton = document
-            .querySelector("#annotate")
-            ?.querySelector("button[type='submit']");
-    clearButton && (clearButton.disabled = enabled);
-    annotateButton && (annotateButton.disabled = !enabled);
-}
-
-function highlightAnnotation(number, postSutta) {
-    const { annotations } = postSutta.display,
-        { start, text, note } = annotations[number - 1],
-        { spanOpenTag, spanCloseTag } = getNoteTags(number, note);
-    return spliceLines({
-        start,
-        text,
-        spanOpenTag,
-        spanCloseTag,
-        linesHTML: postSutta.display.linesHTML,
-    });
-}
-
 export {
-    getSearchParam,
-    loadSearchAndTagsHelper,
+    addAnnotationJumpButtons,
     getPostPreviewHTML,
+    getSearchParam,
     getSinglePostHTML,
-    parseDate,
     getSuttaInfoHTML,
     highlightAll,
-    addAnnotationJumpButtons,
-    toggleAnnotationForm,
     highlightAnnotation,
+    loadSearchAndTagsHelper,
+    parseDate,
+    toggleAnnotationForm,
 };

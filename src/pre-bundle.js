@@ -6,8 +6,8 @@ import loadTags from "./tags.js";
 import loadAdmin from "./admin.js";
 import loadSignIn from "./sign-in.js";
 
-/*** INDEX.HTML - SHOW POSTS ***/
 if (location.pathname == "/") {
+    /*** INDEX.HTML - SHOW POSTS ***/
     loadPosts();
 } else if (window.location.href.includes("/post.html")) {
     /*** POST.HTML - SINGLE POST ***/

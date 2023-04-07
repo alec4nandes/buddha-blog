@@ -6,7 +6,6 @@ export default async function loadSearch() {
         posts = await findPosts(param),
         displayElem = document.querySelector("#search-term"),
         resultsElem = document.querySelector("#search-results");
-
     loadSearchAndTagsHelper({ param, posts, displayElem, resultsElem });
 
     async function findPosts(searchTerm) {
@@ -17,13 +16,8 @@ export default async function loadSearch() {
             const { post, sutta } = entry,
                 { title, subtitle, image_caption, content, tags } = post,
                 fieldsToCheck = [title, subtitle, image_caption, content, tags];
-            return (
-                fieldsToCheck.find((field) =>
-                    field.toUpperCase().includes(searchTerm.toUpperCase())
-                ) ||
-                sutta.lines.find((line) =>
-                    line.toUpperCase().includes(searchTerm.toUpperCase())
-                )
+            return [...fieldsToCheck, ...sutta.lines].find((str) =>
+                str.toUpperCase().includes(searchTerm.toUpperCase())
             );
         }
     }
