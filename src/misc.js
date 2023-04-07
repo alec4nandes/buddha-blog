@@ -25,7 +25,7 @@ function addAnnotationJumpButtons(sutta, isPublished) {
     }
     const container = document.querySelector("#notes-container");
     container.style.display = annotations.length ? "flex" : "none";
-    addHandlers(sutta);
+    addHandlers(sutta, isPublished);
 
     function handleDeleteAnnotation(e, annotations, sutta, isPublished) {
         e.preventDefault();
@@ -40,14 +40,14 @@ function addAnnotationJumpButtons(sutta, isPublished) {
         }
     }
 
-    function addHandlers(sutta) {
+    function addHandlers(sutta, isPublished) {
         const jumpButtons = document.querySelectorAll(".annotation-jump"),
             showAllButton = document.querySelector("#show-all");
         jumpButtons.forEach(
             (b) =>
                 (b.onclick = (e) => handleAnnotationJump(e, isPublished, sutta))
         );
-        showAllButton && (showAllButton.onclick = handleShowAll);
+        showAllButton && (showAllButton.onclick = () => handleShowAll(sutta));
 
         function handleAnnotationJump(e, isPublished, sutta) {
             const index = e.target.innerText - 1,
@@ -64,7 +64,7 @@ function addAnnotationJumpButtons(sutta, isPublished) {
             getHighlight(index).scrollIntoView({ behavior: "smooth" });
         }
 
-        function handleShowAll() {
+        function handleShowAll(sutta) {
             toggleAnnotationForm(false);
             lines.innerHTML = highlightAll(sutta);
             document
