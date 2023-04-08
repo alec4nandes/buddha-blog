@@ -250,7 +250,6 @@ function getHTMLData(aPost) {
         { sutta_title, section_pali, chapter_number } = sutta,
         suttaSummary = `${sutta_title.trim()}
             (${section_pali}${chapter_number ? " " + chapter_number : ""})`;
-    console.log(sutta);
     return {
         title,
         subtitle,
