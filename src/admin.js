@@ -1,3 +1,4 @@
+import crawled from "./crawled.js";
 import { auth } from "./database.js";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import {
@@ -33,8 +34,8 @@ export default function loadAdmin() {
             signOutButton.onclick = handleSignOut;
             container.style.display = "flex";
         } catch (err) {
-            // console.error(err);
-            window.location.href = "/sign-in.html";
+            console.error(err);
+            // window.location.href = "/sign-in.html";
         }
     });
 
@@ -63,6 +64,7 @@ async function listDrafts() {
 async function loadDraft() {
     const id = getSearchParam("id"),
         draft = id && (await getDraft(id));
+    displaySuttaNav();
     if (draft) {
         const { sutta, post } = draft,
             suttaId = id.split(":")[0],
@@ -89,13 +91,31 @@ async function loadDraft() {
     }
 }
 
+function displaySuttaNav(sutta) {
+    const displayElem = document.querySelector("#sutta-nav"),
+        { sutta_id, prev_id, next_id } = sutta || {};
+    displayElem.innerHTML = `
+        ${prev_id ? `<button id="prev-sutta"><</button>` : ""}
+        ${sutta_id || ""}
+        ${next_id ? `<button id="next-sutta">></button>` : ""}
+        <button id="random">random</button>`;
+    const prevButton = displayElem.querySelector("#prev-sutta"),
+        nextButton = displayElem.querySelector("#next-sutta"),
+        randomButton = displayElem.querySelector("#random"),
+        getRandom = (arr) => arr[~~(Math.random() * arr.length)];
+    prevButton && (prevButton.onclick = () => loadSutta(prev_id));
+    nextButton && (nextButton.onclick = () => loadSutta(next_id));
+    randomButton.onclick = () => loadSutta(getRandom(crawled));
+}
+
 async function loadSutta(suttaId, sut) {
     const getJson = async (url) => await (await fetch(url)).json(),
         sutta =
             sut || (await getJson(`https://fern.haus/sutta/?sutta=${suttaId}`)),
         isValid = !!sutta.display;
+    displaySuttaNav(sutta);
     if (isValid) {
-        displayDraftLines(sutta);
+        displaySutta(sutta);
         const clearButton = document.querySelector("#clear-to-annotate"),
             annotateForm = document.querySelector("#annotate"),
             editPost = document.querySelector("#edit-post"),
@@ -110,7 +130,7 @@ async function loadSutta(suttaId, sut) {
         alert("Sutta does not exist!");
     }
 
-    function displayDraftLines(sutta) {
+    function displaySutta(sutta) {
         const suttaInfoElem = document.querySelector("#sutta-info"),
             linesElem = document.querySelector("#lines");
         suttaInfoElem.innerHTML = getSuttaInfoHTML(sutta);
@@ -119,7 +139,7 @@ async function loadSutta(suttaId, sut) {
     }
 
     function handleClearHighlights(sutta) {
-        displayDraftLines(sutta);
+        displaySutta(sutta);
         toggleAnnotationForm(true);
     }
 

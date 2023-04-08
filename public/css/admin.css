@@ -17,6 +17,9 @@
   width: 100%;
   flex: 1;
 }
+#admin-container header #find-sutta input[type=text] {
+  width: 65px;
+}
 #admin-container main section#sutta-container #delete-annotation {
   flex-wrap: wrap;
 }

@@ -20,6 +20,14 @@
         }
     }
 
+    header {
+        #find-sutta {
+            input[type="text"] {
+                width: 65px;
+            }
+        }
+    }
+
     main {
         section#sutta-container {
             #delete-annotation {

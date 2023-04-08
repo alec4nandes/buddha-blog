@@ -79,14 +79,23 @@ function addAnnotationJumpButtons(sutta, isPublished) {
 }
 
 function getPostPreviewHTML(post) {
-    const { title, subtitle, dateString, imageHTML, content, tagsHTML, id } =
-            getHTMLData(post),
+    const {
+            title,
+            subtitle,
+            dateString,
+            imageHTML,
+            content,
+            tagsHTML,
+            id,
+            suttaSummary,
+        } = getHTMLData(post),
         openLinkTag = `<a href="/post.html/?id=${id}">`;
     return `
         <div>
             <h2>${openLinkTag}${title}</a></h2>
             ${subtitle ? `<h3>${subtitle}</h3>` : ""}
             <p class="date">${dateString}</p>
+            <strong><small>Featured sutta: ${suttaSummary}</small></strong>
             ${imageHTML}
             ${content.slice(0, 500)}
             ${content.length > 500 ? "..." : ""}
@@ -237,7 +246,11 @@ function getHTMLData(aPost) {
             post,
         dateString = parseDate(date),
         tagsHTML = getTagsHTML(tags),
-        imageHTML = getImageHTML(image_url, image_caption);
+        imageHTML = getImageHTML(image_url, image_caption),
+        { sutta_title, section_pali, chapter_number } = sutta,
+        suttaSummary = `${sutta_title.trim()}
+            (${section_pali}${chapter_number ? " " + chapter_number : ""})`;
+    console.log(sutta);
     return {
         title,
         subtitle,
@@ -246,6 +259,7 @@ function getHTMLData(aPost) {
         content,
         tagsHTML,
         id,
+        suttaSummary,
     };
 
     function getImageHTML(imageUrl, imageCaption) {
