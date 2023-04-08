@@ -72,6 +72,25 @@ body header #search-bar-container form {
   flex-wrap: wrap;
   justify-content: center;
 }
+body header #search-bar-container #social {
+  gap: 5px;
+}
+body header #search-bar-container #social,
+body header #search-bar-container #social a {
+  display: flex;
+  align-items: center;
+}
+body header #search-bar-container #social a {
+  opacity: 0.8;
+  text-decoration: none;
+}
+body header #search-bar-container #social a:hover {
+  opacity: 1;
+}
+body header #search-bar-container #social a img {
+  height: 20px;
+  width: auto;
+}
 body main {
   width: 100%;
   display: flex;

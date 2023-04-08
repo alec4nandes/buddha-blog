@@ -87,6 +87,30 @@ body {
                 flex-wrap: wrap;
                 justify-content: center;
             }
+
+            #social {
+                gap: 5px;
+
+                &,
+                a {
+                    display: flex;
+                    align-items: center;
+                }
+
+                a {
+                    opacity: 0.8;
+                    text-decoration: none;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+
+                    img {
+                        height: 20px;
+                        width: auto;
+                    }
+                }
+            }
         }
     }
 
