@@ -34,8 +34,8 @@ export default function loadAdmin() {
             signOutButton.onclick = handleSignOut;
             container.style.display = "flex";
         } catch (err) {
-            console.error(err);
-            // window.location.href = "/sign-in.html";
+            // console.error(err);
+            window.location.href = "/sign-in.html";
         }
     });
 
@@ -111,7 +111,7 @@ function displaySuttaNav(sutta) {
 async function loadSutta(suttaId, sut) {
     const getJson = async (url) => await (await fetch(url)).json(),
         sutta =
-            sut || (await getJson(`https://fern.haus/sutta/?sutta=${suttaId}`)),
+            sut || (await getJson(`https://fern.haus/sutta?sutta=${suttaId}`)),
         isValid = !!sutta.display;
     displaySuttaNav(sutta);
     if (isValid) {

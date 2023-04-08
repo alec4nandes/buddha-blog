@@ -89,7 +89,7 @@ function getPostPreviewHTML(post) {
             id,
             suttaSummary,
         } = getHTMLData(post),
-        openLinkTag = `<a href="/post.html/?id=${id}">`;
+        openLinkTag = `<a href="/post.html?id=${id}">`;
     return `
         <div>
             <h2>${openLinkTag}${title}</a></h2>
@@ -282,7 +282,7 @@ function getHTMLData(aPost) {
             <p>tags: ${tags
                 .split(",")
                 .map((tag) => tag.trim())
-                .map((tag) => `<a href="/tags.html/?tag=${tag}">${tag}</a>`)
+                .map((tag) => `<a href="/tags.html?tag=${tag}">${tag}</a>`)
                 .join(", ")}</p>
         `;
     }

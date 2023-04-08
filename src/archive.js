@@ -14,7 +14,7 @@ export default async function loadArchive() {
         return `
             <li>
                 ${parseDate(date)}:
-                <a href="/post.html/?id=${id}">${title}</a>
+                <a href="/post.html?id=${id}">${title}</a>
             </li>`;
     }
 }

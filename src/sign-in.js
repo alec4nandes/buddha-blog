@@ -16,7 +16,7 @@ export default function loadSignIn() {
             );
             window.location.href = "/admin.html";
         } catch (err) {
-            alert(err);
+            alert("Wrong credentials!");
         }
     }
 }

@@ -38,6 +38,6 @@ export default async function loadTags() {
     }
 
     function getTagLink(tag) {
-        return `<a href="/tags.html/?tag=${tag}">${tag}</a>`;
+        return `<a href="/tags.html?tag=${tag}">${tag}</a>`;
     }
 }
