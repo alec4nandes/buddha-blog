@@ -35,13 +35,22 @@ body button {
   background-color: #dfdfdf;
   border: 0;
   border-radius: 4px;
+  color: #222;
   font-size: 0.8rem;
-  opacity: 0.8;
+  font-weight: 400;
+  opacity: 1;
   padding: 2px 6px;
+}
+body button:disabled {
+  opacity: 0.5;
+}
+body button:disabled:hover {
+  background-color: #dfdfdf;
+  cursor: initial;
 }
 body button:hover {
   cursor: pointer;
-  opacity: 1;
+  background-color: #ccc;
 }
 body h1,
 body h1 * {
@@ -98,8 +107,9 @@ body header #search-bar-container {
 }
 body header #search-bar-container form {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 body header #search-bar-container #social {
   gap: 5px;
@@ -230,6 +240,18 @@ body footer a {
   input,
   textarea {
     font-size: 0.8rem !important;
+  }
+  h1,
+  h1 a {
+    font-size: 1.3rem !important;
+  }
+  h2,
+  h2 a {
+    font-size: 1.1rem !important;
+  }
+  h3,
+  h3 a {
+    font-size: 0.9rem !important;
   }
 }
 @media only screen and (max-width: 768px) {

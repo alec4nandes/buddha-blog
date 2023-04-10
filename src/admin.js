@@ -17,6 +17,224 @@ const {
     getPost,
 } = require("./read-write.js");
 
+function addAnnotationJumpButtons(sutta, isPublished) {
+    const { annotations } = sutta.display;
+    if (annotations.length) {
+        const annoElem = document.querySelector("#annotations"),
+            getButtonHTML = (i) =>
+                `<button class="annotation-jump">${i + 1}</button>`,
+            showAllButton =
+                !isPublished &&
+                annotations.length > 1 &&
+                `<button id="show-all">show all</button>`,
+            deleteAnnotationForm = document.querySelector("#delete-annotation");
+        annoElem.innerHTML =
+            annotations.map((_, i) => getButtonHTML(i)).join("") +
+            (showAllButton || "");
+        if (deleteAnnotationForm) {
+            const select = deleteAnnotationForm.querySelector("select"),
+                getOptionHTML = (i) =>
+                    `<option value="${i + 1}">${i + 1}</option>`;
+            select.innerHTML = annotations
+                .map((_, i) => getOptionHTML(i))
+                .join("");
+            deleteAnnotationForm.onsubmit = (e) =>
+                handleDeleteAnnotation(e, annotations, sutta, isPublished);
+        }
+    }
+    const container = document.querySelector("#notes-container");
+    container.style.display = annotations.length ? "flex" : "none";
+    addHandlers(sutta, isPublished);
+
+    function handleDeleteAnnotation(e, annotations, sutta, isPublished) {
+        e.preventDefault();
+        const buttonText = e.target.index.value,
+            index = buttonText - 1,
+            goAhead = confirm(`Delete note #${buttonText}?`);
+        if (goAhead) {
+            annotations.splice(index, 1);
+            document.querySelector("#lines").innerHTML =
+                sutta.display.linesHTML;
+            addAnnotationJumpButtons(sutta, isPublished);
+        }
+    }
+
+    function addHandlers(sutta, isPublished) {
+        const jumpButtons = document.querySelectorAll(".annotation-jump"),
+            showAllButton = document.querySelector("#show-all"),
+            linesElem = document.querySelector("#lines");
+        jumpButtons.forEach(
+            (b) =>
+                (b.onclick = (e) =>
+                    handleAnnotationJump(e, isPublished, linesElem, sutta))
+        );
+        showAllButton &&
+            (showAllButton.onclick = () => handleShowAll(linesElem, sutta));
+
+        function handleAnnotationJump(e, isPublished, linesElem, sutta) {
+            const index = e.target.innerText - 1,
+                getHighlight = (index) => document.querySelector(`#a-${index}`);
+            if (isPublished) {
+                const elems = document.querySelectorAll(".highlighted"),
+                    highlights = [...elems];
+                highlights.forEach((span) => span.classList.remove("expand"));
+                getHighlight(index).classList.add("expand");
+            } else {
+                toggleAnnotationForm(false);
+                linesElem.innerHTML = highlightAnnotation(index, sutta);
+            }
+            getHighlight(index).scrollIntoView({ behavior: "smooth" });
+        }
+
+        function handleShowAll(linesElem, sutta) {
+            toggleAnnotationForm(false);
+            linesElem.innerHTML = highlightAll(sutta);
+            document
+                // scroll to first annotation:
+                .querySelector("#a-0")
+                ?.scrollIntoView({ behavior: "smooth" });
+        }
+    }
+}
+
+function displaySuttaNav(sutta) {
+    const displayElem = document.querySelector("#sutta-nav"),
+        { sutta_id, prev_id, next_id } = sutta || {};
+    displayElem.innerHTML = `
+        ${prev_id ? `<button id="prev-sutta"><</button>` : ""}
+        ${sutta_id || ""}
+        ${next_id ? `<button id="next-sutta">></button>` : ""}
+        <button id="random">random</button>`;
+    const prevButton = displayElem.querySelector("#prev-sutta"),
+        nextButton = displayElem.querySelector("#next-sutta"),
+        randomButton = displayElem.querySelector("#random"),
+        getRandom = (arr) => arr[~~(Math.random() * arr.length)];
+    prevButton && (prevButton.onclick = () => loadSutta(prev_id));
+    nextButton && (nextButton.onclick = () => loadSutta(next_id));
+    randomButton.onclick = () => loadSutta(getRandom(crawled));
+}
+
+function getAnnotation(note) {
+    const selection = window.getSelection(),
+        selectionString = selection.toString().trimEnd(),
+        // no spaces or line breaks as annotations:
+        hasSelection = !!selectionString.trim();
+    if (hasSelection) {
+        const children = [...document.querySelector("#lines").childNodes],
+            { anchorNode, anchorOffset, focusNode, focusOffset } = selection,
+            anchorIndex = children.indexOf(anchorNode),
+            focusIndex = children.indexOf(focusNode),
+            hasFocus = focusIndex !== -1,
+            isBackwards =
+                hasFocus &&
+                (focusIndex < anchorIndex ||
+                    (focusIndex === anchorIndex && focusOffset < anchorOffset)),
+            startsWithBreak = selectionString.charAt(0) === "\n",
+            // ^ No anchor or focus node index, so first contained
+            // node will be <br/>. Move past this node to next text:
+            extraIndexes = startsWithBreak ? 2 : 0,
+            firstIndex =
+                children.findIndex((node) => selection.containsNode(node)) +
+                extraIndexes,
+            isFirstNode = !firstIndex,
+            finalBreak = startsWithBreak || isFirstNode ? "" : "<br/>",
+            upTo =
+                children
+                    .slice(0, firstIndex)
+                    .map((node) => node.textContent)
+                    .filter(Boolean)
+                    .join("<br/>") + finalBreak,
+            offset = startsWithBreak
+                ? 0
+                : isBackwards
+                ? focusOffset
+                : anchorOffset,
+            start = upTo.length + offset,
+            text = selectionString.split("\n").join("<br/>");
+        // for testing:
+        console.log(
+            "anchor node:",
+            anchorNode,
+            "anchor index:",
+            anchorIndex,
+            "anchor offset:",
+            anchorOffset,
+            "focus node:",
+            focusNode,
+            "focus index:",
+            focusIndex,
+            "focus offset:",
+            focusOffset
+        );
+        return {
+            text,
+            start,
+            note: note.trim(),
+        };
+    }
+}
+
+function handleAnnotate(e, sutta) {
+    e.preventDefault();
+    const linesElem = document.querySelector("#lines"),
+        data = linesElem.getAttribute("data-annotation"),
+        annotation = data && JSON.parse(data);
+    if (annotation.text) {
+        sutta.display.annotations = sutta.display.annotations.filter(
+            (oldAnno) => !isOverlapped(oldAnno, annotation)
+        );
+        const { annotations } = sutta.display;
+        annotations.push(annotation);
+        annotations.sort((a, b) => a.start - b.start);
+        const index = annotations.indexOf(annotation);
+        linesElem.innerHTML = highlightAnnotation(index, sutta);
+        addAnnotationJumpButtons(sutta);
+        toggleAnnotationForm(false);
+    }
+
+    /*
+        Returns annotation data for the displayed sutta if
+        there's a valid selection, returns undefined otherwise.
+        This method uses the DOM, so the browser's displayed
+        sutta HTML in div#lines needs to match the HTML in
+        sutta.display.linesHTML
+    */
+
+    // if you highlight an already highlighted section
+    function isOverlapped(oldAnnotation, newAnnotation) {
+        const { text: oldText, start: oldStart } = oldAnnotation,
+            { text: newText, start: newStart } = newAnnotation;
+        return (
+            (oldStart <= newStart && newStart <= oldStart + oldText.length) ||
+            (newStart <= oldStart &&
+                oldStart + oldText.length <= newStart + newText.length)
+        );
+    }
+}
+
+function highlightAnnotation(index, sutta) {
+    const { annotations } = sutta.display,
+        { start, text, note } = annotations[index],
+        { spanOpenTag, spanCloseTag } = getNoteTags(index, note);
+    return spliceLines({
+        start,
+        text,
+        spanOpenTag,
+        spanCloseTag,
+        linesHTML: sutta.display.linesHTML,
+    });
+}
+
+async function listDrafts() {
+    const draftIds = (await getAllDrafts()).map((draft) => draft.id),
+        footer = document.querySelector("footer");
+    footer.innerHTML =
+        "DRAFTS: " +
+        (draftIds.length
+            ? draftIds.map((id) => `<a href="?id=${id}">${id}</a>`).join(", ")
+            : "n/a");
+}
+
 function loadAdmin() {
     onAuthStateChanged(getAuth(), async (user) => {
         try {
@@ -50,16 +268,6 @@ function loadAdmin() {
     }
 }
 
-async function listDrafts() {
-    const draftIds = (await getAllDrafts()).map((draft) => draft.id),
-        footer = document.querySelector("footer");
-    footer.innerHTML =
-        "DRAFTS: " +
-        (draftIds.length
-            ? draftIds.map((id) => `<a href="?id=${id}">${id}</a>`).join(", ")
-            : "n/a");
-}
-
 async function loadDraft() {
     const id = getSearchParam("id"),
         draft = id && (await getDraft(id));
@@ -90,23 +298,6 @@ async function loadDraft() {
     }
 }
 
-function displaySuttaNav(sutta) {
-    const displayElem = document.querySelector("#sutta-nav"),
-        { sutta_id, prev_id, next_id } = sutta || {};
-    displayElem.innerHTML = `
-        ${prev_id ? `<button id="prev-sutta"><</button>` : ""}
-        ${sutta_id || ""}
-        ${next_id ? `<button id="next-sutta">></button>` : ""}
-        <button id="random">random</button>`;
-    const prevButton = displayElem.querySelector("#prev-sutta"),
-        nextButton = displayElem.querySelector("#next-sutta"),
-        randomButton = displayElem.querySelector("#random"),
-        getRandom = (arr) => arr[~~(Math.random() * arr.length)];
-    prevButton && (prevButton.onclick = () => loadSutta(prev_id));
-    nextButton && (nextButton.onclick = () => loadSutta(next_id));
-    randomButton.onclick = () => loadSutta(getRandom(crawled));
-}
-
 async function loadSutta(suttaId, sut) {
     const getJson = async (url) => await (await fetch(url)).json(),
         sutta =
@@ -118,13 +309,25 @@ async function loadSutta(suttaId, sut) {
         const clearButton = document.querySelector("#clear-to-annotate"),
             annotateForm = document.querySelector("#annotate"),
             editPost = document.querySelector("#edit-post"),
+            linesElem = document.querySelector("#lines"),
             enableSubmit = (form) =>
-                (form.querySelector("button[type='submit']").disabled = false);
+                (form.querySelector("button[type='submit']").disabled = false),
+            setSelection = () => {
+                const note = document
+                    .querySelector("textarea[name='note']")
+                    .value.trim();
+                linesElem.setAttribute(
+                    "data-annotation",
+                    JSON.stringify(getAnnotation(note))
+                );
+            };
+        annotateForm.onsubmit = (e) => handleAnnotate(e, sutta);
         clearButton.onclick = () => handleClearHighlights(sutta);
         editPost.onsubmit = (e) => handleUpload(e, sutta);
-        annotateForm.onsubmit = (e) => handleAnnotate(e, sutta);
         enableSubmit(annotateForm);
         enableSubmit(editPost);
+        linesElem.onmouseup = setSelection;
+        linesElem.ontouchend = setSelection;
     } else {
         alert("Sutta does not exist!");
     }
@@ -186,112 +389,6 @@ async function loadSutta(suttaId, sut) {
         }
     }
 
-    function addAnnotationJumpButtons(sutta, isPublished) {
-        const { annotations } = sutta.display;
-        if (annotations.length) {
-            const annoElem = document.querySelector("#annotations"),
-                getButtonHTML = (i) =>
-                    `<button class="annotation-jump">${i + 1}</button>`,
-                showAllButton =
-                    !isPublished &&
-                    annotations.length > 1 &&
-                    `<button id="show-all">show all</button>`,
-                deleteAnnotationForm =
-                    document.querySelector("#delete-annotation");
-            annoElem.innerHTML =
-                annotations.map((_, i) => getButtonHTML(i)).join("") +
-                (showAllButton || "");
-            if (deleteAnnotationForm) {
-                const select = deleteAnnotationForm.querySelector("select"),
-                    getOptionHTML = (i) =>
-                        `<option value="${i + 1}">${i + 1}</option>`;
-                select.innerHTML = annotations
-                    .map((_, i) => getOptionHTML(i))
-                    .join("");
-                deleteAnnotationForm.onsubmit = (e) =>
-                    handleDeleteAnnotation(e, annotations, sutta, isPublished);
-            }
-        }
-        const container = document.querySelector("#notes-container");
-        container.style.display = annotations.length ? "flex" : "none";
-        addHandlers(sutta, isPublished);
-
-        function handleDeleteAnnotation(e, annotations, sutta, isPublished) {
-            e.preventDefault();
-            const buttonText = e.target.index.value,
-                index = buttonText - 1,
-                goAhead = confirm(`Delete note #${buttonText}?`);
-            if (goAhead) {
-                annotations.splice(index, 1);
-                document.querySelector("#lines").innerHTML =
-                    sutta.display.linesHTML;
-                addAnnotationJumpButtons(sutta, isPublished);
-            }
-        }
-
-        function addHandlers(sutta, isPublished) {
-            const jumpButtons = document.querySelectorAll(".annotation-jump"),
-                showAllButton = document.querySelector("#show-all"),
-                linesElem = document.querySelector("#lines");
-            jumpButtons.forEach(
-                (b) =>
-                    (b.onclick = (e) =>
-                        handleAnnotationJump(e, isPublished, linesElem, sutta))
-            );
-            showAllButton &&
-                (showAllButton.onclick = () => handleShowAll(linesElem, sutta));
-
-            function handleAnnotationJump(e, isPublished, linesElem, sutta) {
-                const index = e.target.innerText - 1,
-                    getHighlight = (index) =>
-                        document.querySelector(`#a-${index}`);
-                if (isPublished) {
-                    const elems = document.querySelectorAll(".highlighted"),
-                        highlights = [...elems];
-                    highlights.forEach((span) =>
-                        span.classList.remove("expand")
-                    );
-                    getHighlight(index).classList.add("expand");
-                } else {
-                    toggleAnnotationForm(false);
-                    linesElem.innerHTML = highlightAnnotation(index, sutta);
-                }
-                getHighlight(index).scrollIntoView({ behavior: "smooth" });
-            }
-
-            function handleShowAll(linesElem, sutta) {
-                toggleAnnotationForm(false);
-                linesElem.innerHTML = highlightAll(sutta);
-                document
-                    // scroll to first annotation:
-                    .querySelector("#a-0")
-                    ?.scrollIntoView({ behavior: "smooth" });
-            }
-        }
-    }
-
-    function toggleAnnotationForm(enabled) {
-        const clearButton = document.querySelector("#clear-to-annotate"),
-            annotateButton = document
-                .querySelector("#annotate")
-                ?.querySelector("button[type='submit']");
-        clearButton && (clearButton.disabled = enabled);
-        annotateButton && (annotateButton.disabled = !enabled);
-    }
-
-    function highlightAnnotation(index, sutta) {
-        const { annotations } = sutta.display,
-            { start, text, note } = annotations[index],
-            { spanOpenTag, spanCloseTag } = getNoteTags(index, note);
-        return spliceLines({
-            start,
-            text,
-            spanOpenTag,
-            spanCloseTag,
-            linesHTML: sutta.display.linesHTML,
-        });
-    }
-
     function handleClearHighlights(sutta) {
         displaySutta(sutta);
         toggleAnnotationForm(true);
@@ -328,108 +425,15 @@ async function loadSutta(suttaId, sut) {
             }
         }
     }
+}
 
-    function handleAnnotate(e, sutta) {
-        e.preventDefault();
-        const linesElem = document.querySelector("#lines"),
-            annotation = getAnnotation(e.target.note.value);
-        if (annotation) {
-            sutta.display.annotations = sutta.display.annotations.filter(
-                (oldAnno) => !isOverlapped(oldAnno, annotation)
-            );
-            const { annotations } = sutta.display;
-            annotations.push(annotation);
-            annotations.sort((a, b) => a.start - b.start);
-            const index = annotations.indexOf(annotation);
-            linesElem.innerHTML = highlightAnnotation(index, sutta);
-            addAnnotationJumpButtons(sutta);
-            toggleAnnotationForm(false);
-        }
-
-        /*
-            Returns annotation data for the displayed sutta if
-            there's a valid selection, returns undefined otherwise.
-            This method uses the DOM, so the browser's displayed
-            sutta HTML in div#lines needs to match the HTML in
-            sutta.display.linesHTML
-        */
-        function getAnnotation(note) {
-            const selection = window.getSelection(),
-                selectionString = selection.toString().trimEnd(),
-                // no spaces or line breaks as annotations:
-                hasSelection = !!selectionString.trim();
-            if (hasSelection) {
-                const children = [
-                        ...document.querySelector("#lines").childNodes,
-                    ],
-                    { anchorNode, anchorOffset, focusNode, focusOffset } =
-                        selection,
-                    anchorIndex = children.indexOf(anchorNode),
-                    focusIndex = children.indexOf(focusNode),
-                    hasFocus = focusIndex !== -1,
-                    isBackwards =
-                        hasFocus &&
-                        (focusIndex < anchorIndex ||
-                            (focusIndex === anchorIndex &&
-                                focusOffset < anchorOffset)),
-                    startsWithBreak = selectionString.charAt(0) === "\n",
-                    // ^ No anchor or focus node index, so first contained
-                    // node will be <br/>. Move past this node to next text:
-                    extraIndexes = startsWithBreak ? 2 : 0,
-                    firstIndex =
-                        children.findIndex((node) =>
-                            selection.containsNode(node)
-                        ) + extraIndexes,
-                    isFirstNode = !firstIndex,
-                    finalBreak = startsWithBreak || isFirstNode ? "" : "<br/>",
-                    upTo =
-                        children
-                            .slice(0, firstIndex)
-                            .map((node) => node.textContent)
-                            .filter(Boolean)
-                            .join("<br/>") + finalBreak,
-                    offset = startsWithBreak
-                        ? 0
-                        : isBackwards
-                        ? focusOffset
-                        : anchorOffset,
-                    start = upTo.length + offset,
-                    text = selectionString.split("\n").join("<br/>");
-                // for testing:
-                console.log(
-                    "anchor node:",
-                    anchorNode,
-                    "anchor index:",
-                    anchorIndex,
-                    "anchor offset:",
-                    anchorOffset,
-                    "focus node:",
-                    focusNode,
-                    "focus index:",
-                    focusIndex,
-                    "focus offset:",
-                    focusOffset
-                );
-                return {
-                    text,
-                    start,
-                    note: note.trim(),
-                };
-            }
-        }
-
-        // if you highlight an already highlighted section
-        function isOverlapped(oldAnnotation, newAnnotation) {
-            const { text: oldText, start: oldStart } = oldAnnotation,
-                { text: newText, start: newStart } = newAnnotation;
-            return (
-                (oldStart <= newStart &&
-                    newStart <= oldStart + oldText.length) ||
-                (newStart <= oldStart &&
-                    oldStart + oldText.length <= newStart + newText.length)
-            );
-        }
-    }
+function toggleAnnotationForm(enabled) {
+    const clearButton = document.querySelector("#clear-to-annotate"),
+        annotateButton = document
+            .querySelector("#annotate")
+            ?.querySelector("button[type='submit']");
+    clearButton && (clearButton.disabled = enabled);
+    annotateButton && (annotateButton.disabled = !enabled);
 }
 
 module.exports = { loadAdmin };

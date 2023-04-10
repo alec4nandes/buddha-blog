@@ -36,13 +36,24 @@ body {
         background-color: #dfdfdf;
         border: 0;
         border-radius: 4px;
+        color: #222;
         font-size: 0.8rem;
-        opacity: 0.8;
+        font-weight: 400;
+        opacity: 1;
         padding: 2px 6px;
+
+        &:disabled {
+            opacity: 0.5;
+
+            &:hover {
+                background-color: #dfdfdf;
+                cursor: initial;
+            }
+        }
 
         &:hover {
             cursor: pointer;
-            opacity: 1;
+            background-color: #ccc;
         }
     }
 
@@ -114,8 +125,9 @@ body {
 
             form {
                 display: flex;
-                flex-wrap: wrap;
+                align-items: center;
                 justify-content: center;
+                flex-wrap: wrap;
             }
 
             #social {
@@ -279,6 +291,27 @@ body {
     input,
     textarea {
         font-size: 0.8rem !important;
+    }
+
+    h1 {
+        &,
+        a {
+            font-size: 1.3rem !important;
+        }
+    }
+
+    h2 {
+        &,
+        a {
+            font-size: 1.1rem !important;
+        }
+    }
+
+    h3 {
+        &,
+        a {
+            font-size: 0.9rem !important;
+        }
     }
 }
 

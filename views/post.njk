@@ -77,7 +77,9 @@ permalink: "posts/{{ entry.id | slugify | safe }}.html"
             </section>
             <section id="post">
                 <h1>{{ entry.post.title | safe }}</h1>
+                {%if entry.post.subtitle %}
                 <h2>{{ entry.post.subtitle | safe }}</h2>
+                {% endif %}
                 <p class="date">{{ entry.post.date_string | safe }}</p>
                 <p>
                     tags: {%- for tag in entry.post.tags %}
