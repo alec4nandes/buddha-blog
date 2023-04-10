@@ -6,6 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "webpack-dev": "webpack --watch",
+        "elev": "npx @11ty/eleventy --serve",
         "build": "webpack&&npx @11ty/eleventy"
     },
     "author": "Alec Fernandes",

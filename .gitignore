@@ -3,4 +3,6 @@ database.js
 bundle.js
 .firebase
 firebase-debug.log
-public/posts
+public/*
+!public/assets
+!public/css
