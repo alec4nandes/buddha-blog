@@ -32,6 +32,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
         <main>
             <section id="sutta-container">
                 <div id="notes-container">
+                    {% if entry.sutta.display.annotations.length %}
                     <div id="notes">
                         notes:&nbsp;
                         <div id="annotations">
@@ -40,6 +41,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                             {% endfor -%}
                         </div>
                     </div>
+                    {% endif %}
                 </div>
                 <div id="sutta-info-and-lines">
                     <div id="sutta-info">
