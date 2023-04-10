@@ -130,14 +130,16 @@ function loadSearchAndTagsHelper({ param, posts, displayElem, resultsElem }) {
             };
 
             function getTagsHTML(tags) {
-                return `
+                return tags.length
+                    ? `
                         <p>tags: ${tags
                             .map(
                                 (tag) =>
                                     `<a href="/tags/index.html?tag=${tag}">${tag}</a>`
                             )
                             .join(", ")}</p>
-                    `;
+                    `
+                    : "";
             }
         }
     }
