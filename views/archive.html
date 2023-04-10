@@ -34,7 +34,7 @@
                     {%- for entry in collections.posts %}
                     <li>
                         {{ entry.post.date_string }}:
-                        <a href="/posts/{{ entry.id | slugify }}">
+                        <a href="/posts/{{ entry.id | slugify }}.html">
                             {{ entry.id }}
                         </a>
                     </li>

@@ -2,14 +2,7 @@ const { getPostData, highlightAll } = require("./src/misc.js");
 const { getAllPosts } = require("./src/read-write.js");
 
 module.exports = function (eleventyConfig) {
-    fetchPostsAndTags().then(([allPosts, allTags]) => {
-        eleventyConfig.addCollection("posts", function () {
-            return allPosts;
-        });
-        eleventyConfig.addCollection("allTags", function () {
-            return allTags;
-        });
-    });
+    setCollections();
 
     return {
         dir: {
@@ -18,27 +11,27 @@ module.exports = function (eleventyConfig) {
         },
     };
 
-    async function fetchPostsAndTags() {
-        const allPosts = (await getAllPosts()).map(getData),
-            allTags = [
-                ...new Set(
-                    allPosts
-                        .map((entry) => entry.post.tags)
-                        .flat()
-                        .filter(Boolean)
-                ),
-            ];
-        allTags.sort();
-        return [allPosts, allTags];
+    async function setCollections() {
+        eleventyConfig.addCollection("posts", async function () {
+            const allPosts = (await getAllPosts()).map(getData);
+            return allPosts;
 
-        function getData(entry) {
-            const { sutta } = entry;
-            entry.post = {
-                ...entry.post,
-                ...getPostData(entry),
-            };
-            entry.sutta.display.highlighted = highlightAll(sutta);
-            return entry;
-        }
+            function getData(entry) {
+                const { sutta } = entry;
+                entry.post = {
+                    ...entry.post,
+                    ...getPostData(entry),
+                };
+                entry.sutta.display.highlighted = highlightAll(sutta);
+                return entry;
+            }
+        });
+        eleventyConfig.addCollection("allTags", async function () {
+            const allTags = (await getAllPosts())
+                .map((entry) => entry.post.tags)
+                .flat()
+                .filter(Boolean);
+            return allTags;
+        });
     }
 };
