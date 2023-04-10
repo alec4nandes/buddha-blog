@@ -1,14 +1,13 @@
-import crawled from "./crawled.js";
-import { auth } from "./database.js";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import {
-    addAnnotationJumpButtons,
+const { crawled } = require("./crawled.js");
+const { auth } = require("./database.js");
+const { getAuth, onAuthStateChanged, signOut } = require("firebase/auth");
+const {
+    getNoteTags,
     getSearchParam,
-    getSuttaInfoHTML,
-    highlightAnnotation,
-    toggleAnnotationForm,
-} from "./misc.js";
-import {
+    highlightAll,
+    spliceLines,
+} = require("./misc.js");
+const {
     addDraft,
     addPost,
     deleteDraft,
@@ -16,9 +15,9 @@ import {
     getAllDrafts,
     getDraft,
     getPost,
-} from "./read-write.js";
+} = require("./read-write.js");
 
-export default function loadAdmin() {
+function loadAdmin() {
     onAuthStateChanged(getAuth(), async (user) => {
         try {
             // With the correctly set Firestore permissions,
@@ -35,7 +34,7 @@ export default function loadAdmin() {
             container.style.display = "flex";
         } catch (err) {
             // console.error(err);
-            window.location.href = "/sign-in.html";
+            window.location.href = "/sign-in";
         }
     });
 
@@ -122,7 +121,7 @@ async function loadSutta(suttaId, sut) {
             enableSubmit = (form) =>
                 (form.querySelector("button[type='submit']").disabled = false);
         clearButton.onclick = () => handleClearHighlights(sutta);
-        editPost.onsubmit = (e) => handleEditPost(e, sutta);
+        editPost.onsubmit = (e) => handleUpload(e, sutta);
         annotateForm.onsubmit = (e) => handleAnnotate(e, sutta);
         enableSubmit(annotateForm);
         enableSubmit(editPost);
@@ -136,6 +135,161 @@ async function loadSutta(suttaId, sut) {
         suttaInfoElem.innerHTML = getSuttaInfoHTML(sutta);
         linesElem.innerHTML = sutta.display.linesHTML;
         addAnnotationJumpButtons(sutta);
+
+        function getSuttaInfoHTML(sutta) {
+            const {
+                sutta_title,
+                section_pali,
+                chapter_number,
+                chapter_title,
+                chapter_description,
+                sutta_description,
+                section_title,
+                section_description,
+            } = sutta;
+            return `
+                <div id="sutta-info">
+                    <details>
+                        <summary>
+                            ${[...new Set([section_pali, section_title])].join(
+                                ": "
+                            )}
+                        </summary>
+                        <p>${section_description}</p>
+                        ${
+                            chapter_title && chapter_description
+                                ? `
+                                    <p><u>${chapter_title.trim()}</u>:</p>
+                                    <p>${chapter_description}</p>
+                                `
+                                : ""
+                        }
+                    </details>
+                    <h2>${sutta_title}</h2>
+                    <h3>
+                        (${section_pali}${
+                chapter_number ? " " + chapter_number : ""
+            })
+                    </h3>
+                    ${
+                        sutta_description
+                            ? `
+                                <details>
+                                    <summary>Summary</summary>
+                                    <p>${sutta_description}</p>
+                                </details>
+                            `
+                            : ""
+                    }
+                </div>
+            `;
+        }
+    }
+
+    function addAnnotationJumpButtons(sutta, isPublished) {
+        const { annotations } = sutta.display;
+        if (annotations.length) {
+            const annoElem = document.querySelector("#annotations"),
+                getButtonHTML = (i) =>
+                    `<button class="annotation-jump">${i + 1}</button>`,
+                showAllButton =
+                    !isPublished &&
+                    annotations.length > 1 &&
+                    `<button id="show-all">show all</button>`,
+                deleteAnnotationForm =
+                    document.querySelector("#delete-annotation");
+            annoElem.innerHTML =
+                annotations.map((_, i) => getButtonHTML(i)).join("") +
+                (showAllButton || "");
+            if (deleteAnnotationForm) {
+                const select = deleteAnnotationForm.querySelector("select"),
+                    getOptionHTML = (i) =>
+                        `<option value="${i + 1}">${i + 1}</option>`;
+                select.innerHTML = annotations
+                    .map((_, i) => getOptionHTML(i))
+                    .join("");
+                deleteAnnotationForm.onsubmit = (e) =>
+                    handleDeleteAnnotation(e, annotations, sutta, isPublished);
+            }
+        }
+        const container = document.querySelector("#notes-container");
+        container.style.display = annotations.length ? "flex" : "none";
+        addHandlers(sutta, isPublished);
+
+        function handleDeleteAnnotation(e, annotations, sutta, isPublished) {
+            e.preventDefault();
+            const buttonText = e.target.index.value,
+                index = buttonText - 1,
+                goAhead = confirm(`Delete note #${buttonText}?`);
+            if (goAhead) {
+                annotations.splice(index, 1);
+                document.querySelector("#lines").innerHTML =
+                    sutta.display.linesHTML;
+                addAnnotationJumpButtons(sutta, isPublished);
+            }
+        }
+
+        function addHandlers(sutta, isPublished) {
+            const jumpButtons = document.querySelectorAll(".annotation-jump"),
+                showAllButton = document.querySelector("#show-all"),
+                linesElem = document.querySelector("#lines");
+            jumpButtons.forEach(
+                (b) =>
+                    (b.onclick = (e) =>
+                        handleAnnotationJump(e, isPublished, linesElem, sutta))
+            );
+            showAllButton &&
+                (showAllButton.onclick = () => handleShowAll(linesElem, sutta));
+
+            function handleAnnotationJump(e, isPublished, linesElem, sutta) {
+                const index = e.target.innerText - 1,
+                    getHighlight = (index) =>
+                        document.querySelector(`#a-${index}`);
+                if (isPublished) {
+                    const elems = document.querySelectorAll(".highlighted"),
+                        highlights = [...elems];
+                    highlights.forEach((span) =>
+                        span.classList.remove("expand")
+                    );
+                    getHighlight(index).classList.add("expand");
+                } else {
+                    toggleAnnotationForm(false);
+                    linesElem.innerHTML = highlightAnnotation(index, sutta);
+                }
+                getHighlight(index).scrollIntoView({ behavior: "smooth" });
+            }
+
+            function handleShowAll(linesElem, sutta) {
+                toggleAnnotationForm(false);
+                linesElem.innerHTML = highlightAll(sutta);
+                document
+                    // scroll to first annotation:
+                    .querySelector("#a-0")
+                    ?.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }
+
+    function toggleAnnotationForm(enabled) {
+        const clearButton = document.querySelector("#clear-to-annotate"),
+            annotateButton = document
+                .querySelector("#annotate")
+                ?.querySelector("button[type='submit']");
+        clearButton && (clearButton.disabled = enabled);
+        annotateButton && (annotateButton.disabled = !enabled);
+    }
+
+    function highlightAnnotation(index, sutta) {
+        const { annotations } = sutta.display,
+            { start, text, note } = annotations[index],
+            { spanOpenTag, spanCloseTag } = getNoteTags(index, note);
+        return spliceLines({
+            start,
+            text,
+            spanOpenTag,
+            spanCloseTag,
+            linesHTML: sutta.display.linesHTML,
+        });
     }
 
     function handleClearHighlights(sutta) {
@@ -144,10 +298,14 @@ async function loadSutta(suttaId, sut) {
     }
 
     // uploads the post to Firestore
-    function handleEditPost(e, sutta) {
+    function handleUpload(e, sutta) {
         e.preventDefault();
         const post = Object.fromEntries(new FormData(e.target));
         delete post.type;
+        post.tags = post.tags
+            .split(",")
+            .map((tag) => tag.trim().toLowerCase())
+            .filter(Boolean);
         const draft = {
                 post: { ...post, date: new Date() },
                 sutta,
@@ -273,3 +431,5 @@ async function loadSutta(suttaId, sut) {
         }
     }
 }
+
+module.exports = { loadAdmin };

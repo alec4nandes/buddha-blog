@@ -1,9 +1,6 @@
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
-// for __dirname in module:
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const path = require("path");
 
-const module = {
+module.exports = {
     mode: "development",
     entry: {
         main: path.resolve(__dirname, "./src/pre-bundle.js"),
@@ -13,5 +10,3 @@ const module = {
         filename: "bundle.js",
     },
 };
-
-export default module;

@@ -20,7 +20,10 @@
 #admin-container header #find-sutta input[type=text] {
   width: 65px;
 }
-#admin-container main section#sutta-container #delete-annotation {
+#admin-container main section#sutta-container #notes-container {
+  display: none;
+}
+#admin-container main section#sutta-container #notes-container #delete-annotation {
   flex-wrap: wrap;
 }
 #admin-container main section#sutta-container #annotate {

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/admin.css" />
+        <title>Admin &mdash; Sutta Basket</title>
+    </head>
+    <body>
+        <div id="admin-container" style="display: none">
+            <header>
+                <div id="search-bar-container">
+                    <a href="/">home</a>
+                    <form id="find-sutta">
+                        <input name="sutta" type="text" placeholder="sutta" />
+                        <button type="submit">find</button>
+                    </form>
+                    <div id="sutta-nav"></div>
+                    <button id="sign-out">sign out</button>
+                </div>
+            </header>
+            <main>
+                <section id="sutta-container">
+                    <div id="sutta-info-and-lines">
+                        <div id="sutta-info"></div>
+                        <div id="lines"></div>
+                    </div>
+                    <div id="notes-container">
+                        <div id="delete-note-container">
+                            <div id="notes">
+                                <div id="annotations"></div>
+                            </div>
+                            <form id="delete-annotation">
+                                <select name="index"></select>
+                                <button type="submit">delete note</button>
+                            </form>
+                        </div>
+                    </div>
+                    <form id="annotate">
+                        <textarea name="note" type="text"></textarea>
+                        <button type="submit" disabled>annotate</button>
+                    </form>
+                    <button id="clear-to-annotate" disabled>
+                        clear to add
+                    </button>
+                </section>
+                <section id="post">
+                    <form id="edit-post">
+                        <label>title: <input name="title" type="text" /></label>
+                        <label>
+                            subtitle: <input name="subtitle" type="text" />
+                        </label>
+                        <label>
+                            image url:
+                            <input name="image_url" type="text" />
+                        </label>
+                        <label>
+                            caption:
+                            <input name="image_caption" type="text" />
+                        </label>
+                        <label for="content">content:</label>
+                        <textarea
+                            name="content"
+                            id="content"
+                            type="text"
+                        ></textarea>
+                        <div id="submit-container">
+                            <label
+                                >tags: <input name="tags" type="text"
+                            /></label>
+                            <select name="type">
+                                <option value="draft">draft</option>
+                                <option value="post">post</option>
+                            </select>
+                            <button type="submit" disabled>upload</button>
+                        </div>
+                    </form>
+                    <div id="delete-container">
+                        <span id="post-status"></span>
+                        <button id="delete" disabled>delete</button>
+                    </div>
+                </section>
+            </main>
+            <footer></footer>
+        </div>
+
+        <script src="/bundle.js"></script>
+    </body>
+</html>

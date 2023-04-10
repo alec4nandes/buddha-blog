@@ -1,12 +1,12 @@
-import {
+const {
     collection,
     deleteDoc,
     doc,
     getDoc,
     getDocs,
     setDoc,
-} from "firebase/firestore";
-import db from "./database.js";
+} = require("firebase/firestore");
+const { db } = require("./database.js");
 
 async function addDraft(draft) {
     return await addHelper(draft, "drafts");
@@ -16,11 +16,23 @@ async function addHelper(draft, coll) {
     const { title } = draft.post;
     if (title.trim()) {
         const { sutta_id } = draft.sutta,
-            id = `${sutta_id}: ${title}`;
-        await setDoc(doc(db, coll, id), draft);
-        return id;
+            id = `${sutta_id}: ${title}`,
+            slug = slugify(id);
+        await setDoc(doc(db, coll, slug), draft);
+        return slug;
     } else {
         alert("Must have a title!");
+    }
+
+    function slugify(str) {
+        return (
+            str
+                .toLowerCase()
+                .trim()
+                // whitespace, emdash and period to hyphen:
+                .replace(/[\s\u2014\.]+/g, "-")
+                .replace(/[:;,'"“”]+/g, "")
+        );
     }
 }
 
@@ -74,7 +86,7 @@ async function getPost(id) {
     return await getHelper(id, "posts");
 }
 
-export {
+module.exports = {
     addDraft,
     addPost,
     deleteDraft,

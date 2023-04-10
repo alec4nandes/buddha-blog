@@ -3720,5 +3720,4 @@ async function crawl() {
     }
 }
 
-export default crawled;
-export { sections };
+module.exports = { crawled, sections };

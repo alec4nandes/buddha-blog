@@ -1,0 +1,117 @@
+---
+pagination:
+    data: collections.posts
+    size: 1
+    alias: entry
+permalink: "posts/{{ entry.id | slugify | safe }}.html"
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/post.css" />
+        <title>{{ entry.post.title | safe }} &mdash; Sutta Basket</title>
+    </head>
+    <body>
+        <header>
+            <div id="search-bar-container">
+                <a href="/">home</a>
+                |
+                <a href="/archive">archive</a>
+                |
+                <a href="/tags">tags</a>
+                {% include "partials/_search-bar.html" %} {% include
+                "partials/_social.html" %}
+            </div>
+        </header>
+        <main>
+            <section id="sutta-container">
+                <div id="notes-container">
+                    <div id="notes">
+                        notes:&nbsp;
+                        <div id="annotations">
+                            {%- for note in entry.sutta.display.annotations %}
+                            <button>{{ loop.index | safe }}</button>
+                            {% endfor -%}
+                        </div>
+                    </div>
+                </div>
+                <div id="sutta-info-and-lines">
+                    <div id="sutta-info">
+                        <details>
+                            <summary>
+                                {{ entry.sutta.section_pali | safe }}:
+                                {{ entry.sutta.section_title | safe }}
+                            </summary>
+                            <p>{{ entry.sutta.section_description | safe }}</p>
+                            {% if entry.sutta.chapter_title and
+                            entry.sutta.chapter_description %}
+                            <p>
+                                <u>{{ entry.sutta.chapter_title | safe }}</u
+                                >:
+                            </p>
+                            <p>{{ entry.sutta.chapter_description | safe }}</p>
+                            {% endif %}
+                        </details>
+                        <h2>{{ entry.sutta.sutta_title | safe }}</h2>
+                        <h3>
+                            ({{ entry.sutta.section_pali | safe }}{% if
+                            entry.sutta.chapter_number %}
+                            {{ entry.sutta.chapter_number | safe }}{% endif %})
+                        </h3>
+                        {% if entry.sutta.sutta_description %}
+                        <details>
+                            <summary>Summary</summary>
+                            <p>{{ entry.sutta.sutta_description | safe }}</p>
+                        </details>
+                        {% endif %}
+                    </div>
+                    <div id="lines">
+                        {{ entry.sutta.display.highlighted | safe }}
+                    </div>
+                </div>
+            </section>
+            <section id="post">
+                <h1>{{ entry.post.title | safe }}</h1>
+                <h2>{{ entry.post.subtitle | safe }}</h2>
+                <p class="date">{{ entry.post.date_string | safe }}</p>
+                <p>
+                    tags: {%- for tag in entry.post.tags %}
+                    <a href="/tags/index.html?tag={{ tag | safe }}">{{
+                        tag | safe
+                    }}</a
+                    >, {% endfor -%}
+                </p>
+                <hr />
+                {{ entry.post.image_html | safe }}
+                {{ entry.post.content | safe }}
+            </section>
+        </main>
+        {% include "partials/_footer.html" %}
+
+        <script>
+            const noteButtons = document
+                .querySelector("#annotations")
+                .querySelectorAll("button");
+            noteButtons.forEach(handleShowNote);
+
+            function handleShowNote(button, i) {
+                const linesElem = document.querySelector("#lines"),
+                    allHighlights = linesElem.querySelectorAll(".highlighted"),
+                    noteElem = linesElem.querySelector(`#a-${i}`),
+                    removeExpand = (elem) => elem.classList.remove("expand");
+                button.onclick = () => {
+                    allHighlights.forEach(removeExpand);
+                    noteElem.classList.add("expand");
+                    noteElem.scrollIntoView({
+                        behavior: "smooth",
+                    });
+                };
+            }
+        </script>
+    </body>
+</html>

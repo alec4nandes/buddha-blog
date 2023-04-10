@@ -1,7 +1,7 @@
-import { getSearchParam, loadSearchAndTagsHelper } from "./misc.js";
-import { getAllPosts } from "./read-write.js";
+const { getSearchParam, loadSearchAndTagsHelper } = require("./misc.js");
+const { getAllPosts } = require("./read-write.js");
 
-export default async function loadSearch() {
+async function loadSearch() {
     const param = getSearchParam("search"),
         posts = await findPosts(param),
         displayElem = document.querySelector("#search-term"),
@@ -16,9 +16,17 @@ export default async function loadSearch() {
             const { post, sutta } = entry,
                 { title, subtitle, image_caption, content, tags } = post,
                 fieldsToCheck = [title, subtitle, image_caption, content, tags];
-            return [...fieldsToCheck, ...sutta.lines].find((str) =>
-                str.toUpperCase().includes(searchTerm.toUpperCase())
-            );
+            return [...fieldsToCheck, ...sutta.lines].find((str) => {
+                if (Array.isArray(str)) {
+                    return str.find((tag) =>
+                        tag.includes(searchTerm.toLowerCase())
+                    );
+                } else {
+                    return str.toLowerCase().includes(searchTerm.toLowerCase());
+                }
+            });
         }
     }
 }
+
+module.exports = { loadSearch };

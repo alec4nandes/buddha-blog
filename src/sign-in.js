@@ -1,7 +1,7 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./database.js";
+const { signInWithEmailAndPassword } = require("firebase/auth");
+const { auth } = require("./database.js");
 
-export default function loadSignIn() {
+function loadSignIn() {
     const signInForm = document.querySelector("form#sign-in");
     signInForm.onsubmit = (e) => handleSignIn(e, auth);
 
@@ -14,9 +14,11 @@ export default function loadSignIn() {
                 email.value,
                 password.value
             );
-            window.location.href = "/admin.html";
+            window.location.href = "/admin";
         } catch (err) {
             alert("Wrong credentials!");
         }
     }
 }
+
+module.exports = { loadSignIn };

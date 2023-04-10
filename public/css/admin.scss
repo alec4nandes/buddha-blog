@@ -30,8 +30,12 @@
 
     main {
         section#sutta-container {
-            #delete-annotation {
-                flex-wrap: wrap;
+            #notes-container {
+                display: none;
+
+                #delete-annotation {
+                    flex-wrap: wrap;
+                }
             }
 
             #annotate {

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <title>Tags &mdash; Sutta Basket</title>
+    </head>
+    <body class="full-page">
+        <header>
+            <h1>Sutta Basket</h1>
+            <h2>Tags: <span id="tag-display">[all tags]</span></h2>
+            <div id="search-bar-container">
+                <a href="/">home</a>
+                |
+                <a href="/archive">archive</a>
+                {% include "partials/_search-bar.html" %} {% include
+                "partials/_social.html" %}
+            </div>
+        </header>
+        <main>
+            <div id="tags-container">
+                <section id="tag-results"></section>
+                {% include "partials/_all-tags.html" %}
+            </div>
+        </main>
+        {% include "partials/_footer.html" %}
+
+        <script src="/bundle.js" defer></script>
+    </body>
+</html>

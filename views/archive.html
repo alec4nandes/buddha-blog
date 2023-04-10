@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <title>Archive &mdash; Sutta Basket</title>
+        <style>
+            #archive-container {
+                text-align: center;
+            }
+
+            ul {
+                text-align: left;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Sutta Basket</h1>
+            <h2>Archive</h2>
+            <div id="search-bar-container">
+                <a href="/">home</a>
+                |
+                <a href="/tags">tags</a>
+                {% include "partials/_search-bar.html" %} {% include
+                "partials/_social.html" %}
+            </div>
+        </header>
+        <main>
+            <div id="archive-container">
+                <ul id="archive-list">
+                    {%- for entry in collections.posts %}
+                    <li>
+                        {{ entry.post.date_string }}:
+                        <a href="/posts/{{ entry.id | slugify }}">
+                            {{ entry.id }}
+                        </a>
+                    </li>
+                    {% endfor -%}
+                </ul>
+                <hr />
+                {% include "partials/_all-tags.html" %}
+            </div>
+        </main>
+        {% include "partials/_footer.html" %}
+    </body>
+</html>

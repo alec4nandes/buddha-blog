@@ -3,11 +3,11 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "webpack-dev": "webpack --watch",
-        "build": "webpack"
+        "build": "webpack",
+        "elev": "npx @11ty/eleventy --serve"
     },
     "author": "Alec Fernandes",
     "license": "ISC",
@@ -17,6 +17,7 @@
         "webpack": "^5.77.0"
     },
     "devDependencies": {
+        "@11ty/eleventy": "^2.0.1",
         "webpack-cli": "^5.0.1"
     }
 }

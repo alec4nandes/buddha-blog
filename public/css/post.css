@@ -1,3 +1,7 @@
+#notes-container {
+  display: flex;
+}
+
 .highlighted:hover {
   cursor: pointer;
 }

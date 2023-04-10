@@ -1,5 +1,9 @@
+html,
 body {
-  height: 100vh;
+  height: 100%;
+}
+
+body {
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -20,6 +24,24 @@ body a:hover {
 body a.admin-link {
   color: white;
   text-decoration: none;
+}
+body button {
+  height: 1.2rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #dfdfdf;
+  border: 0;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  opacity: 0.8;
+  padding: 2px 6px;
+}
+body button:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 body h1,
 body h1 * {
@@ -56,6 +78,13 @@ body header {
   flex-direction: column;
   flex-wrap: wrap;
   gap: 5px;
+}
+body header a,
+body header input {
+  font-size: 0.8rem;
+}
+body header a {
+  font-weight: bold;
 }
 body header h2 {
   margin: 0;
@@ -114,7 +143,6 @@ body main section#sutta-container {
 }
 body main section#sutta-container #notes-container {
   background-color: #ccc;
-  display: none;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -186,6 +214,14 @@ body #search-results,
 body #tag-results {
   max-width: 800px;
   margin: auto;
+}
+body footer,
+body footer a {
+  font-size: 0.8rem;
+  font-weight: 100;
+}
+body footer a {
+  font-style: italic;
 }
 
 @media only screen and (max-width: 440px) {

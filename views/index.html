@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <title>Sutta Basket</title>
+    </head>
+    <body>
+        <header>
+            <h1>Sutta Basket</h1>
+            <h2>unpacking Buddhist wisdom</h2>
+            <div id="search-bar-container">
+                <a href="/archive">archive</a>
+                |
+                <a href="/tags">tags</a>
+                {% include "partials/_search-bar.html" %} {% include
+                "partials/_social.html" %}
+            </div>
+        </header>
+        <main>
+            <div id="posts">
+                {%- for entry in collections.posts %}
+                <div>
+                    <h2>
+                        <a href="/posts/{{ entry.id }}.html">
+                            {{ entry.post.title }}
+                        </a>
+                    </h2>
+                    {% if entry.post.subtitle %}
+                    <h3>{{ entry.post.subtitle }}</h3>
+                    {% endif %}
+                    <p class="date">{{ entry.post.date_string }}</p>
+                    <strong>
+                        <small>
+                            Featured sutta: {{ entry.post.sutta_summary }}
+                        </small>
+                    </strong>
+                    {{ entry.post.image_html }} {{ entry.post.content_preview }}
+                    <p>
+                        <a href="/posts/{{ entry.id }}.html">
+                            read alongside sutta
+                        </a>
+                    </p>
+                    <p>
+                        {% if entry.post.tags.length > 0 %} tags: {%- for tag in
+                        entry.post.tags %}
+                        <a href="/tags/index.html?tag={{ tag }}">{{ tag }}</a>,
+                        {% endfor -%} {% endif %}
+                    </p>
+                </div>
+                <hr />
+                {% endfor -%}
+            </div>
+        </main>
+        {% include "partials/_footer.html" %}
+    </body>
+</html>

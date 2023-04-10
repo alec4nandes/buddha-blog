@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <title>Search &mdash; Sutta Basket</title>
+    </head>
+    <body class="full-page">
+        <header>
+            <h1>Sutta Basket</h1>
+            <h2>Search: <span id="search-term"></span></h2>
+            <div id="search-bar-container">
+                <a href="/">home</a>
+                |
+                <a href="/archive">archive</a>
+                |
+                <a href="/tags">tags</a>
+                <form action="/search/index.html">
+    <input name="search" type="text" placeholder="search" />
+    <button type="submit">search</button>
+</form>
+ <div id="social">
+    <a href="https://twitter.com/suttabasket" rel="noopener" target="_blank">
+        <img src="/assets/twitter.png" alt="twitter icon" />
+    </a>
+    <a href="https://instagram.com/suttabasket" rel="noopener" target="_blank">
+        <img src="/assets/instagram.png" alt="instagram icon" />
+    </a>
+    <a href="https://tiktok.com/@suttabasket" rel="noopener" target="_blank">
+        <img src="/assets/tiktok.png" alt="tiktok icon" />
+    </a>
+</div>
+
+            </div>
+        </header>
+        <main>
+            <section id="search-results"></section>
+        </main>
+        <footer>
+    <a class="admin-link" href="/admin"> &copy; Alec Fernandes 2023 </a>
+    &mdash; sutta translations
+    <a href="https://suttacentral.net/" rel="noopener" target="_blank"
+        >&copy; Bhikkhu Sujato</a
+    >
+</footer>
+
+
+        <script src="/bundle.js" defer></script>
+    </body>
+</html>

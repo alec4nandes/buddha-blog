@@ -1,32 +1,21 @@
-import loadPosts from "./posts.js";
-import loadPost from "./post.js";
-import loadArchive from "./archive.js";
-import loadSearch from "./search.js";
-import loadTags from "./tags.js";
-import loadAdmin from "./admin.js";
-import loadSignIn from "./sign-in.js";
+const { loadSearch } = require("./search.js");
+const { loadTags } = require("./tags.js");
+const { loadAdmin } = require("./admin.js");
+const { loadSignIn } = require("./sign-in.js");
 
-if (location.pathname == "/") {
-    /*** INDEX.HTML - SHOW POSTS ***/
-    loadPosts();
-} else if (window.location.href.includes("/post.html")) {
-    /*** POST.HTML - SINGLE POST ***/
-    loadPost();
-} else if (window.location.href.includes("/archive.html")) {
-    /*** ARCHIVE.HTML - LIST ALL POSTS ***/
-    loadArchive();
-} else if (window.location.href.includes("/search.html")) {
+if (window.location.href.includes("/search")) {
     /*** SEARCH.HTML - FIND CONTENT ***/
     loadSearch();
-} else if (window.location.href.includes("/tags.html")) {
+} else if (window.location.href.includes("/tags")) {
     /*** TAGS.HTML - FIND RELATED CONTENT ***/
     loadTags();
-} else if (window.location.href.includes("/admin.html")) {
+} else if (window.location.href.includes("/admin")) {
     /*** ADMIN.HTML - EDIT POSTS ***/
     loadAdmin();
-} else if (window.location.href.includes("/sign-in.html")) {
+} else if (window.location.href.includes("/sign-in")) {
     /*** SIGN-IN.HTML - ACCESS DRAFTS ***/
     loadSignIn();
-} else {
-    window.location.href = "/404.html";
 }
+// else {
+//     window.location.href = "/404.html";
+// }
