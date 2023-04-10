@@ -95,25 +95,24 @@ function loadSearchAndTagsHelper({ param, posts, displayElem, resultsElem }) {
         const {
                 title,
                 subtitle,
-                dateString,
-                imageHTML,
-                content,
-                tagsHTML,
+                date_string,
+                image_html,
+                content_preview,
+                tags_html,
                 id,
-                suttaSummary,
+                sutta_summary,
             } = getHTMLData(post),
             openLinkTag = `<a href="/posts/${id}.html">`;
         return `
                 <div>
                     <h2>${openLinkTag}${title}</a></h2>
                     ${subtitle ? `<h3>${subtitle}</h3>` : ""}
-                    <p class="date">${dateString}</p>
-                    <strong><small>Featured sutta: ${suttaSummary}</small></strong>
-                    ${imageHTML}
-                    ${content.slice(0, 500)}
-                    ${content.length > 500 ? "..." : ""}
+                    <p class="date">${date_string}</p>
+                    <strong><small>Featured sutta: ${sutta_summary}</small></strong>
+                    ${image_html}
+                    ${content_preview}
                     <p>${openLinkTag}read alongside sutta</a></p>
-                    ${tagsHTML}
+                    ${tags_html}
                 </div>
             `;
 
