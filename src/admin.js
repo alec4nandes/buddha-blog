@@ -114,7 +114,7 @@ function displaySuttaNav(sutta) {
     randomButton.onclick = () => loadSutta(getRandom(crawled));
 }
 
-function getAnnotation(note) {
+function getAnnotation() {
     const selection = window.getSelection(),
         selectionString = selection.toString().trimEnd(),
         // no spaces or line breaks as annotations:
@@ -169,7 +169,6 @@ function getAnnotation(note) {
         return {
             text,
             start,
-            note: note.trim(),
         };
     }
 }
@@ -177,9 +176,12 @@ function getAnnotation(note) {
 function handleAnnotate(e, sutta) {
     e.preventDefault();
     const linesElem = document.querySelector("#lines"),
-        data = linesElem.getAttribute("data-annotation"),
-        annotation = data && JSON.parse(data);
-    if (annotation.text) {
+        data = linesElem.getAttribute("data-annotation");
+    if (data) {
+        const note = document
+                .querySelector("textarea[name='note']")
+                .value.trim(),
+            annotation = { ...JSON.parse(data), note };
         sutta.display.annotations = sutta.display.annotations.filter(
             (oldAnno) => !isOverlapped(oldAnno, annotation)
         );
@@ -312,15 +314,11 @@ async function loadSutta(suttaId, sut) {
             linesElem = document.querySelector("#lines"),
             enableSubmit = (form) =>
                 (form.querySelector("button[type='submit']").disabled = false),
-            setSelection = () => {
-                const note = document
-                    .querySelector("textarea[name='note']")
-                    .value.trim();
+            setSelection = () =>
                 linesElem.setAttribute(
                     "data-annotation",
-                    JSON.stringify(getAnnotation(note))
+                    JSON.stringify(getAnnotation())
                 );
-            };
         annotateForm.onsubmit = (e) => handleAnnotate(e, sutta);
         clearButton.onclick = () => handleClearHighlights(sutta);
         editPost.onsubmit = (e) => handleUpload(e, sutta);
