@@ -7,12 +7,9 @@
         <link rel="stylesheet" href="/css/style.css" />
         <title>Archive &mdash; Sutta Basket</title>
         <style>
-            #archive-container {
-                text-align: center;
-            }
-
             ul {
-                text-align: left;
+                width: fit-content;
+                margin: auto;
             }
         </style>
     </head>
@@ -34,9 +31,10 @@
                     {%- for entry in collections.posts %}
                     <li>
                         {{ entry.post.date_string }}:
-                        <a href="/posts/{{ entry.id | slugify }}.html">
-                            {{ entry.id }}
-                        </a>
+                        <br />&nbsp;&nbsp;&nbsp;&nbsp;<a
+                            href="/posts/{{ entry.id | slugify }}.html"
+                            >{{ entry.post.title }}</a
+                        >
                     </li>
                     {% endfor -%}
                 </ul>

@@ -290,27 +290,30 @@ body {
     button,
     input,
     textarea {
-        font-size: 0.8rem !important;
+        font-size: 0.9rem !important;
     }
 
     h1 {
         &,
-        a {
-            font-size: 1.3rem !important;
+        a,
+        span {
+            font-size: 1.5rem !important;
         }
     }
 
     h2 {
         &,
-        a {
-            font-size: 1.1rem !important;
+        a,
+        span {
+            font-size: 1.3rem !important;
         }
     }
 
     h3 {
         &,
-        a {
-            font-size: 0.9rem !important;
+        a,
+        span {
+            font-size: 1.1rem !important;
         }
     }
 }
