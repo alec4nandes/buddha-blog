@@ -1,0 +1,8 @@
+<section id="all-tags">
+    <p>
+        all tags: {% for tag in collections.allTags %}
+            <a href="/tags/index.html?tag={{ tag }}">
+                {{ tag }}</a>{{"," if not loop.last}}
+        {% endfor %}
+    </p>
+</section>

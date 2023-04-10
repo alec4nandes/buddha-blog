@@ -3,18 +3,18 @@ pagination:
     data: collections.posts
     size: 1
     alias: entry
-permalink: "posts/{{ entry.id | slugify | safe }}.html"
+permalink: "posts/{{ entry.id | slugify }}.html"
 ---
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/css/style.css" />
-        <link rel="stylesheet" href="/css/post.css" />
-        <title>{{ entry.post.title | safe }} &mdash; Sutta Basket</title>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="/css/post.css"/>
+        <title>{{ entry.post.title }} &mdash; Sutta Basket</title>
     </head>
     <body>
         <header>
@@ -24,7 +24,8 @@ permalink: "posts/{{ entry.id | slugify | safe }}.html"
                 <a href="/archive">archive</a>
                 |
                 <a href="/tags">tags</a>
-                {% include "partials/_search-bar.html" %} {% include
+                {% include "partials/_search-bar.html" %}
+                {% include
                 "partials/_social.html" %}
             </div>
         </header>
@@ -35,7 +36,7 @@ permalink: "posts/{{ entry.id | slugify | safe }}.html"
                         notes:&nbsp;
                         <div id="annotations">
                             {%- for note in entry.sutta.display.annotations %}
-                            <button>{{ loop.index | safe }}</button>
+                                <button>{{ loop.index }}</button>
                             {% endfor -%}
                         </div>
                     </div>
@@ -44,30 +45,30 @@ permalink: "posts/{{ entry.id | slugify | safe }}.html"
                     <div id="sutta-info">
                         <details>
                             <summary>
-                                {{ entry.sutta.section_pali | safe }}:
-                                {{ entry.sutta.section_title | safe }}
+                                {{ entry.sutta.section_pali }}:
+                                {{ entry.sutta.section_title }}
                             </summary>
                             <p>{{ entry.sutta.section_description | safe }}</p>
                             {% if entry.sutta.chapter_title and
                             entry.sutta.chapter_description %}
-                            <p>
-                                <u>{{ entry.sutta.chapter_title | safe }}</u
-                                >:
-                            </p>
-                            <p>{{ entry.sutta.chapter_description | safe }}</p>
+                                <p>
+                                    <u>{{ entry.sutta.chapter_title }}</u>:
+                                </p>
+                                <p>{{ entry.sutta.chapter_description | safe }}</p>
                             {% endif %}
                         </details>
-                        <h2>{{ entry.sutta.sutta_title | safe }}</h2>
+                        <h2>{{ entry.sutta.sutta_title }}</h2>
                         <h3>
-                            ({{ entry.sutta.section_pali | safe }}{% if
-                            entry.sutta.chapter_number %}
-                            {{ entry.sutta.chapter_number | safe }}{% endif %})
+                            ({{ entry.sutta.section_pali }}
+                            {% if entry.sutta.chapter_number %}
+                                {{ entry.sutta.chapter_number }}
+                            {% endif %})
                         </h3>
                         {% if entry.sutta.sutta_description %}
-                        <details>
-                            <summary>Summary</summary>
-                            <p>{{ entry.sutta.sutta_description | safe }}</p>
-                        </details>
+                            <details>
+                                <summary>Summary</summary>
+                                <p>{{ entry.sutta.sutta_description | safe }}</p>
+                            </details>
                         {% endif %}
                     </div>
                     <div id="lines">
@@ -78,17 +79,17 @@ permalink: "posts/{{ entry.id | slugify | safe }}.html"
             <section id="post">
                 <h1>{{ entry.post.title | safe }}</h1>
                 {%if entry.post.subtitle %}
-                <h2>{{ entry.post.subtitle | safe }}</h2>
+                    <h2>{{ entry.post.subtitle | safe }}</h2>
                 {% endif %}
-                <p class="date">{{ entry.post.date_string | safe }}</p>
+                <p class="date">{{ entry.post.date_string }}</p>
                 <p>
-                    tags: {%- for tag in entry.post.tags %}
-                    <a href="/tags/index.html?tag={{ tag | safe }}">{{
-                        tag | safe
-                    }}</a
-                    >, {% endfor -%}
+                    tags: {% for tag in entry.post.tags %}
+                        <a href="/tags/index.html?tag={{ tag }}">
+                            {{tag}}</a>
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
                 </p>
-                <hr />
+                <hr/>
                 {{ entry.post.image_html | safe }}
                 {{ entry.post.content | safe }}
             </section>
@@ -105,13 +106,15 @@ permalink: "posts/{{ entry.id | slugify | safe }}.html"
                 const linesElem = document.querySelector("#lines"),
                     allHighlights = linesElem.querySelectorAll(".highlighted"),
                     noteElem = linesElem.querySelector(`#a-${i}`),
-                    removeExpand = (elem) => elem.classList.remove("expand");
+                    removeExpand = (elem) => elem
+                        .classList
+                        .remove("expand");
                 button.onclick = () => {
                     allHighlights.forEach(removeExpand);
-                    noteElem.classList.add("expand");
-                    noteElem.scrollIntoView({
-                        behavior: "smooth",
-                    });
+                    noteElem
+                        .classList
+                        .add("expand");
+                    noteElem.scrollIntoView({behavior: "smooth"});
                 };
             }
         </script>

@@ -31,6 +31,7 @@ module.exports = function (eleventyConfig) {
                 .map((entry) => entry.post.tags)
                 .flat()
                 .filter(Boolean);
+            allTags.sort();
             return allTags;
         });
     }
