@@ -95,16 +95,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                 {{ entry.post.image_html | safe }}
                 {{ entry.post.content | safe }}
                 <hr/>
-                <div id="comments">
-                    <form id="0" class="add-comment" data-post-id="{{ entry.id }}">
-                        <label>name: <input name="name"/></label>
-                        <label>
-                            comment: <textarea name="message"></textarea>
-                        </label>
-                        <button type="submit">add comment</button>
-                    </form>
-                    <div id="posted-comments" data-post-id="{{ entry.id }}"></div>
-                </div>
+                <div id="comments" data-post-id="{{ entry.id }}"></div>
             </section>
         </main>
         {% include "partials/_footer.html" %}
