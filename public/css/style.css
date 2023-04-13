@@ -40,6 +40,7 @@ body button {
   font-weight: 400;
   opacity: 1;
   padding: 2px 6px;
+  white-space: nowrap;
 }
 body button:disabled {
   opacity: 0.5;
@@ -52,6 +53,21 @@ body button:hover {
   cursor: pointer;
   background-color: #ccc;
 }
+body .date {
+  color: #777;
+  font-style: italic;
+}
+body details summary:hover {
+  cursor: pointer;
+}
+body footer,
+body footer a {
+  font-size: 0.8rem;
+  font-weight: 100;
+}
+body footer a {
+  font-style: italic;
+}
 body h1,
 body h1 * {
   font-size: 2rem;
@@ -60,16 +76,6 @@ body h1 * {
 body h2,
 body h2 * {
   font-size: 1.25rem;
-}
-body button {
-  white-space: nowrap;
-}
-body small {
-  font-size: 0.8rem;
-}
-body .date {
-  color: #777;
-  font-style: italic;
 }
 body header,
 body footer {
@@ -143,6 +149,9 @@ body main > * {
   box-sizing: border-box;
   padding: 30px 30px 0;
 }
+body main #all-tags {
+  padding-bottom: 10px;
+}
 body main section#sutta-container {
   max-width: 500px;
   width: 40%;
@@ -209,6 +218,9 @@ body main section#sutta-container #sutta-info-and-lines #lines .highlighted {
 body main section#sutta-container #sutta-info-and-lines #lines .highlighted:hover {
   cursor: pointer;
 }
+body main section#sutta-container #sutta-info-and-lines #lines .highlighted.expand {
+  background-color: greenyellow;
+}
 body main section#sutta-container #sutta-info-and-lines #lines .highlighted small {
   color: red;
   font-style: italic;
@@ -228,13 +240,8 @@ body #tag-results {
   max-width: 800px;
   margin: auto;
 }
-body footer,
-body footer a {
+body small {
   font-size: 0.8rem;
-  font-weight: 100;
-}
-body footer a {
-  font-style: italic;
 }
 
 @media only screen and (max-width: 440px) {
@@ -261,7 +268,7 @@ body footer a {
   }
 }
 @media only screen and (max-width: 768px) {
-  main > * {
-    padding: 15px 15px 0 !important;
+  body main > * {
+    padding: 15px 15px 0;
   }
 }/*# sourceMappingURL=style.css.map */

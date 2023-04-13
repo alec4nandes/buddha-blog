@@ -1,16 +1,32 @@
-#notes-container {
+body #toggle-buttons {
+  background-color: #555;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  padding: 5px;
+}
+body main > *.wide {
+  max-width: 800px !important;
+  width: 100% !important;
+}
+body main > *.hide {
+  display: none !important;
+}
+body main #sutta-container #notes-container {
   display: flex;
 }
-
-.highlighted:hover {
+body main #sutta-container button#toggle-sutta {
+  margin: auto;
+}
+body main #sutta-container .highlighted:hover {
   cursor: pointer;
 }
-.highlighted:hover small {
+body main #sutta-container .highlighted:hover small {
   display: inline;
 }
-.highlighted.expand small {
+body main #sutta-container .highlighted.expand small {
   display: inline;
 }
-.highlighted small {
+body main #sutta-container .highlighted small {
   display: none;
 }/*# sourceMappingURL=post.css.map */

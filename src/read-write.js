@@ -46,11 +46,12 @@ async function getPost(id) {
 
 // comments
 
+// returns comment's index in comments database array
 async function addComment(comment) {
     // TODO: make sure inputs don't contain malicious code!
     let { post_id, parent_id, name, message } = comment;
     message = message.trim();
-    if (message) {
+    if (validateComment(message)) {
         const comments = (await getComments(post_id)) || [];
         comments.push({
             parent_id,
@@ -59,9 +60,22 @@ async function addComment(comment) {
             date: new Date(),
         });
         await setDoc(doc(db, "comments", post_id), { comments });
-        return comments.length;
+        return comments.length - 1;
     }
-    return -1;
+
+    // prevents readers from injecting HTML or script tags
+    // (i.e. XSS attacks)
+    function validateComment(message) {
+        const whitelist = /[^a-zA-Z0-9 .,?!@#$%^&*()_+\-=;:'"|\\\/]/g,
+            matches = [...message.matchAll(whitelist)];
+        if (matches.length) {
+            alert(
+                `Please remove these invalid characters: ${matches.join(", ")}`
+            );
+            return false;
+        }
+        return true;
+    }
 }
 
 async function getComments(id) {

@@ -41,6 +41,7 @@ body {
         font-weight: 400;
         opacity: 1;
         padding: 2px 6px;
+        white-space: nowrap;
 
         &:disabled {
             opacity: 0.5;
@@ -57,6 +58,31 @@ body {
         }
     }
 
+    .date {
+        color: #777;
+        font-style: italic;
+    }
+
+    details {
+        summary {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    footer {
+        &,
+        a {
+            font-size: 0.8rem;
+            font-weight: 100;
+        }
+
+        a {
+            font-style: italic;
+        }
+    }
+
     h1 {
         &,
         * {
@@ -70,19 +96,6 @@ body {
         * {
             font-size: 1.25rem;
         }
-    }
-
-    button {
-        white-space: nowrap;
-    }
-
-    small {
-        font-size: 0.8rem;
-    }
-
-    .date {
-        color: #777;
-        font-style: italic;
     }
 
     header,
@@ -170,6 +183,10 @@ body {
             padding: 30px 30px 0;
         }
 
+        #all-tags {
+            padding-bottom: 10px;
+        }
+
         section#sutta-container {
             max-width: 500px;
             width: 40%;
@@ -248,6 +265,10 @@ body {
                             cursor: pointer;
                         }
 
+                        &.expand {
+                            background-color: greenyellow;
+                        }
+
                         small {
                             color: red;
                             font-style: italic;
@@ -278,16 +299,8 @@ body {
         margin: auto;
     }
 
-    footer {
-        &,
-        a {
-            font-size: 0.8rem;
-            font-weight: 100;
-        }
-
-        a {
-            font-style: italic;
-        }
+    small {
+        font-size: 0.8rem;
     }
 }
 
@@ -325,7 +338,9 @@ body {
 }
 
 @media only screen and (max-width: 768px) {
-    main > * {
-        padding: 15px 15px 0 !important;
+    body {
+        main > * {
+            padding: 15px 15px 0;
+        }
     }
 }

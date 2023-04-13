@@ -72,17 +72,16 @@ function addAnnotationJumpButtons(sutta, isPublished) {
             (showAllButton.onclick = () => handleShowAll(linesElem, sutta));
 
         function handleAnnotationJump(e, isPublished, linesElem, sutta) {
-            const index = e.target.innerText - 1,
-                getHighlight = (index) => document.querySelector(`#a-${index}`);
-            if (isPublished) {
-                const elems = document.querySelectorAll(".highlighted"),
-                    highlights = [...elems];
-                highlights.forEach((span) => span.classList.remove("expand"));
-                getHighlight(index).classList.add("expand");
-            } else {
+            const index = e.target.innerText - 1;
+            if (!isPublished) {
                 toggleAnnotationForm(false);
                 linesElem.innerHTML = highlightAnnotation(index, sutta);
             }
+            const elems = document.querySelectorAll(".highlighted"),
+                highlights = [...elems],
+                getHighlight = (index) => document.querySelector(`#a-${index}`);
+            highlights.forEach((span) => span.classList.remove("expand"));
+            getHighlight(index).classList.add("expand");
             getHighlight(index).scrollIntoView({ behavior: "smooth" });
         }
 

@@ -1,23 +1,52 @@
-#notes-container {
-    display: flex;
-}
-
-.highlighted {
-    &:hover {
-        cursor: pointer;
-
-        small {
-            display: inline;
-        }
+body {
+    #toggle-buttons {
+        background-color: #555;
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+        padding: 5px;
     }
 
-    &.expand {
-        small {
-            display: inline;
-        }
-    }
+    main {
+        & > * {
+            &.wide {
+                max-width: 800px !important;
+                width: 100% !important;
+            }
 
-    small {
-        display: none;
+            &.hide {
+                display: none !important;
+            }
+        }
+
+        #sutta-container {
+            #notes-container {
+                display: flex;
+            }
+
+            button#toggle-sutta {
+                margin: auto;
+            }
+
+            .highlighted {
+                &:hover {
+                    cursor: pointer;
+
+                    small {
+                        display: inline;
+                    }
+                }
+
+                &.expand {
+                    small {
+                        display: inline;
+                    }
+                }
+
+                small {
+                    display: none;
+                }
+            }
+        }
     }
 }

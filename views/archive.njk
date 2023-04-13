@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/css/style.css" />
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="/css/style.css"/>
         <title>Archive &mdash; Sutta Basket</title>
         <style>
             ul {
@@ -21,7 +21,8 @@
                 <a href="/">home</a>
                 |
                 <a href="/tags">tags</a>
-                {% include "partials/_search-bar.html" %} {% include
+                {% include "partials/_search-bar.html" %}
+                {% include
                 "partials/_social.html" %}
             </div>
         </header>
@@ -29,16 +30,16 @@
             <div id="archive-container">
                 <ul id="archive-list">
                     {%- for entry in collections.posts %}
-                    <li>
-                        {{ entry.post.date_string }}:
-                        <br />&nbsp;&nbsp;&nbsp;&nbsp;<a
+                        <li>
+                            {{ entry.post.date_string }}:
+                        <br/>&nbsp;&nbsp;&nbsp;&nbsp;<a
                             href="/posts/{{ entry.id | slugify }}.html"
                             >{{ entry.post.title }}</a
                         >
-                    </li>
+                        </li>
                     {% endfor -%}
                 </ul>
-                <hr />
+                <hr/>
                 {% include "partials/_all-tags.njk" %}
             </div>
         </main>

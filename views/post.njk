@@ -30,6 +30,11 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                 "partials/_social.html" %}
             </div>
         </header>
+        <section id="toggle-buttons">
+            <button id="expand-sutta">expand sutta</button>
+            <button id="expand-post">expand post</button>
+            <button id="show-both" disabled>show both</button>
+        </section>
         <main>
             <section id="sutta-container">
                 <div id="notes-container">
@@ -90,8 +95,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                 <p>
                     tags: {% for tag in entry.post.tags %}
                         <a href="/tags/index.html?tag={{ tag }}">
-                            {{tag}}</a>
-                        {% if not loop.last %}, {% endif %}
+                            {{tag}}</a>{{ "," if not loop.last }}
                     {% endfor %}
                 </p>
                 <hr/>
@@ -126,6 +130,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
             }
         </script>
 
+        <script src="/toggle.js"></script>
         <script src="/bundle.js"></script>
     </body>
 </html>

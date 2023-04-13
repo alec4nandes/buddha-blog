@@ -1,8 +1,6 @@
 const { addComment, getComments } = require("./read-write.js");
 
 async function loadComments() {
-    const getCommentIndex = (comment, comments) =>
-        comments.indexOf(comment) + 1;
     await loadCommentsHTML();
     // add submit handlers to comment forms
     document
@@ -12,18 +10,20 @@ async function loadComments() {
     async function loadCommentsHTML() {
         const commentsDisplay = document.querySelector("#comments"),
             postId = commentsDisplay.getAttribute("data-post-id"),
-            comments = (await getComments(postId)) || [];
+            comments = (await getComments(postId)) || [],
+            isTopLevelComment = (comment) => comment.parent_id === -1,
+            topLevelComments = comments.filter(isTopLevelComment),
+            getCommentIndex = (comment, comments) => comments.indexOf(comment);
         commentsDisplay.innerHTML =
             "<h2>Leave a comment</h2>" +
-            getFormHTML(postId) +
-            comments
-                .filter((comment) => !+comment.parent_id)
+            getFormHTML(postId, comments) +
+            topLevelComments
                 .map((comment, index) =>
                     getCommentHTMLRecursive(comment, index, comments, postId)
                 )
-                .join("<hr/>");
+                .join("");
 
-        function getFormHTML(postId, comment) {
+        function getFormHTML(postId, comments, comment) {
             const commentIndex = getCommentIndex(comment, comments);
             return `
                 <form id="${commentIndex}" class="add-comment" data-post-id="${postId}">
@@ -36,40 +36,27 @@ async function loadComments() {
             `;
         }
 
-        function getCommentHTMLRecursive(
-            comment,
-            index,
-            comments,
-            postId,
-            level = 0
-        ) {
+        function getCommentHTMLRecursive(comment, index, comments, postId) {
             const { name, message, date } = comment,
                 commentIndex = getCommentIndex(comment, comments);
             return `
-                <div id="comment-${commentIndex}" class="comment"
-                style="padding-left: ${level * 15}px">
+                <div id="comment-${commentIndex}" class="comment">
                     <small class="date">${parseDate(date)}</small>
                     <br/>
                     <b>${name}:</b> ${message}
                     <details>
                         <summary><img src="/assets/add-comment.png" /></summary>
-                        ${getFormHTML(postId, comment)}
+                        ${getFormHTML(postId, comments, comment)}
                     </details>
                     ${comments
                         .map(
                             (c, i) =>
                                 i !== index &&
-                                +c.parent_id === commentIndex &&
-                                getCommentHTMLRecursive(
-                                    c,
-                                    i,
-                                    comments,
-                                    postId,
-                                    level + 1
-                                )
+                                c.parent_id === commentIndex &&
+                                getCommentHTMLRecursive(c, i, comments, postId)
                         )
                         .filter(Boolean)
-                        .join("<hr/>")}
+                        .join("")}
                 </div>
             `;
         }
@@ -93,21 +80,23 @@ async function loadComments() {
     async function handleAddComment(e) {
         e.preventDefault();
         const post_id = e.target.getAttribute("data-post-id"),
-            parent_id = e.target.id,
+            parent_id = +e.target.id,
             name = e.target.name.value,
             message = e.target.message.value,
             index = await addComment({ post_id, parent_id, name, message });
-        await loadComments();
-        const postElem = document.querySelector("#post"),
-            comment = document.querySelector(`#comment-${index}`),
-            top =
-                comment.offsetTop -
-                document.querySelector("header").offsetHeight;
-        console.log(index, comment.offsetTop, comment);
-        postElem.scrollTo({
-            top,
-            behavior: "smooth",
-        });
+        if (index !== undefined) {
+            await loadComments();
+            const postElem = document.querySelector("#post"),
+                comment = document.querySelector(`#comment-${index}`),
+                top =
+                    comment?.offsetTop -
+                    document.querySelector("header").offsetHeight;
+            console.log(index, comment?.offsetTop, comment);
+            postElem.scrollTo({
+                top,
+                behavior: "smooth",
+            });
+        }
     }
 }
 

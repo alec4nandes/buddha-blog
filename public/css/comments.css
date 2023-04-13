@@ -1,5 +1,12 @@
+#comments {
+  width: 100%;
+  overflow-x: auto;
+}
 #comments .comment {
   min-width: 200px;
+  border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  padding-left: 15px;
 }
 #comments .comment small.date {
   color: #aaa;
@@ -21,7 +28,6 @@
   position: relative;
 }
 #comments .comment details summary img:hover {
-  cursor: pointer;
   opacity: 1;
 }
 #comments .comment details form {
