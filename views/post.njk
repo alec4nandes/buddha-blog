@@ -14,6 +14,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="/css/style.css"/>
         <link rel="stylesheet" href="/css/post.css"/>
+        <link rel="stylesheet" href="/css/comments.css"/>
         <title>{{ entry.post.title }} &mdash; Sutta Basket</title>
     </head>
     <body>
@@ -83,7 +84,9 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                 {%if entry.post.subtitle %}
                     <h2>{{ entry.post.subtitle | safe }}</h2>
                 {% endif %}
-                <p class="date">{{ entry.post.date_string }}</p>
+                <p class="date">
+                    <small>{{ entry.post.date_string }}</small>
+                </p>
                 <p>
                     tags: {% for tag in entry.post.tags %}
                         <a href="/tags/index.html?tag={{ tag }}">

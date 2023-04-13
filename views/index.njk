@@ -32,7 +32,9 @@
                         {% if entry.post.subtitle %}
                             <h3>{{ entry.post.subtitle | safe }}</h3>
                         {% endif %}
-                        <p class="date">{{ entry.post.date_string }}</p>
+                        <p class="date">
+                            <small>{{ entry.post.date_string }}</small>
+                        </p>
                         <strong>
                             <small>
                             Featured sutta: {{ entry.post.sutta_summary }}

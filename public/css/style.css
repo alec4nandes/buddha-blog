@@ -68,7 +68,7 @@ body small {
   font-size: 0.8rem;
 }
 body .date {
-  color: #555;
+  color: #777;
   font-style: italic;
 }
 body header,
@@ -218,6 +218,9 @@ body main section#post {
   width: 60%;
   background-color: #eee;
   overflow: auto;
+}
+body main #posts .date {
+  margin: 0;
 }
 body #posts,
 body #search-results,

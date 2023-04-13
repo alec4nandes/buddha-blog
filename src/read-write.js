@@ -59,9 +59,9 @@ async function addComment(comment) {
             date: new Date(),
         });
         await setDoc(doc(db, "comments", post_id), { comments });
-        return true;
+        return comments.length;
     }
-    return false;
+    return -1;
 }
 
 async function getComments(id) {
