@@ -12,6 +12,64 @@ async function addDraft(draft) {
     return await addHelper(draft, "drafts");
 }
 
+async function addPost(draft) {
+    return await addHelper(draft, "posts");
+}
+
+async function deleteDraft(id) {
+    return await deleteHelper(id, "drafts");
+}
+
+async function deleteHelper(id, coll) {
+    return await deleteDoc(doc(db, coll, id));
+}
+
+async function deletePost(id) {
+    return await deleteHelper(id, "posts");
+}
+
+async function getAllDrafts() {
+    return await getAllHelper("drafts");
+}
+
+async function getAllPosts() {
+    return await getAllHelper("posts");
+}
+
+async function getDraft(id) {
+    return await getHelper(id, "drafts");
+}
+
+async function getPost(id) {
+    return await getHelper(id, "posts");
+}
+
+// comments
+
+async function addComment(comment) {
+    // TODO: make sure inputs don't contain malicious code!
+    let { post_id, parent_id, name, message } = comment;
+    message = message.trim();
+    if (message) {
+        const comments = (await getComments(post_id)) || [];
+        comments.push({
+            parent_id,
+            name: name.trim(),
+            message,
+            date: new Date(),
+        });
+        await setDoc(doc(db, "comments", post_id), { comments });
+        return true;
+    }
+    return false;
+}
+
+async function getComments(id) {
+    return (await getHelper(id, "comments"))?.comments;
+}
+
+// helpers
+
 async function addHelper(draft, coll) {
     const { title } = draft.post;
     if (title.trim()) {
@@ -36,26 +94,6 @@ async function addHelper(draft, coll) {
     }
 }
 
-async function addPost(draft) {
-    return await addHelper(draft, "posts");
-}
-
-async function deleteDraft(id) {
-    return await deleteHelper(id, "drafts");
-}
-
-async function deleteHelper(id, coll) {
-    return await deleteDoc(doc(db, coll, id));
-}
-
-async function deletePost(id) {
-    return await deleteHelper(id, "posts");
-}
-
-async function getAllDrafts() {
-    return await getAllHelper("drafts");
-}
-
 async function getAllHelper(coll) {
     const querySnapshot = await getDocs(collection(db, coll)),
         result = [];
@@ -68,31 +106,21 @@ async function getAllHelper(coll) {
     return result;
 }
 
-async function getAllPosts() {
-    return await getAllHelper("posts");
-}
-
-async function getDraft(id) {
-    return await getHelper(id, "drafts");
-}
-
 async function getHelper(id, coll) {
     const docRef = doc(db, coll, id),
         docSnap = await getDoc(docRef);
     return docSnap.exists() && docSnap.data();
 }
 
-async function getPost(id) {
-    return await getHelper(id, "posts");
-}
-
 module.exports = {
+    addComment,
     addDraft,
     addPost,
     deleteDraft,
     deletePost,
     getAllDrafts,
     getAllPosts,
+    getComments,
     getDraft,
     getPost,
 };

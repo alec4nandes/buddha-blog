@@ -33,14 +33,14 @@ permalink: "posts/{{ entry.id | slugify }}.html"
             <section id="sutta-container">
                 <div id="notes-container">
                     {% if entry.sutta.display.annotations.length %}
-                    <div id="notes">
+                        <div id="notes">
                         notes:&nbsp;
                         <div id="annotations">
-                            {%- for note in entry.sutta.display.annotations %}
-                                <button>{{ loop.index }}</button>
-                            {% endfor -%}
+                                {%- for note in entry.sutta.display.annotations %}
+                                    <button>{{ loop.index }}</button>
+                                {% endfor -%}
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
                 </div>
                 <div id="sutta-info-and-lines">
@@ -94,6 +94,17 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                 <hr/>
                 {{ entry.post.image_html | safe }}
                 {{ entry.post.content | safe }}
+                <hr/>
+                <div id="comments">
+                    <form id="0" class="add-comment" data-post-id="{{ entry.id }}">
+                        <label>name: <input name="name"/></label>
+                        <label>
+                            comment: <textarea name="message"></textarea>
+                        </label>
+                        <button type="submit">add comment</button>
+                    </form>
+                    <div id="posted-comments" data-post-id="{{ entry.id }}"></div>
+                </div>
             </section>
         </main>
         {% include "partials/_footer.html" %}
@@ -120,5 +131,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                 };
             }
         </script>
+
+        <script src="/bundle.js"></script>
     </body>
 </html>
