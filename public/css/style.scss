@@ -258,29 +258,35 @@ body {
                     background-color: #ddd;
                     margin-bottom: 7.5px;
 
-                    details#sutta-chapter-info {
-                        p:last-child {
-                            border-bottom: 1px solid #aaa;
-                            margin-bottom: 0;
+                    details {
+                        &:last-child {
+                            padding-top: 1rem;
+                        }
+
+                        &#sutta-chapter-info {
                             padding-bottom: 1rem;
+
+                            p:last-child {
+                                border-bottom: 1px solid #aaa;
+                                margin-bottom: 0;
+                                padding-bottom: 1rem;
+                            }
                         }
                     }
 
-                    details#sutta-chapter-info,
+                    #sutta-pali-name,
+                    #sutta-title {
+                        display: inline;
+                    }
+
                     #sutta-pali-name {
-                        padding-bottom: 1rem;
+                        color: #444;
+                        font-style: italic;
                     }
 
                     #sutta-title {
                         color: #444;
-                        display: inline;
                         line-height: 1.5rem;
-                    }
-
-                    #sutta-pali-name {
-                        color: #444;
-                        display: inline-block;
-                        font-style: italic;
                     }
                 }
 

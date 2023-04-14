@@ -213,24 +213,28 @@ body main section#sutta-container #sutta-info-and-lines #sutta-info {
   background-color: #ddd;
   margin-bottom: 7.5px;
 }
+body main section#sutta-container #sutta-info-and-lines #sutta-info details:last-child {
+  padding-top: 1rem;
+}
+body main section#sutta-container #sutta-info-and-lines #sutta-info details#sutta-chapter-info {
+  padding-bottom: 1rem;
+}
 body main section#sutta-container #sutta-info-and-lines #sutta-info details#sutta-chapter-info p:last-child {
   border-bottom: 1px solid #aaa;
   margin-bottom: 0;
   padding-bottom: 1rem;
 }
-body main section#sutta-container #sutta-info-and-lines #sutta-info details#sutta-chapter-info,
+body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-pali-name,
+body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-title {
+  display: inline;
+}
 body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-pali-name {
-  padding-bottom: 1rem;
+  color: #444;
+  font-style: italic;
 }
 body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-title {
   color: #444;
-  display: inline;
   line-height: 1.5rem;
-}
-body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-pali-name {
-  color: #444;
-  display: inline-block;
-  font-style: italic;
 }
 body main section#sutta-container #sutta-info-and-lines #lines .highlighted {
   background-color: yellow;
