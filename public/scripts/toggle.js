@@ -1,27 +1,33 @@
 setToggleHandlers();
 
 function setToggleHandlers() {
-    const [expandSuttaButton, expandPostButton, showBothButton] = getButtons();
+    const { expandSuttaButton, expandPostButton, showBothButton } =
+        getButtons();
     expandSuttaButton.onclick = handleExpandSutta;
     expandPostButton.onclick = handleExpandPost;
     showBothButton.onclick = handleShowBoth;
+
+    function disableButton(e) {
+        Object.values(getButtons()).forEach(
+            (button) => (button.disabled = false)
+        );
+        e.target.disabled = true;
+    }
 
     function getButtons() {
         const expandSuttaButton = document.querySelector("button#expand-sutta"),
             expandPostButton = document.querySelector("button#expand-post"),
             showBothButton = document.querySelector("button#show-both");
-        return [expandSuttaButton, expandPostButton, showBothButton];
+        return { expandSuttaButton, expandPostButton, showBothButton };
     }
 
-    function handleExpandSutta(e) {
-        expandHelper(e, "sutta");
+    function getElems() {
+        const suttaElem = document.querySelector("#sutta-container"),
+            postElem = document.querySelector("#post");
+        return { suttaElem, postElem };
     }
 
-    function handleExpandPost(e) {
-        expandHelper(e, "post");
-    }
-
-    function expandHelper(e, side) {
+    function handleExpandHelper(e, side) {
         disableButton(e);
         const { suttaElem, postElem } = getElems(),
             isSutta = side === "sutta",
@@ -33,22 +39,19 @@ function setToggleHandlers() {
         otherElem.classList.add("hide");
     }
 
+    function handleExpandPost(e) {
+        handleExpandHelper(e, "post");
+    }
+
+    function handleExpandSutta(e) {
+        handleExpandHelper(e, "sutta");
+    }
+
     function handleShowBoth(e) {
         disableButton(e);
         const { suttaElem, postElem } = getElems();
         [suttaElem, postElem].forEach((elem) =>
             elem.classList.remove("hide", "wide")
         );
-    }
-
-    function disableButton(e) {
-        getButtons().forEach((button) => (button.disabled = false));
-        e.target.disabled = true;
-    }
-
-    function getElems() {
-        const suttaElem = document.querySelector("#sutta-container"),
-            postElem = document.querySelector("#post");
-        return { suttaElem, postElem };
     }
 }
