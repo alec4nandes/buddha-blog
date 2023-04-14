@@ -49,14 +49,13 @@ async function getPost(id) {
 // returns comment's index in comments database array
 async function addComment(comment) {
     // TODO: make sure inputs don't contain malicious code!
-    let { post_id, parent_id, name, message } = comment;
-    message = message.trim();
-    if (validateComment(message)) {
+    const { post_id, parent_id, name, message } = comment;
+    if (validateString(name) && validateString(message)) {
         const comments = (await getComments(post_id)) || [];
         comments.push({
             parent_id,
             name: name.trim(),
-            message,
+            message: message.trim(),
             date: new Date(),
         });
         await setDoc(doc(db, "comments", post_id), { comments });
@@ -65,9 +64,14 @@ async function addComment(comment) {
 
     // prevents readers from injecting HTML or script tags
     // (i.e. XSS attacks)
-    function validateComment(message) {
+    function validateString(str) {
+        str = str.trim();
+        if (!str) {
+            alert("Please enter a name and message.");
+            return false;
+        }
         const whitelist = /[^a-zA-Z0-9 .,?!@#$%^&*()_+\-=;:'"|\\\/]/g,
-            matches = [...message.matchAll(whitelist)];
+            matches = [...str.matchAll(whitelist)];
         if (matches.length) {
             alert(
                 `Please remove these invalid characters: ${matches.join(", ")}`
