@@ -30,16 +30,18 @@
                             </a>
                         </h2>
                         {% if entry.post.subtitle %}
-                            <h3>{{ entry.post.subtitle | safe }}</h3>
+                            <h3 class="subtitle">{{ entry.post.subtitle | safe }}</h3>
                         {% endif %}
-                        <p class="date">
-                            <small>{{ entry.post.date_string }}</small>
+                        <small class="date">
+                            {{ entry.post.date_string }}
+                        </small>
+                        <p>
+                            <strong>
+                                <small>
+                                    Featured sutta: {{ entry.post.sutta_summary }}
+                                </small>
+                            </strong>
                         </p>
-                        <strong>
-                            <small>
-                            Featured sutta: {{ entry.post.sutta_summary }}
-                            </small>
-                        </strong>
                         {{ entry.post.image_html | safe }}
                         {{ entry.post.content_preview | safe }}
                         <p>

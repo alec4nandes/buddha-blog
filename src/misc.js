@@ -9,10 +9,14 @@ function getPostData(entry) {
     const { post, sutta } = entry,
         { date, image_url, image_caption, content } = post,
         date_string = parseDate(date),
-        image_html = getImageHTML(image_url, image_caption),
-        { sutta_title, section_pali, chapter_number } = sutta,
-        sutta_summary = `${sutta_title.trim()}
-            (${section_pali}${chapter_number ? " " + chapter_number : ""})`,
+        image_html = getImageHTML(image_url, image_caption);
+    let { sutta_title, section_pali, chapter_number } = sutta;
+    sutta_title = sutta_title.trim();
+    const sutta_summary = `${sutta_title} ${
+            sutta_title ? "(" : ""
+        }${section_pali}${chapter_number ? " " + chapter_number : ""}${
+            sutta_title ? ")" : ""
+        }`,
         content_preview =
             content.slice(0, 500) + (content.length > 500 ? "..." : "");
     return {
@@ -106,9 +110,15 @@ function loadSearchAndTagsHelper({ param, posts, displayElem, resultsElem }) {
         return `
                 <div>
                     <h2>${openLinkTag}${title}</a></h2>
-                    ${subtitle ? `<h3>${subtitle}</h3>` : ""}
-                    <p class="date">${date_string}</p>
-                    <strong><small>Featured sutta: ${sutta_summary}</small></strong>
+                    ${subtitle ? `<h3 class="subtitle">${subtitle}</h3>` : ""}
+                    <small class="date">${date_string}</small>
+                    <p>
+                        <strong>
+                            <small>
+                                Featured sutta: ${sutta_summary}
+                            </small>
+                        </strong>
+                    </p>
                     ${image_html}
                     ${content_preview}
                     <p>${openLinkTag}read alongside sutta</a></p>

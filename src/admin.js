@@ -349,7 +349,7 @@ async function loadSutta(suttaId, sut) {
             } = sutta;
             return `
                 <div id="sutta-info">
-                    <details>
+                    <details id="sutta-chapter-info">
                         <summary>
                             ${[...new Set([section_pali, section_title])].join(
                                 ": "
@@ -365,12 +365,15 @@ async function loadSutta(suttaId, sut) {
                                 : ""
                         }
                     </details>
-                    <h2>${sutta_title}</h2>
-                    <h3>
-                        (${section_pali}${
-                chapter_number ? " " + chapter_number : ""
-            })
-                    </h3>
+                    ${
+                        sutta_title
+                            ? `<h2 id="sutta-title">${sutta_title}</h2> —`
+                            : ""
+                    }
+                    <small id="sutta-pali-name">
+                        ${section_pali}
+                        ${chapter_number ? " " + chapter_number : ""}
+                    </small>
                     ${
                         sutta_description
                             ? `

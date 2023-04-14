@@ -51,7 +51,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                 </div>
                 <div id="sutta-info-and-lines">
                     <div id="sutta-info">
-                        <details>
+                        <details id="sutta-chapter-info">
                             <summary>
                                 {{ entry.sutta.section_pali }}:
                                 {{ entry.sutta.section_title }}
@@ -65,13 +65,15 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                                 <p>{{ entry.sutta.chapter_description | safe }}</p>
                             {% endif %}
                         </details>
-                        <h2>{{ entry.sutta.sutta_title }}</h2>
-                        <h3>
-                            ({{ entry.sutta.section_pali }}
+                        {% if entry.sutta.sutta_title %}
+                            <h2 id="sutta-title">{{ entry.sutta.sutta_title }}</h2> —
+                        {% endif %}
+                        <small id="sutta-pali-name">
+                            {{ entry.sutta.section_pali }}
                             {% if entry.sutta.chapter_number %}
                                 {{ entry.sutta.chapter_number }}
-                            {% endif %})
-                        </h3>
+                            {% endif %}
+                        </small>
                         {% if entry.sutta.sutta_description %}
                             <details>
                                 <summary>Summary</summary>
@@ -87,11 +89,11 @@ permalink: "posts/{{ entry.id | slugify }}.html"
             <section id="post">
                 <h1>{{ entry.post.title | safe }}</h1>
                 {%if entry.post.subtitle %}
-                    <h2>{{ entry.post.subtitle | safe }}</h2>
+                    <h2 class="subtitle">{{ entry.post.subtitle | safe }}</h2>
                 {% endif %}
-                <p class="date">
-                    <small>{{ entry.post.date_string }}</small>
-                </p>
+                <small class="date">
+                    {{ entry.post.date_string }}
+                </small>
                 <p>
                     tags: {% for tag in entry.post.tags %}
                         <a href="/tags/index.html?tag={{ tag }}">

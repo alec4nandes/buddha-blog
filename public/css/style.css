@@ -38,6 +38,7 @@ body button {
   color: #222;
   font-size: 0.8rem;
   font-weight: 400;
+  margin: 0;
   opacity: 1;
   padding: 2px 6px;
   white-space: nowrap;
@@ -56,6 +57,7 @@ body button:hover {
 body .date {
   color: #777;
   font-style: italic;
+  margin-top: 0;
 }
 body details summary:hover {
   cursor: pointer;
@@ -75,7 +77,11 @@ body h1 * {
 }
 body h2,
 body h2 * {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+}
+body h3,
+body h3 * {
+  font-size: 1.15rem;
 }
 body header,
 body footer {
@@ -181,6 +187,7 @@ body main section#sutta-container #notes-container #notes #annotations {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  gap: 5px;
   padding: 5px 0;
 }
 body main section#sutta-container #notes-container #delete-note-container {
@@ -206,11 +213,24 @@ body main section#sutta-container #sutta-info-and-lines #sutta-info {
   background-color: #ddd;
   margin-bottom: 7.5px;
 }
-body main section#sutta-container #sutta-info-and-lines #sutta-info h2 {
-  margin: 10px 0 0;
+body main section#sutta-container #sutta-info-and-lines #sutta-info details#sutta-chapter-info p:last-child {
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 0;
+  padding-bottom: 1rem;
 }
-body main section#sutta-container #sutta-info-and-lines #sutta-info h3 {
-  margin: 0 0 10px;
+body main section#sutta-container #sutta-info-and-lines #sutta-info details#sutta-chapter-info,
+body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-pali-name {
+  padding-bottom: 1rem;
+}
+body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-title {
+  color: #444;
+  display: inline;
+  line-height: 1.5rem;
+}
+body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-pali-name {
+  color: #444;
+  display: inline-block;
+  font-style: italic;
 }
 body main section#sutta-container #sutta-info-and-lines #lines .highlighted {
   background-color: yellow;
@@ -241,7 +261,11 @@ body #tag-results {
   margin: auto;
 }
 body small {
-  font-size: 0.8rem;
+  font-size: 0.8rem !important;
+}
+body .subtitle {
+  color: #444;
+  margin-bottom: 0;
 }
 
 @media only screen and (max-width: 440px) {
@@ -259,15 +283,15 @@ body small {
   h2,
   h2 a,
   h2 span {
-    font-size: 1.3rem !important;
+    font-size: 1.25rem !important;
   }
   h3,
   h3 a,
   h3 span {
-    font-size: 1.1rem !important;
+    font-size: 1.05rem !important;
   }
   /* comments: */
-  small.date {
+  #comments small.date {
     font-size: 0.7rem !important;
   }
 }

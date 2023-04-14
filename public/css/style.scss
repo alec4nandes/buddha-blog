@@ -39,6 +39,7 @@ body {
         color: #222;
         font-size: 0.8rem;
         font-weight: 400;
+        margin: 0;
         opacity: 1;
         padding: 2px 6px;
         white-space: nowrap;
@@ -61,6 +62,7 @@ body {
     .date {
         color: #777;
         font-style: italic;
+        margin-top: 0;
     }
 
     details {
@@ -94,7 +96,14 @@ body {
     h2 {
         &,
         * {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+        }
+    }
+
+    h3 {
+        &,
+        * {
+            font-size: 1.15rem;
         }
     }
 
@@ -217,6 +226,7 @@ body {
                         align-items: center;
                         justify-content: center;
                         flex-wrap: wrap;
+                        gap: 5px;
                         padding: 5px 0;
                     }
                 }
@@ -248,12 +258,29 @@ body {
                     background-color: #ddd;
                     margin-bottom: 7.5px;
 
-                    h2 {
-                        margin: 10px 0 0;
+                    details#sutta-chapter-info {
+                        p:last-child {
+                            border-bottom: 1px solid #aaa;
+                            margin-bottom: 0;
+                            padding-bottom: 1rem;
+                        }
                     }
 
-                    h3 {
-                        margin: 0 0 10px;
+                    details#sutta-chapter-info,
+                    #sutta-pali-name {
+                        padding-bottom: 1rem;
+                    }
+
+                    #sutta-title {
+                        color: #444;
+                        display: inline;
+                        line-height: 1.5rem;
+                    }
+
+                    #sutta-pali-name {
+                        color: #444;
+                        display: inline-block;
+                        font-style: italic;
                     }
                 }
 
@@ -300,7 +327,12 @@ body {
     }
 
     small {
-        font-size: 0.8rem;
+        font-size: 0.8rem !important;
+    }
+
+    .subtitle {
+        color: #444;
+        margin-bottom: 0;
     }
 }
 
@@ -324,7 +356,7 @@ body {
         &,
         a,
         span {
-            font-size: 1.3rem !important;
+            font-size: 1.25rem !important;
         }
     }
 
@@ -332,12 +364,12 @@ body {
         &,
         a,
         span {
-            font-size: 1.1rem !important;
+            font-size: 1.05rem !important;
         }
     }
 
     /* comments: */
-    small.date {
+    #comments small.date {
         font-size: 0.7rem !important;
     }
 }
