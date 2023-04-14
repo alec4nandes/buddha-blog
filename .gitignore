@@ -1,7 +1,7 @@
 node_modules
 database.js
 bundle.js
-.firebase/*
+.firebase
 firebase-debug.log
 public/*
 !public/assets
