@@ -91,7 +91,6 @@ async function loadComments() {
                 top =
                     comment.offsetTop -
                     document.querySelector("header").offsetHeight;
-            console.log(index, comment.offsetTop, comment);
             postElem.scrollTo({
                 top,
                 behavior: "smooth",
