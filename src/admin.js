@@ -1,4 +1,4 @@
-const { crawled } = require("./crawled.js");
+const { getRandomSuttaId } = require("./crawled.js");
 const { auth } = require("./database.js");
 const { getAuth, onAuthStateChanged, signOut } = require("firebase/auth");
 const {
@@ -106,11 +106,10 @@ function displaySuttaNav(sutta) {
         <button id="random">random</button>`;
     const prevButton = displayElem.querySelector("#prev-sutta"),
         nextButton = displayElem.querySelector("#next-sutta"),
-        randomButton = displayElem.querySelector("#random"),
-        getRandom = (arr) => arr[~~(Math.random() * arr.length)];
+        randomButton = displayElem.querySelector("#random");
     prevButton && (prevButton.onclick = () => loadSutta(prev_id));
     nextButton && (nextButton.onclick = () => loadSutta(next_id));
-    randomButton.onclick = () => loadSutta(getRandom(crawled));
+    randomButton.onclick = () => loadSutta(getRandomSuttaId());
 }
 
 function getAnnotation() {

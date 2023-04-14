@@ -1,3 +1,10 @@
+/*
+    crawled.js scans the suttas API of suttacentral.net, more
+    specifically chapters of the suttapitaka. It collects chapter
+    section numbers (sutta_id's) by starting at [chapter]1/1.1 and
+    traversing the next sutta ids, if any.
+*/
+
 const crawled = [
     "dn1",
     "dn2",
@@ -3720,4 +3727,13 @@ async function crawl() {
     }
 }
 
-module.exports = { crawled, sections };
+function getRandomSuttaId() {
+    const getRandom = (arr) => arr[~~(Math.random() * arr.length)],
+        // give all chapters an equal chance, rather than
+        // randomly selecting from crawled
+        chapter = getRandom(Object.keys(sections)),
+        ids = crawled.filter((id) => id.includes(chapter));
+    return getRandom(ids);
+}
+
+module.exports = { crawled, sections, getRandomSuttaId };
