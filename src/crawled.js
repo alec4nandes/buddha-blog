@@ -3731,8 +3731,8 @@ function getRandomSuttaId() {
     const getRandom = (arr) => arr[~~(Math.random() * arr.length)],
         // give all chapters an equal chance, rather than
         // randomly selecting from crawled
-        chapter = getRandom(Object.keys(sections)),
-        ids = crawled.filter((id) => id.includes(chapter));
+        section = getRandom(Object.keys(sections)),
+        ids = crawled.filter((id) => id.includes(section));
     return getRandom(ids);
 }
 
