@@ -229,11 +229,11 @@ body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-title
   display: inline;
 }
 body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-pali-name {
-  color: #444;
+  color: #777;
   font-style: italic;
 }
 body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-title {
-  color: #444;
+  color: #777;
   line-height: 1.5rem;
 }
 body main section#sutta-container #sutta-info-and-lines #lines .highlighted {
@@ -268,7 +268,7 @@ body small {
   font-size: 0.8rem !important;
 }
 body .subtitle {
-  color: #444;
+  color: #777;
   margin-bottom: 0;
 }
 
