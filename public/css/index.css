@@ -1,0 +1,18 @@
+body header {
+  background-color: #874c07;
+}
+body header,
+body header h1,
+body header h2 {
+  color: #ffe7a8 !important;
+}
+body header a {
+  color: #ffb500;
+}
+body header button {
+  background-color: #ffb500;
+  color: #874c07;
+}
+body header button:hover {
+  background-color: #ffe7a8;
+}/*# sourceMappingURL=index.css.map */

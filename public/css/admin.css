@@ -23,8 +23,20 @@
 #admin-container main section#sutta-container #notes-container {
   display: none;
 }
-#admin-container main section#sutta-container #notes-container #delete-annotation {
+#admin-container main section#sutta-container #notes-container #delete-note-container {
+  display: flex;
   flex-wrap: wrap;
+}
+#admin-container main section#sutta-container #notes-container #delete-note-container > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+#admin-container main section#sutta-container #notes-container #delete-note-container #delete-annotation {
+  background-color: #ffd05e;
+  flex-wrap: wrap;
+  padding: 5px 0;
 }
 #admin-container main section#sutta-container #annotate {
   display: flex;

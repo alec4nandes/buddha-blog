@@ -4,12 +4,16 @@
 
     .comment {
         min-width: 200px;
-        border-left: 1px solid #ccc;
-        border-top: 1px solid #ccc;
+        border-left: 1px solid #dd9d00;
+        border-top: 1px solid #dd9d00;
         padding-left: 15px;
 
+        b {
+            color: #874c07;
+        }
+
         small.date {
-            color: #aaa;
+            color: #dd9d00;
         }
 
         details {
@@ -30,7 +34,7 @@
                     height: 20px;
                     width: auto;
                     left: -2px;
-                    opacity: 0.7rem;
+                    opacity: 0.7;
                     position: relative;
 
                     &:hover {
@@ -40,23 +44,19 @@
             }
 
             form {
-                background-color: #ddd;
+                background-color: #ffe29b;
                 margin-bottom: 0;
             }
         }
     }
 
     form {
-        background-color: #ccc;
+        background-color: #ffdc88;
         border-radius: 5px;
         display: flex;
         flex-direction: column;
         margin-bottom: 20px;
         padding: 5px;
-
-        button[type="submit"] {
-            background-color: #bbb;
-        }
 
         input {
             max-width: 200px;

@@ -4,6 +4,8 @@ body {
 }
 
 body {
+    background-color: #ffd05e;
+    color: #222;
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -17,15 +19,10 @@ body {
     }
 
     a {
-        color: yellowgreen;
+        color: #ffb500;
 
         &:hover {
-            color: lightblue;
-        }
-
-        &.admin-link {
-            color: white;
-            text-decoration: none;
+            color: #874c07;
         }
     }
 
@@ -33,10 +30,10 @@ body {
         height: 1.2rem;
         width: fit-content;
         appearance: none;
-        background-color: #dfdfdf;
+        background-color: #874c07;
         border: 0;
         border-radius: 4px;
-        color: #222;
+        color: #fffacb;
         font-size: 0.8rem;
         font-weight: 400;
         margin: 0;
@@ -48,14 +45,13 @@ body {
             opacity: 0.5;
 
             &:hover {
-                background-color: #dfdfdf;
                 cursor: initial;
             }
         }
 
         &:hover {
             cursor: pointer;
-            background-color: #ccc;
+            background-color: #ffb500;
         }
     }
 
@@ -74,6 +70,9 @@ body {
     }
 
     footer {
+        background-color: #874c07;
+        color: #fffacb;
+
         &,
         a {
             font-size: 0.8rem;
@@ -82,7 +81,23 @@ body {
 
         a {
             font-style: italic;
+
+            &:hover {
+                color: #fff;
+            }
+
+            &.admin-link {
+                color: #fffacb;
+                text-decoration: none;
+            }
         }
+    }
+
+    h1,
+    h2,
+    h3 {
+        color: #874c07;
+        text-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
     }
 
     h1 {
@@ -110,14 +125,13 @@ body {
     header,
     footer {
         width: 100%;
-        background-color: #222;
         box-sizing: border-box;
-        color: #fff;
         text-align: center;
         padding: 5px;
     }
 
     header {
+        color: #ffb500;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -131,7 +145,12 @@ body {
         }
 
         a {
+            color: #874c07;
             font-weight: bold;
+
+            &:hover {
+                color: #fff;
+            }
         }
 
         h2 {
@@ -174,8 +193,27 @@ body {
                         width: auto;
                     }
                 }
+
+                img {
+                    filter: contrast(0) brightness(0) invert(1)
+                        drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.5));
+                }
             }
         }
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background-color: #874c07;
+        box-shadow: 3px 2px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    input,
+    textarea {
+        appearance: none;
+        background-color: #fffacb;
+        border: 0;
     }
 
     main {
@@ -196,16 +234,35 @@ body {
             padding-bottom: 10px;
         }
 
+        #archive-container,
+        #post,
+        #posts,
+        #search-results,
+        #tags-container {
+            a {
+                color: #da622b;
+
+                &:hover {
+                    color: #ffb500;
+                }
+            }
+        }
+
         section#sutta-container {
             max-width: 500px;
             width: 40%;
-            background-color: #f3f3f3;
+            background-color: #ffdc88;
             display: flex;
             flex-direction: column;
             gap: 7px;
 
+            #notes-container,
+            #sutta-info {
+                background-color: #ffe7a8;
+                color: #874c07;
+            }
+
             #notes-container {
-                background-color: #ccc;
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;
@@ -230,23 +287,6 @@ body {
                         padding: 5px 0;
                     }
                 }
-
-                #delete-note-container {
-                    display: flex;
-                    flex-wrap: wrap;
-
-                    & > * {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        flex: 1;
-                    }
-
-                    #delete-annotation {
-                        background-color: #aaa;
-                        padding: 5px 0;
-                    }
-                }
             }
 
             #sutta-info-and-lines {
@@ -255,7 +295,6 @@ body {
                 padding-bottom: 20px;
 
                 #sutta-info {
-                    background-color: #ddd;
                     margin-bottom: 7.5px;
 
                     details {
@@ -272,6 +311,12 @@ body {
                                 padding-bottom: 1rem;
                             }
                         }
+
+                        summary {
+                            &:hover {
+                                color: #ffb500;
+                            }
+                        }
                     }
 
                     #sutta-pali-name,
@@ -280,30 +325,28 @@ body {
                     }
 
                     #sutta-pali-name {
-                        color: #777;
                         font-style: italic;
                     }
 
                     #sutta-title {
-                        color: #777;
                         line-height: 1.5rem;
                     }
                 }
 
                 #lines {
                     .highlighted {
-                        background-color: yellow;
+                        background-color: #ffb500;
 
                         &:hover {
                             cursor: pointer;
                         }
 
                         &.expand {
-                            background-color: greenyellow;
+                            background-color: yellow;
                         }
 
                         small {
-                            color: red;
+                            color: rgb(157, 0, 0);
                             font-style: italic;
                         }
                     }
@@ -314,8 +357,31 @@ body {
         section#post {
             max-width: 700px;
             width: 60%;
-            background-color: #eee;
+            background-color: #ffe7a8;
             overflow: auto;
+        }
+
+        .side-bg {
+            flex: 1;
+            padding: 0;
+
+            &.loaded {
+                background-image: url("../assets/backyard-bg.png");
+                background-position: center;
+                background-size: cover;
+                position: relative;
+
+                &:before {
+                    background-color: orange;
+                    content: "";
+                    opacity: 0.5;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                }
+            }
         }
 
         #posts {
@@ -325,11 +391,15 @@ body {
         }
     }
 
+    #archive-container,
     #posts,
     #search-results,
-    #tag-results {
+    #tags-container {
         max-width: 800px;
+        width: 100%;
+        background-color: #ffe7a8;
         margin: auto;
+        overflow: auto;
     }
 
     small {
@@ -337,7 +407,6 @@ body {
     }
 
     .subtitle {
-        color: #777;
         margin-bottom: 0;
     }
 }

@@ -4,6 +4,8 @@ body {
 }
 
 body {
+  background-color: #ffd05e;
+  color: #222;
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -16,14 +18,10 @@ body textarea {
   font-size: 1rem;
 }
 body a {
-  color: yellowgreen;
+  color: #ffb500;
 }
 body a:hover {
-  color: lightblue;
-}
-body a.admin-link {
-  color: white;
-  text-decoration: none;
+  color: #874c07;
 }
 body button {
   height: 1.2rem;
@@ -32,10 +30,10 @@ body button {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
-  background-color: #dfdfdf;
+  background-color: #874c07;
   border: 0;
   border-radius: 4px;
-  color: #222;
+  color: #fffacb;
   font-size: 0.8rem;
   font-weight: 400;
   margin: 0;
@@ -47,12 +45,11 @@ body button:disabled {
   opacity: 0.5;
 }
 body button:disabled:hover {
-  background-color: #dfdfdf;
   cursor: initial;
 }
 body button:hover {
   cursor: pointer;
-  background-color: #ccc;
+  background-color: #ffb500;
 }
 body .date {
   color: #777;
@@ -62,6 +59,10 @@ body .date {
 body details summary:hover {
   cursor: pointer;
 }
+body footer {
+  background-color: #874c07;
+  color: #fffacb;
+}
 body footer,
 body footer a {
   font-size: 0.8rem;
@@ -69,6 +70,19 @@ body footer a {
 }
 body footer a {
   font-style: italic;
+}
+body footer a:hover {
+  color: #fff;
+}
+body footer a.admin-link {
+  color: #fffacb;
+  text-decoration: none;
+}
+body h1,
+body h2,
+body h3 {
+  color: #874c07;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
 }
 body h1,
 body h1 * {
@@ -86,13 +100,12 @@ body h3 * {
 body header,
 body footer {
   width: 100%;
-  background-color: #222;
   box-sizing: border-box;
-  color: #fff;
   text-align: center;
   padding: 5px;
 }
 body header {
+  color: #ffb500;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,7 +118,11 @@ body header input {
   font-size: 0.8rem;
 }
 body header a {
+  color: #874c07;
   font-weight: bold;
+}
+body header a:hover {
+  color: #fff;
 }
 body header h2 {
   margin: 0;
@@ -142,6 +159,23 @@ body header #search-bar-container #social a img {
   height: 20px;
   width: auto;
 }
+body header #search-bar-container #social img {
+  filter: contrast(0) brightness(0) invert(1) drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.5));
+}
+body hr {
+  border: 0;
+  height: 1px;
+  background-color: #874c07;
+  box-shadow: 3px 2px 3px rgba(0, 0, 0, 0.3);
+}
+body input,
+body textarea {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #fffacb;
+  border: 0;
+}
 body main {
   width: 100%;
   display: flex;
@@ -158,16 +192,34 @@ body main > * {
 body main #all-tags {
   padding-bottom: 10px;
 }
+body main #archive-container a,
+body main #post a,
+body main #posts a,
+body main #search-results a,
+body main #tags-container a {
+  color: #da622b;
+}
+body main #archive-container a:hover,
+body main #post a:hover,
+body main #posts a:hover,
+body main #search-results a:hover,
+body main #tags-container a:hover {
+  color: #ffb500;
+}
 body main section#sutta-container {
   max-width: 500px;
   width: 40%;
-  background-color: #f3f3f3;
+  background-color: #ffdc88;
   display: flex;
   flex-direction: column;
   gap: 7px;
 }
+body main section#sutta-container #notes-container,
+body main section#sutta-container #sutta-info {
+  background-color: #ffe7a8;
+  color: #874c07;
+}
 body main section#sutta-container #notes-container {
-  background-color: #ccc;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -190,27 +242,12 @@ body main section#sutta-container #notes-container #notes #annotations {
   gap: 5px;
   padding: 5px 0;
 }
-body main section#sutta-container #notes-container #delete-note-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-body main section#sutta-container #notes-container #delete-note-container > * {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-}
-body main section#sutta-container #notes-container #delete-note-container #delete-annotation {
-  background-color: #aaa;
-  padding: 5px 0;
-}
 body main section#sutta-container #sutta-info-and-lines {
   flex: 1;
   overflow: auto;
   padding-bottom: 20px;
 }
 body main section#sutta-container #sutta-info-and-lines #sutta-info {
-  background-color: #ddd;
   margin-bottom: 7.5px;
 }
 body main section#sutta-container #sutta-info-and-lines #sutta-info details:last-child {
@@ -224,51 +261,75 @@ body main section#sutta-container #sutta-info-and-lines #sutta-info details#sutt
   margin-bottom: 0;
   padding-bottom: 1rem;
 }
+body main section#sutta-container #sutta-info-and-lines #sutta-info details summary:hover {
+  color: #ffb500;
+}
 body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-pali-name,
 body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-title {
   display: inline;
 }
 body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-pali-name {
-  color: #777;
   font-style: italic;
 }
 body main section#sutta-container #sutta-info-and-lines #sutta-info #sutta-title {
-  color: #777;
   line-height: 1.5rem;
 }
 body main section#sutta-container #sutta-info-and-lines #lines .highlighted {
-  background-color: yellow;
+  background-color: #ffb500;
 }
 body main section#sutta-container #sutta-info-and-lines #lines .highlighted:hover {
   cursor: pointer;
 }
 body main section#sutta-container #sutta-info-and-lines #lines .highlighted.expand {
-  background-color: greenyellow;
+  background-color: yellow;
 }
 body main section#sutta-container #sutta-info-and-lines #lines .highlighted small {
-  color: red;
+  color: rgb(157, 0, 0);
   font-style: italic;
 }
 body main section#post {
   max-width: 700px;
   width: 60%;
-  background-color: #eee;
+  background-color: #ffe7a8;
   overflow: auto;
+}
+body main .side-bg {
+  flex: 1;
+  padding: 0;
+}
+body main .side-bg.loaded {
+  background-image: url("../assets/backyard-bg.png");
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+body main .side-bg.loaded:before {
+  background-color: orange;
+  content: "";
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 body main #posts .date {
   margin: 0;
 }
+body #archive-container,
 body #posts,
 body #search-results,
-body #tag-results {
+body #tags-container {
   max-width: 800px;
+  width: 100%;
+  background-color: #ffe7a8;
   margin: auto;
+  overflow: auto;
 }
 body small {
   font-size: 0.8rem !important;
 }
 body .subtitle {
-  color: #777;
   margin-bottom: 0;
 }
 

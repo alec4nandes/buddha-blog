@@ -33,8 +33,22 @@
             #notes-container {
                 display: none;
 
-                #delete-annotation {
+                #delete-note-container {
+                    display: flex;
                     flex-wrap: wrap;
+
+                    & > * {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex: 1;
+                    }
+
+                    #delete-annotation {
+                        background-color: #ffd05e;
+                        flex-wrap: wrap;
+                        padding: 5px 0;
+                    }
                 }
             }
 

@@ -1,22 +1,26 @@
 body #toggle-buttons {
-  background-color: #555;
+  background-color: #874c07;
   display: flex;
   gap: 5px;
   justify-content: center;
   padding: 5px;
 }
-body main > *.wide {
-  max-width: 800px !important;
-  width: 100% !important;
+body #toggle-buttons button {
+  background-color: #ffe29b;
+  color: #874c07;
+}
+body #toggle-buttons button:hover {
+  background-color: #ffb500;
 }
 body main > *.hide {
   display: none !important;
 }
+body main > *.wide {
+  max-width: 800px !important;
+  width: 100% !important;
+}
 body main #sutta-container #notes-container {
   display: flex;
-}
-body main #sutta-container button#toggle-sutta {
-  margin: auto;
 }
 body main #sutta-container .highlighted:hover {
   cursor: pointer;
