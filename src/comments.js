@@ -73,7 +73,7 @@ async function loadComments() {
                 pad = (num) => ("" + num).padStart(2, "0"),
                 hours = pad(d.getHours()),
                 minutes = pad(d.getMinutes());
-            return `${monthDay} '${year} @ ${hours}:${minutes}`.toUpperCase();
+            return `${monthDay} '${year} @ ${hours}:${minutes}`;
         }
     }
 

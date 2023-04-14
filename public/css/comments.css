@@ -10,21 +10,26 @@
 }
 #comments .comment small.date {
   color: #aaa;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
 }
 #comments .comment details {
   margin-bottom: 10px;
 }
 #comments .comment details summary {
-  color: #888;
-  font-size: 0.8rem;
-  list-style: none;
+  /* hide triangle on desktop: */
+  /* hide triangle on mobile: */
+}
+#comments .comment details summary::marker {
+  content: "";
+}
+#comments .comment details summary::-webkit-details-marker {
+  display: none;
 }
 #comments .comment details summary img {
   height: 20px;
   width: auto;
   left: -2px;
-  opacity: 0.6;
+  opacity: 0.7rem;
   position: relative;
 }
 #comments .comment details summary img:hover {
