@@ -89,11 +89,9 @@ function highlightAll(sutta) {
 
 function loadSearchAndTagsHelper({ param, posts, displayElem, resultsElem }) {
     displayElem.innerText = param;
-    resultsElem.innerHTML =
-        (posts.length
-            ? posts.map(getPostPreviewHTML).join("<hr/>")
-            : `<p id="nothing-found">No results found!</p>`) +
-        (posts.length ? "<hr/>" : "");
+    resultsElem.innerHTML = posts.length
+        ? posts.map(getPostPreviewHTML).join("<hr/>")
+        : `<p id="nothing-found">No results found!</p>`;
 
     function getPostPreviewHTML(post) {
         const {

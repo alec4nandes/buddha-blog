@@ -33,4 +33,17 @@ body main #sutta-container .highlighted.expand small {
 }
 body main #sutta-container .highlighted small {
   display: none;
+}
+body main #post h1 {
+  margin-bottom: 12px;
+}
+body main #post h2.subtitle {
+  margin-top: 0;
+}
+body main #post small.date {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+body main #post #tags {
+  margin-top: 0;
 }/*# sourceMappingURL=post.css.map */

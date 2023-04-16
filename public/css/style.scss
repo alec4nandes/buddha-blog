@@ -1,3 +1,7 @@
+@import "https://api.fontshare.com/v2/css?f[]=quicksand@500&f[]=britney@400&display=swap";
+
+$shadow: 0 3px 3px rgba(135, 76, 7, 0.5);
+
 html,
 body {
     height: 100%;
@@ -14,12 +18,12 @@ body {
     button,
     input,
     textarea {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: "Quicksand", Arial, Helvetica, sans-serif;
         font-size: 1rem;
     }
 
     a {
-        color: #ffb500;
+        color: #da622b;
 
         &:hover {
             color: #874c07;
@@ -27,13 +31,15 @@ body {
     }
 
     button {
-        height: 1.2rem;
         width: fit-content;
         appearance: none;
         background-color: #874c07;
         border: 0;
         border-radius: 4px;
         color: #fffacb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 0.8rem;
         font-weight: 400;
         margin: 0;
@@ -55,8 +61,14 @@ body {
         }
     }
 
+    button,
+    input {
+        height: 1.2rem;
+        box-sizing: border-box;
+    }
+
     .date {
-        color: #777;
+        color: #d68c2c;
         font-style: italic;
         margin-top: 0;
     }
@@ -70,8 +82,8 @@ body {
     }
 
     footer {
-        background-color: #874c07;
-        color: #fffacb;
+        background-color: #ffd05e;
+        color: #874c07;
 
         &,
         a {
@@ -82,28 +94,38 @@ body {
         a {
             font-style: italic;
 
-            &:hover {
-                color: #fff;
-            }
-
             &.admin-link {
-                color: #fffacb;
+                color: #874c07;
                 text-decoration: none;
             }
         }
+    }
+
+    footer,
+    header {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        padding: 5px 30px;
+    }
+
+    main > * {
+        padding: 30px 30px 0;
     }
 
     h1,
     h2,
     h3 {
         color: #874c07;
-        text-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+        text-shadow: $shadow;
     }
 
     h1 {
         &,
         * {
-            font-size: 2rem;
+            font-family: "Britney", Arial, Helvetica, sans-serif;
+            font-size: 2.5rem;
+            line-height: 2.5rem;
             margin: 0;
         }
     }
@@ -122,15 +144,8 @@ body {
         }
     }
 
-    header,
-    footer {
-        width: 100%;
-        box-sizing: border-box;
-        text-align: center;
-        padding: 5px;
-    }
-
     header {
+        background-color: #ffd05e;
         color: #ffb500;
         display: flex;
         align-items: center;
@@ -139,18 +154,13 @@ body {
         flex-wrap: wrap;
         gap: 5px;
 
-        a,
-        input {
-            font-size: 0.8rem;
+        a {
+            font-weight: bold;
         }
 
-        a {
-            color: #874c07;
-            font-weight: bold;
-
-            &:hover {
-                color: #fff;
-            }
+        a,
+        input {
+            font-size: 0.9rem;
         }
 
         h2 {
@@ -169,6 +179,11 @@ body {
                 align-items: center;
                 justify-content: center;
                 flex-wrap: wrap;
+
+                input {
+                    max-width: 200px;
+                    width: 30vw;
+                }
             }
 
             #social {
@@ -196,7 +211,7 @@ body {
 
                 img {
                     filter: contrast(0) brightness(0) invert(1)
-                        drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.5));
+                        drop-shadow($shadow);
                 }
             }
         }
@@ -204,9 +219,9 @@ body {
 
     hr {
         border: 0;
-        height: 1px;
+        height: 1.75px;
         background-color: #874c07;
-        box-shadow: 3px 2px 3px rgba(0, 0, 0, 0.3);
+        box-shadow: $shadow;
     }
 
     input,
@@ -227,25 +242,10 @@ body {
         & > * {
             height: 100%;
             box-sizing: border-box;
-            padding: 30px 30px 0;
         }
 
         #all-tags {
             padding-bottom: 10px;
-        }
-
-        #archive-container,
-        #post,
-        #posts,
-        #search-results,
-        #tags-container {
-            a {
-                color: #da622b;
-
-                &:hover {
-                    color: #ffb500;
-                }
-            }
         }
 
         section#sutta-container {
@@ -285,6 +285,10 @@ body {
                         flex-wrap: wrap;
                         gap: 5px;
                         padding: 5px 0;
+
+                        button:not(#show-all) {
+                            width: 1.2rem;
+                        }
                     }
                 }
             }
@@ -362,25 +366,29 @@ body {
         }
 
         .side-bg {
+            background-position: center;
+            background-size: cover;
             flex: 1;
             padding: 0;
+            position: relative;
+
+            &:before {
+                background-color: orange;
+                content: "";
+                opacity: 0.5;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+            }
 
             &.loaded {
                 background-image: url("../assets/backyard-bg.png");
-                background-position: center;
-                background-size: cover;
-                position: relative;
+            }
 
-                &:before {
-                    background-color: orange;
-                    content: "";
-                    opacity: 0.5;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    bottom: 0;
-                    right: 0;
-                }
+            &.loaded2 {
+                background-image: url("../assets/basket-shot.jpg");
             }
         }
 
@@ -407,23 +415,24 @@ body {
     }
 
     .subtitle {
-        margin-bottom: 0;
+        margin-bottom: 5px;
     }
 }
 
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 525px) {
     body *,
     button,
     input,
     textarea {
-        font-size: 0.9rem !important;
+        font-size: 0.9rem;
     }
 
     h1 {
         &,
         a,
         span {
-            font-size: 1.5rem !important;
+            font-size: 2rem !important;
+            line-height: 2rem !important;
         }
     }
 
@@ -451,6 +460,11 @@ body {
 
 @media only screen and (max-width: 768px) {
     body {
+        footer,
+        header {
+            padding: 5px 15px;
+        }
+
         main > * {
             padding: 15px 15px 0;
         }

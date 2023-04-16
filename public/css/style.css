@@ -1,3 +1,4 @@
+@import "https://api.fontshare.com/v2/css?f[]=quicksand@500&f[]=britney@400&display=swap";
 html,
 body {
   height: 100%;
@@ -14,17 +15,16 @@ body *,
 body button,
 body input,
 body textarea {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Quicksand", Arial, Helvetica, sans-serif;
   font-size: 1rem;
 }
 body a {
-  color: #ffb500;
+  color: #da622b;
 }
 body a:hover {
   color: #874c07;
 }
 body button {
-  height: 1.2rem;
   width: -moz-fit-content;
   width: fit-content;
   -webkit-appearance: none;
@@ -34,6 +34,9 @@ body button {
   border: 0;
   border-radius: 4px;
   color: #fffacb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.8rem;
   font-weight: 400;
   margin: 0;
@@ -51,8 +54,13 @@ body button:hover {
   cursor: pointer;
   background-color: #ffb500;
 }
+body button,
+body input {
+  height: 1.2rem;
+  box-sizing: border-box;
+}
 body .date {
-  color: #777;
+  color: #d68c2c;
   font-style: italic;
   margin-top: 0;
 }
@@ -60,8 +68,8 @@ body details summary:hover {
   cursor: pointer;
 }
 body footer {
-  background-color: #874c07;
-  color: #fffacb;
+  background-color: #ffd05e;
+  color: #874c07;
 }
 body footer,
 body footer a {
@@ -71,22 +79,31 @@ body footer a {
 body footer a {
   font-style: italic;
 }
-body footer a:hover {
-  color: #fff;
-}
 body footer a.admin-link {
-  color: #fffacb;
+  color: #874c07;
   text-decoration: none;
+}
+body footer,
+body header {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 5px 30px;
+}
+body main > * {
+  padding: 30px 30px 0;
 }
 body h1,
 body h2,
 body h3 {
   color: #874c07;
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 3px 3px rgba(135, 76, 7, 0.5);
 }
 body h1,
 body h1 * {
-  font-size: 2rem;
+  font-family: "Britney", Arial, Helvetica, sans-serif;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
   margin: 0;
 }
 body h2,
@@ -97,14 +114,8 @@ body h3,
 body h3 * {
   font-size: 1.15rem;
 }
-body header,
-body footer {
-  width: 100%;
-  box-sizing: border-box;
-  text-align: center;
-  padding: 5px;
-}
 body header {
+  background-color: #ffd05e;
   color: #ffb500;
   display: flex;
   align-items: center;
@@ -113,16 +124,12 @@ body header {
   flex-wrap: wrap;
   gap: 5px;
 }
-body header a,
-body header input {
-  font-size: 0.8rem;
-}
 body header a {
-  color: #874c07;
   font-weight: bold;
 }
-body header a:hover {
-  color: #fff;
+body header a,
+body header input {
+  font-size: 0.9rem;
 }
 body header h2 {
   margin: 0;
@@ -139,6 +146,10 @@ body header #search-bar-container form {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+}
+body header #search-bar-container form input {
+  max-width: 200px;
+  width: 30vw;
 }
 body header #search-bar-container #social {
   gap: 5px;
@@ -160,13 +171,13 @@ body header #search-bar-container #social a img {
   width: auto;
 }
 body header #search-bar-container #social img {
-  filter: contrast(0) brightness(0) invert(1) drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.5));
+  filter: contrast(0) brightness(0) invert(1) drop-shadow(0 3px 3px rgba(135, 76, 7, 0.5));
 }
 body hr {
   border: 0;
-  height: 1px;
+  height: 1.75px;
   background-color: #874c07;
-  box-shadow: 3px 2px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 3px rgba(135, 76, 7, 0.5);
 }
 body input,
 body textarea {
@@ -187,24 +198,9 @@ body main {
 body main > * {
   height: 100%;
   box-sizing: border-box;
-  padding: 30px 30px 0;
 }
 body main #all-tags {
   padding-bottom: 10px;
-}
-body main #archive-container a,
-body main #post a,
-body main #posts a,
-body main #search-results a,
-body main #tags-container a {
-  color: #da622b;
-}
-body main #archive-container a:hover,
-body main #post a:hover,
-body main #posts a:hover,
-body main #search-results a:hover,
-body main #tags-container a:hover {
-  color: #ffb500;
 }
 body main section#sutta-container {
   max-width: 500px;
@@ -241,6 +237,9 @@ body main section#sutta-container #notes-container #notes #annotations {
   flex-wrap: wrap;
   gap: 5px;
   padding: 5px 0;
+}
+body main section#sutta-container #notes-container #notes #annotations button:not(#show-all) {
+  width: 1.2rem;
 }
 body main section#sutta-container #sutta-info-and-lines {
   flex: 1;
@@ -294,16 +293,13 @@ body main section#post {
   overflow: auto;
 }
 body main .side-bg {
-  flex: 1;
-  padding: 0;
-}
-body main .side-bg.loaded {
-  background-image: url("../assets/backyard-bg.png");
   background-position: center;
   background-size: cover;
+  flex: 1;
+  padding: 0;
   position: relative;
 }
-body main .side-bg.loaded:before {
+body main .side-bg:before {
   background-color: orange;
   content: "";
   opacity: 0.5;
@@ -312,6 +308,12 @@ body main .side-bg.loaded:before {
   left: 0;
   bottom: 0;
   right: 0;
+}
+body main .side-bg.loaded {
+  background-image: url("../assets/backyard-bg.png");
+}
+body main .side-bg.loaded2 {
+  background-image: url("../assets/basket-shot.jpg");
 }
 body main #posts .date {
   margin: 0;
@@ -330,20 +332,21 @@ body small {
   font-size: 0.8rem !important;
 }
 body .subtitle {
-  margin-bottom: 0;
+  margin-bottom: 5px;
 }
 
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 525px) {
   body *,
   button,
   input,
   textarea {
-    font-size: 0.9rem !important;
+    font-size: 0.9rem;
   }
   h1,
   h1 a,
   h1 span {
-    font-size: 1.5rem !important;
+    font-size: 2rem !important;
+    line-height: 2rem !important;
   }
   h2,
   h2 a,
@@ -361,6 +364,10 @@ body .subtitle {
   }
 }
 @media only screen and (max-width: 768px) {
+  body footer,
+  body header {
+    padding: 5px 15px;
+  }
   body main > * {
     padding: 15px 15px 0;
   }

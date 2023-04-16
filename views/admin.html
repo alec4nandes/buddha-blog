@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="/css/style.css"/>
         <link rel="stylesheet" href="/css/admin.css"/>
-        <link rel="stylesheet" href="/css/index.css"/>
         <title>Admin &mdash; Sutta Basket</title>
     </head>
     <body>
@@ -24,6 +23,7 @@
                 </div>
             </header>
             <main>
+                <section class="side-bg loaded"></section>
                 <section id="sutta-container">
                     <div id="sutta-info-and-lines">
                         <div id="sutta-info"></div>
@@ -69,9 +69,9 @@
                             type="text"
                         ></textarea>
                         <div id="submit-container">
-                            <label
-                                >tags: <input name="tags" type="text"
-/></label>
+                            <label>
+                                tags: <input name="tags" type="text"/>
+                            </label>
                             <select name="type">
                                 <option value="draft">draft</option>
                                 <option value="post">post</option>
@@ -84,6 +84,7 @@
                         <button id="delete" disabled>delete</button>
                     </div>
                 </section>
+                <section class="side-bg loaded2"></section>
             </main>
             <footer></footer>
         </div>

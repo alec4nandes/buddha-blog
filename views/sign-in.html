@@ -1,61 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/css/style.css" />
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="/css/sign-in.css"/>
         <title>Sign In &mdash; Sutta Basket</title>
-        <style>
-            body {
-                height: auto;
-                background-color: #eee;
-                margin: 50px 0;
-            }
-
-            h1,
-            h2 {
-                margin: 0;
-                text-align: center;
-            }
-
-            form {
-                width: 300px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                margin: auto;
-            }
-
-            form label {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-            }
-
-            form label input {
-                flex: 1;
-            }
-
-            form button[type="submit"] {
-                margin: auto;
-            }
-
-            p {
-                text-align: center;
-            }
-        </style>
     </head>
     <body>
         <form id="sign-in">
             <h1>Sign In</h1>
             <h2>Sutta Basket</h2>
-            <label>email: <input name="email" type="email" /></label>
-            <label>password: <input name="password" type="password" /></label>
+            <label>email: <input name="email" type="email"/></label>
+            <label>password: <input name="password" type="password"/></label>
             <button type="submit">sign in</button>
         </form>
 
-        <p><a href="/">home</a></p>
+        <p>
+            <a href="/">home</a>
+        </p>
 
         <script src="/bundle.js"></script>
     </body>

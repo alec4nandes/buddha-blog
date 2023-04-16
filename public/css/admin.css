@@ -20,6 +20,11 @@
 #admin-container header #find-sutta input[type=text] {
   width: 65px;
 }
+#admin-container header #sutta-nav {
+  color: #222;
+  display: flex;
+  gap: 5px;
+}
 #admin-container main section#sutta-container #notes-container {
   display: none;
 }

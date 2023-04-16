@@ -5,10 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="/css/style.css"/>
-        <link rel="stylesheet" href="/css/index.css"/>
         <title>Tags &mdash; Sutta Basket</title>
     </head>
-    <body class="full-page">
+    <body>
         <header>
             <h1>Sutta Basket</h1>
             <h2>Tags: <span id="tag-display">[all tags]</span></h2>
@@ -22,10 +21,13 @@
             </div>
         </header>
         <main>
+            <section class="side-bg loaded"></section>
             <div id="tags-container">
                 <section id="tag-results"></section>
+                <hr/>
                 {% include "partials/_all-tags.njk" %}
             </div>
+            <section class="side-bg loaded2"></section>
         </main>
         {% include "partials/_footer.html" %}
 

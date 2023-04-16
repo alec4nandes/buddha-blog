@@ -2,11 +2,12 @@ const { getSearchParam, loadSearchAndTagsHelper } = require("./misc.js");
 const { getAllPosts } = require("./read-write.js");
 
 async function loadTags() {
-    const allPosts = await getAllPosts(),
-        param = getSearchParam("tag"),
-        resultsElem = document.querySelector("#tag-results");
+    const resultsElem = document.querySelector("#tag-results"),
+        param = getSearchParam("tag");
+    resultsElem.innerHTML = param ? "" : "<p><b>Select a tag below:</b></p>";
     if (param) {
-        const posts = await findPosts(allPosts, param),
+        const allPosts = await getAllPosts(),
+            posts = await findPosts(allPosts, param),
             displayElem = document.querySelector("#tag-display");
         loadSearchAndTagsHelper({
             param,

@@ -1,0 +1,29 @@
+body {
+  justify-content: center;
+}
+body form#sign-in {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 auto;
+}
+body form#sign-in button[type=submit] {
+  margin: auto;
+}
+body form#sign-in label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+body form#sign-in label input {
+  flex: 1;
+}
+body h1,
+body h2 {
+  margin: 0;
+  text-align: center;
+}
+body p {
+  text-align: center;
+}/*# sourceMappingURL=sign-in.css.map */

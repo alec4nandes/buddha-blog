@@ -53,5 +53,24 @@ body {
                 }
             }
         }
+
+        #post {
+            h1 {
+                margin-bottom: 12px;
+            }
+
+            h2.subtitle {
+                margin-top: 0;
+            }
+
+            small.date {
+                display: inline-block;
+                margin-bottom: 10px;
+            }
+
+            #tags {
+                margin-top: 0;
+            }
+        }
     }
 }
