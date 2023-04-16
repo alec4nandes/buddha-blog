@@ -15,6 +15,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
         <link rel="stylesheet" href="/css/style.css"/>
         <link rel="stylesheet" href="/css/post.css"/>
         <link rel="stylesheet" href="/css/comments.css"/>
+        {% include "partials/_icons.html" %}
         <title>{{ entry.post.title }} &mdash; Sutta Basket</title>
         {% include "partials/_metatags.html" %}
     </head>
