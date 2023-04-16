@@ -73,6 +73,10 @@ body button,
 body input {
   height: 1.2rem;
   box-sizing: border-box;
+}
+body button,
+body input,
+body textarea {
   font-size: 0.9rem;
 }
 body .date {
