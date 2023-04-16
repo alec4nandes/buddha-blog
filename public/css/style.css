@@ -345,8 +345,12 @@ body main .side-bg.loaded {
 body main .side-bg.loaded2 {
   background-image: url("../assets/basket-shot.jpg");
 }
-body main #posts .date {
-  margin: 0;
+body main #posts {
+  max-width: 800px;
+  width: 100%;
+  background-color: var(--accent-1);
+  margin: auto;
+  overflow: auto;
 }
 body main #posts figure.post-preview-image {
   max-width: 300px;
@@ -355,16 +359,6 @@ body main #posts figure.post-preview-image {
   float: right;
   margin: 0 0 5px 5px;
   padding: 5px;
-}
-body #archive-container,
-body #posts,
-body #search-results,
-body #tags-container {
-  max-width: 800px;
-  width: 100%;
-  background-color: var(--accent-1);
-  margin: auto;
-  overflow: auto;
 }
 body small {
   font-size: 0.8rem !important;

@@ -425,9 +425,11 @@ body {
         }
 
         #posts {
-            .date {
-                margin: 0;
-            }
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--accent-1);
+            margin: auto;
+            overflow: auto;
 
             figure.post-preview-image {
                 max-width: 300px;
@@ -438,17 +440,6 @@ body {
                 padding: 5px;
             }
         }
-    }
-
-    #archive-container,
-    #posts,
-    #search-results,
-    #tags-container {
-        max-width: 800px;
-        width: 100%;
-        background-color: var(--accent-1);
-        margin: auto;
-        overflow: auto;
     }
 
     small {
