@@ -4,15 +4,12 @@
 }
 #comments .comment {
   min-width: 200px;
-  border-left: 1px solid #dd9d00;
-  border-top: 1px solid #dd9d00;
+  border-left: 1px solid var(--accent-3);
+  border-top: 1px solid var(--accent-3);
   padding-left: 15px;
 }
 #comments .comment b {
-  color: #874c07;
-}
-#comments .comment small.date {
-  color: #dd9d00;
+  color: var(--accent-4);
 }
 #comments .comment details {
   margin-bottom: 10px;
@@ -38,11 +35,10 @@
   opacity: 1;
 }
 #comments .comment details form {
-  background-color: #ffe29b;
   margin-bottom: 0;
 }
 #comments form {
-  background-color: #ffdc88;
+  background-color: var(--accent-2);
   border-radius: 5px;
   display: flex;
   flex-direction: column;

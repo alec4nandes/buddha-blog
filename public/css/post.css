@@ -1,16 +1,16 @@
 body #toggle-buttons {
-  background-color: #874c07;
+  background-color: var(--accent-4);
   display: flex;
   gap: 5px;
   justify-content: center;
   padding: 5px;
 }
 body #toggle-buttons button {
-  background-color: #ffe29b;
-  color: #874c07;
+  background-color: var(--accent-1);
+  color: var(--accent-4);
 }
 body #toggle-buttons button:hover {
-  background-color: #ffb500;
+  background-color: var(--highlight-color);
 }
 body main > *.hide {
   display: none !important;

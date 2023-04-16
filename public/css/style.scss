@@ -1,6 +1,19 @@
 @import "https://api.fontshare.com/v2/css?f[]=quicksand@500&f[]=britney@400&display=swap";
 
-$shadow: 0 3px 3px rgba(135, 76, 7, 0.5);
+:root {
+    --shadow: 0 2px 2px rgba(135, 76, 7, 0.3);
+    --accent-1: #ffe7a8;
+    --accent-2: #ffdc88;
+    --accent-3: #d68c2c;
+    --accent-4: #874c07;
+    --accent-5: #fffacb;
+    --link-color: #da622b;
+    --main-bg-color: #ffd05e;
+    --main-text-color: #222;
+    --highlight-color: #ffb500;
+    --selected-note-highlight: yellow;
+    --note-color: rgb(157, 0, 0);
+}
 
 html,
 body {
@@ -8,8 +21,8 @@ body {
 }
 
 body {
-    background-color: #ffd05e;
-    color: #222;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -23,20 +36,20 @@ body {
     }
 
     a {
-        color: #da622b;
+        color: var(--link-color);
 
         &:hover {
-            color: #874c07;
+            color: var(--accent-4);
         }
     }
 
     button {
         width: fit-content;
         appearance: none;
-        background-color: #874c07;
+        background-color: var(--accent-4);
         border: 0;
         border-radius: 4px;
-        color: #fffacb;
+        color: var(--accent-5);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -57,7 +70,7 @@ body {
 
         &:hover {
             cursor: pointer;
-            background-color: #ffb500;
+            background-color: var(--highlight-color);
         }
     }
 
@@ -65,10 +78,11 @@ body {
     input {
         height: 1.2rem;
         box-sizing: border-box;
+        font-size: 0.9rem;
     }
 
     .date {
-        color: #d68c2c;
+        color: var(--accent-3);
         font-style: italic;
         margin-top: 0;
     }
@@ -82,8 +96,8 @@ body {
     }
 
     footer {
-        background-color: #ffd05e;
-        color: #874c07;
+        background-color: var(--main-bg-color);
+        color: var(--accent-4);
 
         &,
         a {
@@ -95,7 +109,7 @@ body {
             font-style: italic;
 
             &.admin-link {
-                color: #874c07;
+                color: var(--accent-4);
                 text-decoration: none;
             }
         }
@@ -116,8 +130,8 @@ body {
     h1,
     h2,
     h3 {
-        color: #874c07;
-        text-shadow: $shadow;
+        color: var(--accent-4);
+        text-shadow: var(--shadow);
     }
 
     h1 {
@@ -145,8 +159,8 @@ body {
     }
 
     header {
-        background-color: #ffd05e;
-        color: #ffb500;
+        background-color: var(--main-bg-color);
+        color: var(--highlight-color);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -155,16 +169,12 @@ body {
         gap: 5px;
 
         a {
+            font-size: 0.9rem;
             font-weight: bold;
         }
 
-        a,
-        input {
-            font-size: 0.9rem;
-        }
-
         h2 {
-            margin: 0;
+            margin: 0 0 4px;
         }
 
         #search-bar-container {
@@ -182,7 +192,7 @@ body {
 
                 input {
                     max-width: 200px;
-                    width: 30vw;
+                    width: 25vw;
                 }
             }
 
@@ -211,7 +221,7 @@ body {
 
                 img {
                     filter: contrast(0) brightness(0) invert(1)
-                        drop-shadow($shadow);
+                        drop-shadow(var(--shadow));
                 }
             }
         }
@@ -220,14 +230,14 @@ body {
     hr {
         border: 0;
         height: 1.75px;
-        background-color: #874c07;
-        box-shadow: $shadow;
+        background-color: var(--accent-4);
+        box-shadow: var(--shadow);
     }
 
     input,
     textarea {
         appearance: none;
-        background-color: #fffacb;
+        background-color: var(--accent-5);
         border: 0;
     }
 
@@ -251,15 +261,15 @@ body {
         section#sutta-container {
             max-width: 500px;
             width: 40%;
-            background-color: #ffdc88;
+            background-color: var(--accent-2);
             display: flex;
             flex-direction: column;
             gap: 7px;
 
             #notes-container,
             #sutta-info {
-                background-color: #ffe7a8;
-                color: #874c07;
+                background-color: var(--accent-1);
+                color: var(--accent-4);
             }
 
             #notes-container {
@@ -310,7 +320,7 @@ body {
                             padding-bottom: 1rem;
 
                             p:last-child {
-                                border-bottom: 1px solid #aaa;
+                                border-bottom: 1px solid var(--accent-3);
                                 margin-bottom: 0;
                                 padding-bottom: 1rem;
                             }
@@ -318,7 +328,7 @@ body {
 
                         summary {
                             &:hover {
-                                color: #ffb500;
+                                color: var(--highlight-color);
                             }
                         }
                     }
@@ -339,18 +349,18 @@ body {
 
                 #lines {
                     .highlighted {
-                        background-color: #ffb500;
+                        background-color: var(--highlight-color);
 
                         &:hover {
                             cursor: pointer;
                         }
 
                         &.expand {
-                            background-color: yellow;
+                            background-color: var(--selected-note-highlight);
                         }
 
                         small {
-                            color: rgb(157, 0, 0);
+                            color: var(--note-color);
                             font-style: italic;
                         }
                     }
@@ -361,7 +371,7 @@ body {
         section#post {
             max-width: 700px;
             width: 60%;
-            background-color: #ffe7a8;
+            background-color: var(--accent-1);
             overflow: auto;
         }
 
@@ -373,7 +383,7 @@ body {
             position: relative;
 
             &:before {
-                background-color: orange;
+                background-color: var(--highlight-color);
                 content: "";
                 opacity: 0.5;
                 position: absolute;
@@ -405,7 +415,7 @@ body {
     #tags-container {
         max-width: 800px;
         width: 100%;
-        background-color: #ffe7a8;
+        background-color: var(--accent-1);
         margin: auto;
         overflow: auto;
     }

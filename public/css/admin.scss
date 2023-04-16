@@ -28,7 +28,7 @@
         }
 
         #sutta-nav {
-            color: #222;
+            color: var(--main-text-color);
             display: flex;
             gap: 5px;
         }
@@ -51,7 +51,7 @@
                     }
 
                     #delete-annotation {
-                        background-color: #ffd05e;
+                        background-color: var(--main-bg-color);
                         flex-wrap: wrap;
                         padding: 5px 0;
                     }

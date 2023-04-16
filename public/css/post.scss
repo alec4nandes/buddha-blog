@@ -1,17 +1,17 @@
 body {
     #toggle-buttons {
-        background-color: #874c07;
+        background-color: var(--accent-4);
         display: flex;
         gap: 5px;
         justify-content: center;
         padding: 5px;
 
         button {
-            background-color: #ffe29b;
-            color: #874c07;
+            background-color: var(--accent-1);
+            color: var(--accent-4);
 
             &:hover {
-                background-color: #ffb500;
+                background-color: var(--highlight-color);
             }
         }
     }
