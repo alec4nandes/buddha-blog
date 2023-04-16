@@ -40,6 +40,9 @@ body main #post h1 {
 body main #post h2.subtitle {
   margin-top: 0;
 }
+body main #post hr.break-padded-bottom {
+  margin-bottom: 32px;
+}
 body main #post small.date {
   display: inline-block;
   margin-bottom: 10px;

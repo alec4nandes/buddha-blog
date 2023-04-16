@@ -100,6 +100,23 @@ body {
         }
     }
 
+    figure {
+        margin: 0;
+
+        img {
+            width: 100%;
+        }
+
+        figcaption {
+            color: var(--accent-4);
+
+            &,
+            * {
+                font-size: 0.8rem;
+            }
+        }
+    }
+
     footer {
         background-color: var(--main-bg-color);
         color: var(--accent-4);
@@ -410,6 +427,15 @@ body {
         #posts {
             .date {
                 margin: 0;
+            }
+
+            figure.post-preview-image {
+                max-width: 300px;
+                width: 45vw;
+                background-color: var(--accent-2);
+                float: right;
+                margin: 0 0 5px 5px;
+                padding: 5px;
             }
         }
     }

@@ -45,7 +45,7 @@ function getPostData(entry) {
     function getImageHTML(imageUrl, imageCaption) {
         return imageUrl
             ? `
-                <figure>
+                <figure class="post-preview-image">
                     <img src="${imageUrl}" />
                     ${
                         image_caption

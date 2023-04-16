@@ -1,6 +1,6 @@
-const noteButtons =
-    document.querySelector("#annotations")?.querySelectorAll("button") || [];
-noteButtons.forEach(handleShowNote);
+(
+    document.querySelector("#annotations")?.querySelectorAll("button") || []
+).forEach(handleShowNote);
 
 function handleShowNote(button, i) {
     const linesElem = document.querySelector("#lines"),

@@ -16,6 +16,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
         <link rel="stylesheet" href="/css/post.css"/>
         <link rel="stylesheet" href="/css/comments.css"/>
         <title>{{ entry.post.title }} &mdash; Sutta Basket</title>
+        {% include "partials/_metatags.html" %}
     </head>
     <body>
         <header>
@@ -104,8 +105,8 @@ permalink: "posts/{{ entry.id | slugify }}.html"
                         {% endfor %}
                     </p>
                 {% endif %}
-                <hr/>
                 {{ entry.post.image_html | safe }}
+                <hr class="break-padded-bottom"/>
                 {{ entry.post.content | safe }}
                 <hr/>
                 <div id="comments" data-post-id="{{ entry.id }}"></div>

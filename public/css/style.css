@@ -87,6 +87,19 @@ body .date {
 body details summary:hover {
   cursor: pointer;
 }
+body figure {
+  margin: 0;
+}
+body figure img {
+  width: 100%;
+}
+body figure figcaption {
+  color: var(--accent-4);
+}
+body figure figcaption,
+body figure figcaption * {
+  font-size: 0.8rem;
+}
 body footer {
   background-color: var(--main-bg-color);
   color: var(--accent-4);
@@ -334,6 +347,14 @@ body main .side-bg.loaded2 {
 }
 body main #posts .date {
   margin: 0;
+}
+body main #posts figure.post-preview-image {
+  max-width: 300px;
+  width: 45vw;
+  background-color: var(--accent-2);
+  float: right;
+  margin: 0 0 5px 5px;
+  padding: 5px;
 }
 body #archive-container,
 body #posts,
