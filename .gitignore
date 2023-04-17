@@ -3,7 +3,3 @@ database.js
 bundle.js
 .firebase
 firebase-debug.log
-public/*
-!public/assets
-!public/css
-!public/scripts
