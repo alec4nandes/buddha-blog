@@ -340,7 +340,7 @@ body main .side-bg:before {
   right: 0;
 }
 body main .side-bg.loaded {
-  background-image: url("../assets/backyard-bg.png");
+  background-image: url("../assets/backyard-bg.jpg");
 }
 body main .side-bg.loaded2 {
   background-image: url("../assets/basket-shot.jpg");
