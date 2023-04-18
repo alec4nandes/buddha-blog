@@ -1,0 +1,27 @@
+---
+permalink: "/rss.xml"
+---
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+    <channel>
+        <atom:link href="https://suttabasket.com/rss.xml" rel="self" type="application/rss+xml"/>
+        <image>
+            <url>https://suttabasket.com/assets/icons/android-chrome-192x192.png</url>
+            <title>Sutta Basket</title>
+            <link>https://suttabasket.com</link>
+            <description>unpacking Buddhist wisdom</description>
+        </image>
+        <title>Sutta Basket</title>
+        <link>https://suttabasket.com</link>
+        <description>unpacking Buddhist wisdom</description>
+        {% for entry in collections.posts %}
+            <item>
+                <title>{{ entry.post.title }}</title>
+                <link>https://suttabasket.com/posts/{{ entry.id }}.html</link>
+                <description>{{ entry.post.subtitle }}</description>
+            </item>
+        {% endfor %}
+    </channel>
+
+</rss>

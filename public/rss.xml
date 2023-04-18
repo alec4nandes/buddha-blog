@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+    <channel>
+        <atom:link href="https://suttabasket.com/rss.xml" rel="self" type="application/rss+xml"/>
+        <image>
+            <url>https://suttabasket.com/assets/icons/android-chrome-192x192.png</url>
+            <title>Sutta Basket</title>
+            <link>https://suttabasket.com</link>
+            <description>unpacking Buddhist wisdom</description>
+        </image>
+        <title>Sutta Basket</title>
+        <link>https://suttabasket.com</link>
+        <description>unpacking Buddhist wisdom</description>
+        
+            <item>
+                <title>The Buddha&#39;s Advice for Calming the Mind</title>
+                <link>https://suttabasket.com/posts/ud4-1-the-buddhas-advice-for-calming-the-mind.html</link>
+                <description>How to overcome our stressful default mode of thinking and find peace.</description>
+            </item>
+        
+    </channel>
+
+</rss>
