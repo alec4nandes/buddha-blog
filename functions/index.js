@@ -1,13 +1,18 @@
-const functions = require("firebase-functions");
+const functions = require("firebase-functions"),
+    exec = require("child_process").exec;
 
-// Play with this to set up automated emailing for new posts:
-
-const // func = functions.https.onRequest(app),
-    onCreateDraft = functions.firestore
-        .document("drafts/{draftId}")
-        .onCreate(console.log("DO SOMETHING"));
+const onCreateDraft = functions.firestore.document("drafts/{draftId}").onCreate(
+    // print directory to gcloud console.
+    // just snooping gcloud's file structure...
+    exec("ls -a", function (error, stdout, stderr) {
+        console.log("stdout: " + stdout);
+        console.log("stderr: " + stderr);
+        if (error !== null) {
+            console.log("exec error: " + error);
+        }
+    })
+);
 
 module.exports = {
-    // func,
-    onCreateDraft,
+    // onCreateDraft,
 };
