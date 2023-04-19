@@ -1,3 +1,6 @@
+---
+permalink: "/404.html"
+---
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="/css/style.css"/>
-        <link rel="icon" type="image/x-icon" href="/assets/icons/android-chrome-192x192.png"/>
+        {% include "partials/_icons.html" %}
         <title>Page Not Found &mdash; Sutta Basket</title>
         <style>
             #posts {
@@ -27,23 +30,9 @@
                 |
                 <a href="/tags">tags</a>
                 |
-                <form action="/search/index.html">
-    <input name="search" type="text" placeholder="search" />
-    <button type="submit">search</button>
-</form>
-
-                <div id="social">
-    <a href="https://twitter.com/suttabasket" rel="noopener" target="_blank">
-        <img src="/assets/twitter.png" alt="twitter icon" />
-    </a>
-    <a href="https://instagram.com/suttabasket" rel="noopener" target="_blank">
-        <img src="/assets/instagram.png" alt="instagram icon" />
-    </a>
-    <a href="https://tiktok.com/@suttabasket" rel="noopener" target="_blank">
-        <img src="/assets/tiktok.png" alt="tiktok icon" />
-    </a>
-</div>
-
+                {% include "partials/_search-bar.html" %}
+                {% include
+                "partials/_social.html" %}
             </div>
         </header>
         <main>
@@ -56,13 +45,6 @@
             </div>
             <section class="side-bg loaded2"></section>
         </main>
-        <footer>
-    <a class="admin-link" href="/admin"> &copy; Alec Fernandes 2023 </a>
-    <br/>
-    sutta translations
-    <a href="https://suttacentral.net/" rel="noopener" target="_blank"
-        >&copy; Bhikkhu Sujato</a
-    >
-</footer>
+        {% include "partials/_footer.html" %}
     </body>
 </html>

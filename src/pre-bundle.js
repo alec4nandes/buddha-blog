@@ -19,7 +19,3 @@ if (window.location.href.includes("/search")) {
 } else if (window.location.href.includes("/posts")) {
     loadComments();
 }
-
-// else {
-//     window.location.href = "/404.html";
-// }
