@@ -72,7 +72,7 @@ function highlightAll(sutta) {
         start += extraStart;
         const { text, note } = anno,
             { spanOpenTag, spanCloseTag } = getNoteTags(
-                annotations.indexOf(anno),
+                annotations.indexOf(anno) + 1,
                 note
             );
         extraStart += spanOpenTag.length + spanCloseTag.length;

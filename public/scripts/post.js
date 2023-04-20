@@ -5,7 +5,7 @@
 function handleShowNote(button, i) {
     const linesElem = document.querySelector("#lines"),
         allHighlights = linesElem.querySelectorAll(".highlighted"),
-        noteElem = linesElem.querySelector(`#a-${i}`),
+        noteElem = linesElem.querySelector(`#a-${i + 1}`),
         removeExpand = (elem) => elem.classList.remove("expand");
     button.onclick = () => {
         allHighlights.forEach(removeExpand);

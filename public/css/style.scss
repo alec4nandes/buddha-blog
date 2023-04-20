@@ -35,11 +35,22 @@ body {
         font-size: 1rem;
     }
 
+    p,
+    #lines {
+        line-height: 1.3rem;
+    }
+
     a {
         color: var(--link-color);
 
         &:hover {
             color: var(--accent-4);
+        }
+
+        &.note-link {
+            font-size: 0.75rem;
+            position: relative;
+            top: -6px;
         }
     }
 

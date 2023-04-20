@@ -72,7 +72,7 @@ function addAnnotationJumpButtons(sutta, isPublished) {
             (showAllButton.onclick = () => handleShowAll(linesElem, sutta));
 
         function handleAnnotationJump(e, isPublished, linesElem, sutta) {
-            const index = e.target.innerText - 1;
+            const index = +e.target.innerText;
             if (!isPublished) {
                 toggleAnnotationForm(false);
                 linesElem.innerHTML = highlightAnnotation(index, sutta);
@@ -186,7 +186,7 @@ function handleAnnotate(e, sutta) {
         const { annotations } = sutta.display;
         annotations.push(annotation);
         annotations.sort((a, b) => a.start - b.start);
-        const index = annotations.indexOf(annotation);
+        const index = annotations.indexOf(annotation) + 1;
         linesElem.innerHTML = highlightAnnotation(index, sutta);
         addAnnotationJumpButtons(sutta);
         toggleAnnotationForm(false);
@@ -214,7 +214,7 @@ function handleAnnotate(e, sutta) {
 
 function highlightAnnotation(index, sutta) {
     const { annotations } = sutta.display,
-        { start, text, note } = annotations[index],
+        { start, text, note } = annotations[index - 1],
         { spanOpenTag, spanCloseTag } = getNoteTags(index, note);
     return spliceLines({
         start,
