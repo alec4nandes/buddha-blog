@@ -198,10 +198,8 @@ body header #search-bar-container #social a {
   display: flex;
   align-items: center;
 }
-body header #search-bar-container #social a {
-  opacity: 0.8;
-}
 body header #search-bar-container #social a:not(:last-child) {
+  opacity: 0.8;
   text-decoration: none;
 }
 body header #search-bar-container #social a:hover {
