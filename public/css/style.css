@@ -200,6 +200,8 @@ body header #search-bar-container #social a {
 }
 body header #search-bar-container #social a {
   opacity: 0.8;
+}
+body header #search-bar-container #social a:not(:last-child) {
   text-decoration: none;
 }
 body header #search-bar-container #social a:hover {

@@ -240,7 +240,11 @@ body {
 
                 a {
                     opacity: 0.8;
-                    text-decoration: none;
+
+                    &:not(:last-child) {
+                        // last link is about link
+                        text-decoration: none;
+                    }
 
                     &:hover {
                         opacity: 1;
