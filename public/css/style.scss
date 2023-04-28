@@ -15,16 +15,9 @@
     --note-color: rgb(157, 0, 0);
 }
 
-html,
-body {
-    height: 100%;
-}
-
 body {
     background-color: var(--main-bg-color);
     color: var(--main-text-color);
-    display: flex;
-    flex-direction: column;
     margin: 0;
 
     & *,
@@ -193,7 +186,6 @@ body {
 
     header {
         background-color: var(--main-bg-color);
-        color: var(--highlight-color);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -209,56 +201,60 @@ body {
         h2 {
             margin: 0 0 4px;
         }
+    }
 
-        #search-bar-container {
+    #search-bar-container {
+        background-color: var(--main-bg-color);
+        color: var(--highlight-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+        position: sticky;
+        top: 0;
+
+        form {
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
+
+            input {
+                max-width: 200px;
+                width: 25vw;
+            }
+        }
+
+        #social {
             gap: 5px;
 
-            form {
+            &,
+            a {
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                flex-wrap: wrap;
-
-                input {
-                    max-width: 200px;
-                    width: 25vw;
-                }
             }
 
-            #social {
-                gap: 5px;
-
-                &,
-                a {
-                    display: flex;
-                    align-items: center;
+            a {
+                &:not(:last-child) {
+                    // last link is about link
+                    opacity: 0.8;
+                    text-decoration: none;
                 }
 
-                a {
-                    &:not(:last-child) {
-                        // last link is about link
-                        opacity: 0.8;
-                        text-decoration: none;
-                    }
-
-                    &:hover {
-                        opacity: 1;
-                    }
-
-                    img {
-                        height: 20px;
-                        width: auto;
-                    }
+                &:hover {
+                    opacity: 1;
                 }
 
                 img {
-                    filter: contrast(0) brightness(0) invert(1)
-                        drop-shadow(var(--shadow));
+                    height: 20px;
+                    width: auto;
                 }
+            }
+
+            img {
+                filter: contrast(0) brightness(0) invert(1)
+                    drop-shadow(var(--shadow));
             }
         }
     }
@@ -280,13 +276,11 @@ body {
     main {
         width: 100%;
         display: flex;
-        flex: 1;
         justify-content: center;
         margin: auto;
         overflow: auto;
 
         & > * {
-            height: 100%;
             box-sizing: border-box;
         }
 
@@ -412,10 +406,10 @@ body {
         }
 
         .side-bg {
-            background-position: center;
-            background-size: cover;
+            background-attachment: fixed;
+            background-position: top center;
+            background-size: 100vh;
             flex: 1;
-            padding: 0;
             position: relative;
 
             &:before {

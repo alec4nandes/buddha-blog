@@ -14,16 +14,9 @@
   --note-color: rgb(157, 0, 0);
 }
 
-html,
-body {
-  height: 100%;
-}
-
 body {
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
-  display: flex;
-  flex-direction: column;
   margin: 0;
 }
 body *,
@@ -158,7 +151,6 @@ body h3 * {
 }
 body header {
   background-color: var(--main-bg-color);
-  color: var(--highlight-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,43 +165,47 @@ body header a {
 body header h2 {
   margin: 0 0 4px;
 }
-body header #search-bar-container {
+body #search-bar-container {
+  background-color: var(--main-bg-color);
+  color: var(--highlight-color);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   gap: 5px;
+  position: sticky;
+  top: 0;
 }
-body header #search-bar-container form {
+body #search-bar-container form {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
 }
-body header #search-bar-container form input {
+body #search-bar-container form input {
   max-width: 200px;
   width: 25vw;
 }
-body header #search-bar-container #social {
+body #search-bar-container #social {
   gap: 5px;
 }
-body header #search-bar-container #social,
-body header #search-bar-container #social a {
+body #search-bar-container #social,
+body #search-bar-container #social a {
   display: flex;
   align-items: center;
 }
-body header #search-bar-container #social a:not(:last-child) {
+body #search-bar-container #social a:not(:last-child) {
   opacity: 0.8;
   text-decoration: none;
 }
-body header #search-bar-container #social a:hover {
+body #search-bar-container #social a:hover {
   opacity: 1;
 }
-body header #search-bar-container #social a img {
+body #search-bar-container #social a img {
   height: 20px;
   width: auto;
 }
-body header #search-bar-container #social img {
+body #search-bar-container #social img {
   filter: contrast(0) brightness(0) invert(1) drop-shadow(var(--shadow));
 }
 body hr {
@@ -229,13 +225,11 @@ body textarea {
 body main {
   width: 100%;
   display: flex;
-  flex: 1;
   justify-content: center;
   margin: auto;
   overflow: auto;
 }
 body main > * {
-  height: 100%;
   box-sizing: border-box;
 }
 body main #all-tags {
@@ -332,10 +326,10 @@ body main section#post {
   overflow: auto;
 }
 body main .side-bg {
-  background-position: center;
-  background-size: cover;
+  background-attachment: fixed;
+  background-position: top center;
+  background-size: 100vh;
   flex: 1;
-  padding: 0;
   position: relative;
 }
 body main .side-bg:before {

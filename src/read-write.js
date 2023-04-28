@@ -101,14 +101,15 @@ async function addHelper(draft, coll) {
     }
 
     function slugify(str) {
-        return (
-            str
+        const result = str
                 .toLowerCase()
                 .trim()
                 // whitespace, emdash and period to hyphen:
                 .replace(/[\s\u2014\.]+/g, "-")
-                .replace(/[:;,'"“”]+/g, "")
-        );
+                .replace(/[:;,'"“”]+/g, ""),
+            chars = [...result];
+        chars.at(-1) === "-" && chars.pop();
+        return chars.join("");
     }
 }
 
