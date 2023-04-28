@@ -283,7 +283,7 @@ body {
         margin: auto;
         overflow: auto;
 
-        & > * {
+        & > *:not(.side-bg) {
             box-sizing: border-box;
             padding: 30px 30px 0;
         }
@@ -507,7 +507,7 @@ body {
             padding: 5px 15px;
         }
 
-        main > * {
+        main > *:not(.side-bg) {
             padding: 15px 15px 0;
         }
     }
