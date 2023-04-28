@@ -21,19 +21,7 @@ permalink: "posts/{{ entry.id | slugify }}.html"
         {% include "partials/_metatags.html" %}
     </head>
     <body>
-        <header>
-            <div id="search-bar-container">
-                <a href="/">home</a>
-                |
-                <a href="/archive">archive</a>
-                |
-                <a href="/tags">tags</a>
-                |
-                {% include "partials/_search-bar.html" %}
-                {% include
-                "partials/_social.html" %}
-            </div>
-        </header>
+        {% include "partials/_search-bar.html" %}
         <section id="toggle-buttons">
             <button id="expand-sutta">expand sutta</button>
             <button id="expand-post">expand post</button>

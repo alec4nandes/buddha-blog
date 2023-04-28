@@ -15,9 +15,16 @@
     --note-color: rgb(157, 0, 0);
 }
 
+html {
+    height: 100%;
+}
+
 body {
+    min-height: 100%;
     background-color: var(--main-bg-color);
     color: var(--main-text-color);
+    display: flex;
+    flex-direction: column;
     margin: 0;
 
     & *,
@@ -149,10 +156,6 @@ body {
         padding: 5px 30px;
     }
 
-    main > * {
-        padding: 30px 30px 0;
-    }
-
     h1,
     h2,
     h3 {
@@ -193,11 +196,6 @@ body {
         flex-wrap: wrap;
         gap: 5px;
 
-        a {
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
         h2 {
             margin: 0 0 4px;
         }
@@ -211,8 +209,15 @@ body {
         justify-content: center;
         flex-wrap: wrap;
         gap: 5px;
+        padding: 3px;
         position: sticky;
         top: 0;
+        z-index: 10;
+
+        a {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
 
         form {
             display: flex;
@@ -236,11 +241,8 @@ body {
             }
 
             a {
-                &:not(:last-child) {
-                    // last link is about link
-                    opacity: 0.8;
-                    text-decoration: none;
-                }
+                opacity: 0.8;
+                text-decoration: none;
 
                 &:hover {
                     opacity: 1;
@@ -276,12 +278,14 @@ body {
     main {
         width: 100%;
         display: flex;
+        flex: 1;
         justify-content: center;
         margin: auto;
         overflow: auto;
 
         & > * {
             box-sizing: border-box;
+            padding: 30px 30px 0;
         }
 
         #all-tags {
@@ -436,8 +440,6 @@ body {
             max-width: 800px;
             width: 100%;
             background-color: var(--accent-1);
-            margin: auto;
-            overflow: auto;
 
             figure.post-preview-image {
                 max-width: 300px;

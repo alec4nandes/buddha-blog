@@ -14,9 +14,16 @@
   --note-color: rgb(157, 0, 0);
 }
 
+html {
+  height: 100%;
+}
+
 body {
+  min-height: 100%;
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
+  display: flex;
+  flex-direction: column;
   margin: 0;
 }
 body *,
@@ -125,9 +132,6 @@ body header {
   text-align: center;
   padding: 5px 30px;
 }
-body main > * {
-  padding: 30px 30px 0;
-}
 body h1,
 body h2,
 body h3 {
@@ -158,10 +162,6 @@ body header {
   flex-wrap: wrap;
   gap: 5px;
 }
-body header a {
-  font-size: 0.9rem;
-  font-weight: bold;
-}
 body header h2 {
   margin: 0 0 4px;
 }
@@ -173,8 +173,14 @@ body #search-bar-container {
   justify-content: center;
   flex-wrap: wrap;
   gap: 5px;
+  padding: 3px;
   position: sticky;
   top: 0;
+  z-index: 10;
+}
+body #search-bar-container a {
+  font-size: 0.9rem;
+  font-weight: bold;
 }
 body #search-bar-container form {
   display: flex;
@@ -194,7 +200,7 @@ body #search-bar-container #social a {
   display: flex;
   align-items: center;
 }
-body #search-bar-container #social a:not(:last-child) {
+body #search-bar-container #social a {
   opacity: 0.8;
   text-decoration: none;
 }
@@ -225,12 +231,14 @@ body textarea {
 body main {
   width: 100%;
   display: flex;
+  flex: 1;
   justify-content: center;
   margin: auto;
   overflow: auto;
 }
 body main > * {
   box-sizing: border-box;
+  padding: 30px 30px 0;
 }
 body main #all-tags {
   padding-bottom: 10px;
@@ -352,8 +360,6 @@ body main #posts {
   max-width: 800px;
   width: 100%;
   background-color: var(--accent-1);
-  margin: auto;
-  overflow: auto;
 }
 body main #posts figure.post-preview-image {
   max-width: 300px;

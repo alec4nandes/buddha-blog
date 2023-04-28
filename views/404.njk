@@ -24,18 +24,8 @@ permalink: "/404.html"
     <body>
         <header>
             <h1>Sutta Basket</h1>
-            <div id="search-bar-container">
-                <a href="/">home</a>
-                |
-                <a href="/archive">archive</a>
-                |
-                <a href="/tags">tags</a>
-                |
-                {% include "partials/_search-bar.html" %}
-                {% include
-                "partials/_social.html" %}
-            </div>
         </header>
+        {% include "partials/_search-bar.html" %}
         <main>
             <section class="side-bg loaded"></section>
             <div id="posts">

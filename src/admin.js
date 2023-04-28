@@ -246,7 +246,7 @@ function loadAdmin() {
             await loadDraft();
             const findSutta = document.querySelector("#find-sutta"),
                 signOutButton = document.querySelector("button#sign-out"),
-                container = document.querySelector("#admin-container");
+                container = document.body;
             findSutta.onsubmit = handleFindSutta;
             signOutButton.onclick = handleSignOut;
             container.style.display = "flex";

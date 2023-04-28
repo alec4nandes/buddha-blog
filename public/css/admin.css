@@ -1,84 +1,89 @@
-#admin-container {
+body {
   height: 100%;
-  display: flex;
-  flex-direction: column;
 }
-#admin-container form {
+body form {
   display: flex;
 }
-#admin-container form label {
+body form label {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 5px;
 }
-#admin-container form label input {
+body form label input {
   min-width: 120px;
   width: 100%;
   flex: 1;
 }
-#admin-container header #find-sutta input[type=text] {
+body header {
+  padding: 0 !important;
+}
+body header #find-sutta input[type=text] {
   width: 65px;
 }
-#admin-container header #sutta-nav {
+body header #sutta-nav {
   color: var(--main-text-color);
   display: flex;
   gap: 5px;
 }
-#admin-container main section#sutta-container #notes-container {
+body main section#sutta-container #notes-container {
   display: none;
 }
-#admin-container main section#sutta-container #notes-container #delete-note-container {
+body main section#sutta-container #notes-container #delete-note-container {
   display: flex;
   flex-wrap: wrap;
 }
-#admin-container main section#sutta-container #notes-container #delete-note-container > * {
+body main section#sutta-container #notes-container #delete-note-container > * {
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 1;
 }
-#admin-container main section#sutta-container #notes-container #delete-note-container #delete-annotation {
+body main section#sutta-container #notes-container #delete-note-container #delete-annotation {
   background-color: var(--main-bg-color);
   flex-wrap: wrap;
   padding: 5px 0;
 }
-#admin-container main section#sutta-container #annotate {
+body main section#sutta-container #annotate {
   display: flex;
   flex-direction: column;
   gap: 7px;
 }
-#admin-container main section#post {
+body main section#post {
   display: flex;
   flex-direction: column;
   gap: 7px;
 }
-#admin-container main section#post form {
+body main section#post form {
   flex-direction: column;
   gap: 7px;
 }
-#admin-container main section#post form#edit-post {
+body main section#post form#edit-post {
   flex: 1;
 }
-#admin-container main section#post form#edit-post textarea {
+body main section#post form#edit-post textarea {
   flex: 1;
 }
-#admin-container main section#post form#edit-post #submit-container {
+body main section#post form#edit-post #submit-container {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
   justify-content: flex-end;
 }
-#admin-container main section#post form#edit-post #submit-container label {
+body main section#post form#edit-post #submit-container label {
   flex: 1;
 }
-#admin-container main section#post form#edit-post button[type=submit],
-#admin-container main section#post button#delete {
+body main section#post form#edit-post button[type=submit],
+body main section#post button#delete {
   width: 100px;
 }
-#admin-container main section#post #delete-container {
+body main section#post #delete-container {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 5px;
+}
+body footer {
+  max-height: 80px;
+  overflow-y: auto;
 }/*# sourceMappingURL=admin.css.map */

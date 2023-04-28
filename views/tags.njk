@@ -26,15 +26,8 @@
         <header>
             <h1>Sutta Basket</h1>
             <h2>Tags: <span id="tag-display">[all tags]</span></h2>
-            <div id="search-bar-container">
-                <a href="/">home</a>
-                |
-                <a href="/archive">archive</a>
-                |
-                {% include "partials/_search-bar.html" %}
-                {% include "partials/_social.html" %}
-            </div>
         </header>
+        {% include "partials/_search-bar.html" %}
         <main>
             <section class="side-bg loaded"></section>
             <div id="posts">

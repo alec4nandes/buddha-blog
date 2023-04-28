@@ -1,7 +1,5 @@
-#admin-container {
+body {
     height: 100%;
-    display: flex;
-    flex-direction: column;
 
     form {
         display: flex;
@@ -21,6 +19,8 @@
     }
 
     header {
+        padding: 0 !important;
+
         #find-sutta {
             input[type="text"] {
                 width: 65px;
@@ -106,5 +106,10 @@
                 gap: 5px;
             }
         }
+    }
+
+    footer {
+        max-height: 80px;
+        overflow-y: auto;
     }
 }
