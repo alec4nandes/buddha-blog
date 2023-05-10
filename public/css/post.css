@@ -22,7 +22,7 @@ body main > *.hide {
   display: none !important;
 }
 body main > *.wide {
-  max-width: 800px !important;
+  max-width: 900px !important;
   width: 100% !important;
 }
 body main #sutta-container #notes-container {

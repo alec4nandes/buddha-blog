@@ -20,8 +20,13 @@ html {
 
 body {
   min-height: 100%;
+  background-attachment: fixed;
   background-color: var(--main-bg-color);
-  color: var(--main-text-color);
+  background-image: url("../assets/backyard-bg.jpg"), url("../assets/basket-shot.jpg");
+  background-position: top left, top right;
+  background-repeat: no-repeat;
+  background-size: 100vh;
+  color: var(--accent-4);
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -350,16 +355,11 @@ body main .side-bg:before {
   bottom: 0;
   right: 0;
 }
-body main .side-bg.loaded {
-  background-image: url("../assets/backyard-bg.jpg");
-}
-body main .side-bg.loaded2 {
-  background-image: url("../assets/basket-shot.jpg");
-}
 body main #posts {
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
   background-color: var(--accent-1);
+  padding-bottom: 40px;
 }
 body main #posts figure.post-preview-image {
   max-width: 300px;
@@ -368,6 +368,9 @@ body main #posts figure.post-preview-image {
   float: right;
   margin: 0 0 5px 5px;
   padding: 5px;
+}
+body main #posts hr {
+  margin: 40px 0 30px;
 }
 body small {
   font-size: 0.8rem !important;
