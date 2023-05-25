@@ -9,11 +9,12 @@ body #toggle-buttons {
   padding: 5px;
 }
 body #toggle-buttons button {
-  background-color: var(--accent-1);
+  background-color: var(--accent-2);
   color: var(--accent-4);
 }
 body #toggle-buttons button:hover {
-  background-color: var(--highlight-color);
+  background-color: var(--link-color);
+  color: var(--accent-2);
 }
 body main > * {
   height: 100%;
@@ -51,8 +52,16 @@ body main #post hr.break-padded-bottom {
 }
 body main #post small.date {
   display: inline-block;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 body main #post #tags {
   margin-top: 0;
+}
+
+@media only screen and (max-width: 525px) {
+  h2,
+  h2 a,
+  h2 span {
+    font-size: 1.25rem !important;
+  }
 }/*# sourceMappingURL=post.css.map */

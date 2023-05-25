@@ -1,8 +1,8 @@
 @import "https://api.fontshare.com/v2/css?f[]=quicksand@500&f[]=britney@400&display=swap";
 :root {
   --shadow: 0 2px 2px rgba(135, 76, 7, 0.3);
-  --accent-1: #ffe7a8;
-  --accent-2: #ffdc88;
+  --accent-1: #fff4d5;
+  --accent-2: #ffe7a8;
   --accent-3: #d68c2c;
   --accent-4: #874c07;
   --accent-5: #fffacb;
@@ -40,7 +40,14 @@ body textarea {
 }
 body p,
 body #lines {
-  line-height: 1.3rem;
+  line-height: 1.4rem;
+}
+body .featured-sutta {
+  line-height: 1rem;
+  margin-top: 0.4rem;
+}
+body .post-preview-tags {
+  font-weight: bold;
 }
 body a {
   color: var(--link-color);
@@ -81,7 +88,7 @@ body button:disabled:hover {
 }
 body button:hover {
   cursor: pointer;
-  background-color: var(--highlight-color);
+  background-color: var(--link-color);
 }
 body button,
 body input {
@@ -115,8 +122,8 @@ body figure figcaption * {
   font-size: 0.8rem;
 }
 body footer {
-  background-color: var(--main-bg-color);
-  color: var(--accent-4);
+  background-color: var(--accent-4);
+  color: var(--accent-1);
 }
 body footer,
 body footer a {
@@ -124,10 +131,11 @@ body footer a {
   font-weight: 100;
 }
 body footer a {
+  color: var(--highlight-color);
   font-style: italic;
 }
 body footer a.admin-link {
-  color: var(--accent-4);
+  color: var(--accent-1);
   text-decoration: none;
 }
 body footer,
@@ -141,7 +149,6 @@ body h1,
 body h2,
 body h3 {
   color: var(--accent-4);
-  text-shadow: var(--shadow);
 }
 body h1,
 body h1 * {
@@ -159,7 +166,7 @@ body h3 * {
   font-size: 1.15rem;
 }
 body header {
-  background-color: var(--main-bg-color);
+  background-image: linear-gradient(to bottom, var(--highlight-color), var(--accent-4) 65%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,11 +174,16 @@ body header {
   flex-wrap: wrap;
   gap: 5px;
 }
+body header h1,
 body header h2 {
+  color: var(--accent-2);
+}
+body header h2 {
+  font-weight: 300;
   margin: 0 0 4px;
 }
 body #search-bar-container {
-  background-color: var(--main-bg-color);
+  background-color: var(--accent-2);
   color: var(--highlight-color);
   display: flex;
   align-items: center;
@@ -215,9 +227,7 @@ body #search-bar-container #social a:hover {
 body #search-bar-container #social a img {
   height: 20px;
   width: auto;
-}
-body #search-bar-container #social img {
-  filter: contrast(0) brightness(0) invert(1) drop-shadow(var(--shadow));
+  filter: brightness(0.4) sepia(1) drop-shadow(var(--shadow));
 }
 body hr {
   border: 0;
@@ -346,9 +356,9 @@ body main .side-bg {
   position: relative;
 }
 body main .side-bg:before {
-  background-color: var(--highlight-color);
+  background-color: var(--accent-2);
   content: "";
-  opacity: 0.5;
+  opacity: 0.85;
   position: absolute;
   top: 0;
   left: 0;
@@ -369,6 +379,17 @@ body main #posts figure.post-preview-image {
   margin: 0 0 5px 5px;
   padding: 5px;
 }
+body main #posts h2 {
+  margin-bottom: 6px;
+}
+body main #posts h2 a {
+  font-family: "Britney", Arial, Helvetica, sans-serif;
+  font-size: 1.8rem;
+  line-height: 2rem;
+}
+body main #posts h3 {
+  margin-top: 8px;
+}
 body main #posts hr {
   margin: 40px 0 30px;
 }
@@ -380,32 +401,13 @@ body .subtitle {
 }
 
 @media only screen and (max-width: 525px) {
-  body *,
-  button,
-  input,
-  textarea {
-    font-size: 0.9rem;
-  }
   h1,
   h1 a,
   h1 span {
     font-size: 2rem !important;
     line-height: 2rem !important;
   }
-  h2,
-  h2 a,
-  h2 span {
-    font-size: 1.25rem !important;
-  }
-  h3,
-  h3 a,
-  h3 span {
-    font-size: 1.05rem !important;
-  }
   /* comments: */
-  #comments small.date {
-    font-size: 0.7rem !important;
-  }
 }
 @media only screen and (max-width: 768px) {
   body footer,

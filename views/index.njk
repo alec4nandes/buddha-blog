@@ -44,7 +44,7 @@
                         <small class="date">
                             {{ entry.post.date_string }}
                         </small>
-                        <p>
+                        <p class="featured-sutta">
                             <strong>
                                 <small>
                                     Featured sutta: {{ entry.post.sutta_summary }}
@@ -58,15 +58,15 @@
                                 read alongside sutta
                             </a>
                         </p>
-                        <p>
-                            {% if entry.post.tags.length > 0 %}
+                        {% if entry.post.tags.length > 0 %}
+                            <p class="post-preview-tags">
                                 tags:
                                 {% for tag in entry.post.tags %}
                                     <a href="/tags/index.html?tag={{ tag }}">
                                         {{ tag }}</a>{{"," if not loop.last}}
                                 {% endfor %}
-                            {% endif %}
-                        </p>
+                            </p>
+                        {% endif %}
                     </div>
                     {% if not loop.last %}
                         <hr/>
